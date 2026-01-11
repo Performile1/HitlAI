@@ -77,11 +77,8 @@ export class PersonaImageGenerator {
       } as any)
 
     // 5. Update persona record
-    // @ts-ignore - Supabase type inference issue
-    await this.supabase
-      .from('personas')
-      .update({ image_url: storedUrl })
-      .eq('id', persona.id)
+    // @ts-expect-error - Supabase type inference issue with update operation
+    await this.supabase.from('personas').update({ image_url: storedUrl }).eq('id', persona.id)
 
     return storedUrl
   }
