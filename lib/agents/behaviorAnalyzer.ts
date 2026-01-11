@@ -54,6 +54,7 @@ interface UserInteraction {
 }
 
 interface BehaviorPattern {
+  id?: string
   pattern_type: string
   pattern_name: string
   description: string
@@ -496,9 +497,9 @@ Return JSON:
             reason: refinement.reason,
             evidence_sessions: relevantPatterns.reduce((sum, p) => sum + p.sample_size, 0),
             confidence_score: Math.min(relevantPatterns.length / 5, 1.0),
-            behavior_pattern_ids: relevantPatterns.map(p => p.id),
+            behavior_pattern_ids: relevantPatterns.map(p => p.id).filter(id => id !== undefined),
             status: 'pending'
-          })
+          } as any)
       }
     } catch (error) {
       console.error('Failed to parse refinement suggestions:', error)
