@@ -89,6 +89,7 @@ export class PersonaFromTesterAgent {
     if (!tester) {
       throw new Error('Tester not found')
     }
+    const typedTester = tester as any
 
     // Get behavior patterns from sessions
     const behaviorPatterns = await this.analyzeBehaviorPatterns(sessionIds)
@@ -104,6 +105,9 @@ export class PersonaFromTesterAgent {
       .from('attention_heatmap')
       .select('*')
       .in('session_id', sessionIds)
+
+    const typedFrustrations = frustrations as any[]
+    const typedAttentionData = attentionData as any[]
 
     // Generate persona using LLM
     const persona = await this.synthesizePersona(

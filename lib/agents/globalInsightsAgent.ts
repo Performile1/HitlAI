@@ -77,7 +77,7 @@ export class GlobalInsightsAgent {
     }
 
     // Get all friction points from these tests
-    const testRequestIds = testRequests.map(tr => tr.id)
+    const testRequestIds = (testRequests as any[]).map(tr => tr.id)
     const { data: frictionPoints } = await supabase
       .from('friction_points')
       .select(`

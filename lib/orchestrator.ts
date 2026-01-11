@@ -53,6 +53,7 @@ export class HitlAIOrchestrator {
       if (!persona) {
         throw new Error(`Persona ${config.persona} not found`)
       }
+      const typedPersona = persona as any
 
       // Scout page with monitoring
       const scoutId = this.monitor.registerExecution('ScoutPage', config.testRunId, 30000)
