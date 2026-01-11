@@ -13,26 +13,44 @@ import { createClient } from '@supabase/supabase-js'
 
 interface UserSession {
   id: string
+  session_id: string
   url: string
-  duration_seconds: number
+  user_agent?: string
+  viewport_width?: number
+  viewport_height?: number
+  device_type?: string
+  started_at?: string
+  ended_at?: string
+  duration_seconds?: number
+  estimated_age_range?: string
+  estimated_tech_literacy?: string
   total_clicks: number
+  total_scrolls?: number
   total_errors: number
   total_hesitations: number
   completion_status: string
-  estimated_age_range?: string
-  estimated_tech_literacy?: string
-  device_type?: string
+  anonymized?: boolean
+  consent_given?: boolean
+  created_at?: string
 }
 
 interface UserInteraction {
+  id: string
+  session_id: string
   event_type: string
   timestamp_ms: number
   element_selector?: string
   element_text?: string
+  element_type?: string
+  mouse_x?: number
+  mouse_y?: number
+  scroll_depth?: number
+  input_value?: string
   is_error: boolean
   is_hesitation: boolean
   is_rage_click: boolean
   error_message?: string
+  created_at?: string
 }
 
 interface BehaviorPattern {
