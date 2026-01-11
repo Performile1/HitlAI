@@ -256,7 +256,7 @@ export class PersonaImageGenerator {
 
     console.log(`Generating images for ${personas.length} personas...`)
 
-    for (const persona of personas) {
+    for (const persona of (personas as Persona[])) {
       try {
         await this.generatePersonaImage(persona)
         console.log(`✅ Generated image for ${persona.name}`)
@@ -283,6 +283,6 @@ export class PersonaImageGenerator {
       throw new Error('Persona not found')
     }
 
-    return await this.generatePersonaImage(persona)
+    return await this.generatePersonaImage(persona as Persona)
   }
 }
