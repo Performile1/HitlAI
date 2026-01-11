@@ -9,13 +9,5 @@
       "maxDuration": 300,
       "memory": 3008
     }
-  },
-  "env": {
-    "NEXT_PUBLIC_SUPABASE_URL": "@supabase-url",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key",
-    "SUPABASE_SERVICE_ROLE_KEY": "@supabase-service-key",
-    "OPENAI_API_KEY": "@openai-api-key",
-    "ANTHROPIC_API_KEY": "@anthropic-api-key",
-    "DEEPSEEK_API_KEY": "@deepseek-api-key"
   }
 }
