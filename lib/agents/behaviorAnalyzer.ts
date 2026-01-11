@@ -72,6 +72,22 @@ interface BehaviorPattern {
   device_type?: string
 }
 
+interface Persona {
+  id: string
+  name: string
+  age: number
+  tech_literacy: string
+  eyesight: string
+  attention_rules: any
+  cognitive_load: string
+  preferred_navigation: string
+  reading_level: string
+  is_default?: boolean
+  is_public?: boolean
+  user_id?: string
+  created_at?: string
+}
+
 export class BehaviorAnalyzer {
   private llm: ChatOpenAI
   private supabase: ReturnType<typeof createClient>
@@ -421,19 +437,20 @@ export class BehaviorAnalyzer {
 
     // Analyze patterns relevant to this persona
     const relevantPatterns = patterns.filter(p => 
-      p.age_range === this.getAgeRange(persona.age) &&
-      p.tech_literacy === persona.tech_literacy
+      p.age_range === this.getAgeRange((persona as Persona).age) &&
+      p.tech_literacy === (persona as Persona).tech_literacy
     )
 
     if (relevantPatterns.length === 0) return
 
     // Use LLM to suggest refinements
+    const typedPersona = persona as Persona
     const prompt = `Analyze these behavior patterns and suggest persona refinements:
 
-**Current Persona**: ${persona.name}
-- Age: ${persona.age}
-- Tech Literacy: ${persona.tech_literacy}
-- Attention Rules: ${JSON.stringify(persona.attention_rules)}
+**Current Persona**: ${typedPersona.name}
+- Age: ${typedPersona.age}
+- Tech Literacy: ${typedPersona.tech_literacy}
+- Attention Rules: ${JSON.stringify(typedPersona.attention_rules)}
 
 **Observed Patterns**:
 ${relevantPatterns.map(p => `
