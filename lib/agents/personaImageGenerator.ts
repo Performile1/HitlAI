@@ -74,7 +74,7 @@ export class PersonaImageGenerator {
         generation_prompt: prompt,
         generator: 'dall-e-3',
         style: 'realistic'
-      })
+      } as any)
 
     // 5. Update persona record
     await this.supabase
