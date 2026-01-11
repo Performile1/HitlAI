@@ -103,13 +103,13 @@ export class BehaviorAnalyzer {
     }
 
     // 3. Group sessions by user characteristics
-    const sessionGroups = this.groupSessions(sessions)
+    const sessionGroups = this.groupSessions(sessions as UserSession[])
 
     // 4. Extract patterns for each group
     const patterns: BehaviorPattern[] = []
 
     for (const [groupKey, groupSessions] of Object.entries(sessionGroups)) {
-      const groupInteractions = interactions.filter(i =>
+      const groupInteractions = (interactions as UserInteraction[]).filter(i =>
         groupSessions.some(s => s.id === i.session_id)
       )
 
