@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Crawl4AI Python Service
+  crawl4ai:
+    build:
+      context: .
+      dockerfile: Dockerfile.crawl4ai
+    container_name: hitlai-crawl4ai
+    ports:
+      - "8001:8001"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./lib/crawling:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Next.js Application (optional - for local development)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hitlai-web
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CRAWL4AI_SERVICE_URL=http://crawl4ai:8001
+    depends_on:
+      - crawl4ai
+    restart: unless-stopped

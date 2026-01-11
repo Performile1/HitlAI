@@ -1,0 +1,35 @@
+# Core Frameworks & Agents
+langgraph>=0.2.0
+crewai>=0.28.0
+scrapegraph-py>=1.0.0
+crawl4ai>=0.3.0
+
+# LLM Providers & Drivers
+openai>=1.12.0
+anthropic>=0.18.0
+groq>=0.4.0
+playwright>=1.41.0
+appium-python-client>=3.1.0
+
+# State & Memory Persistence
+pinecone-client>=3.0.0
+psycopg2-binary>=2.9.9
+redis>=5.0.1
+
+# AI/ML for Heuristics & Embeddings
+sentence-transformers>=2.2.0
+numpy>=1.24.0
+torch>=2.0.0
+
+# Additional Dependencies
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+langchain>=0.1.0
+langchain-openai>=0.0.5
+langchain-anthropic>=0.1.0
+beautifulsoup4>=4.12.0
+lxml>=5.1.0
+aiohttp>=3.9.0
+asyncio>=3.4.3
+tenacity>=8.2.3
+loguru>=0.7.2

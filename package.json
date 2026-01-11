@@ -1,0 +1,48 @@
+{
+  "name": "hitlai-cloud",
+  "version": "2.0.0",
+  "description": "HitlAI - Human-in-the-Loop AI Testing Agent - Cloud Edition",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:reset": "supabase db reset",
+    "supabase:migrate": "supabase db push"
+  },
+  "dependencies": {
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "@supabase/auth-helpers-nextjs": "^0.8.7",
+    "@supabase/ssr": "^0.0.10",
+    "openai": "^4.24.1",
+    "anthropic": "^0.18.0",
+    "@anthropic-ai/sdk": "^0.12.0",
+    "@langchain/openai": "^0.0.14",
+    "@langchain/anthropic": "^0.1.0",
+    "langchain": "^0.1.0",
+    "playwright-core": "^1.41.0",
+    "framer-motion": "^10.16.16",
+    "zod": "^3.22.4",
+    "date-fns": "^3.0.6",
+    "lucide-react": "^0.303.0",
+    "recharts": "^2.10.3",
+    "react-markdown": "^9.0.1",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.46",
+    "@types/react-dom": "^18.2.18",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
+    "supabase": "^1.142.2"
+  }
+}

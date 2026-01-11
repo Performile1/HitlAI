@@ -1,0 +1,56 @@
+{
+  "senior_casual": {
+    "age": 70,
+    "tech_literacy": "low",
+    "eyesight": "low_contrast_sensitive",
+    "attention_rules": [
+      "Avoid hidden menus",
+      "Click text labels over icons",
+      "Prefer large touch targets (min 44x44px)",
+      "Avoid rapid animations"
+    ],
+    "cognitive_load": "low",
+    "preferred_navigation": "linear",
+    "reading_level": "simple"
+  },
+  "young_power_user": {
+    "age": 25,
+    "tech_literacy": "high",
+    "eyesight": "normal",
+    "attention_rules": [
+      "Keyboard shortcuts preferred",
+      "Dense information acceptable",
+      "Quick animations tolerated"
+    ],
+    "cognitive_load": "high",
+    "preferred_navigation": "non-linear",
+    "reading_level": "technical"
+  },
+  "middle_age_moderate": {
+    "age": 45,
+    "tech_literacy": "medium",
+    "eyesight": "mild_presbyopia",
+    "attention_rules": [
+      "Clear visual hierarchy needed",
+      "Moderate information density",
+      "Consistent UI patterns"
+    ],
+    "cognitive_load": "medium",
+    "preferred_navigation": "mixed",
+    "reading_level": "intermediate"
+  },
+  "accessibility_focused": {
+    "age": 60,
+    "tech_literacy": "medium",
+    "eyesight": "screen_reader_dependent",
+    "attention_rules": [
+      "All actions must have ARIA labels",
+      "Semantic HTML required",
+      "Keyboard navigation essential",
+      "Focus indicators must be visible"
+    ],
+    "cognitive_load": "medium",
+    "preferred_navigation": "keyboard_only",
+    "reading_level": "simple"
+  }
+}
