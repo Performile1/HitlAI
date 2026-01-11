@@ -91,7 +91,7 @@ export class BehaviorAnalyzer {
     }
 
     // 2. Fetch interactions for these sessions
-    const sessionIds = sessions.map(s => s.id)
+    const sessionIds = (sessions as UserSession[]).map(s => s.id)
     const { data: interactions } = await this.supabase
       .from('user_interactions')
       .select('*')
