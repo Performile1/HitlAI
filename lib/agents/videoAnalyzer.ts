@@ -30,8 +30,7 @@ export class VideoAnalyzer {
   constructor() {
     this.llm = new ChatOpenAI({
       modelName: 'gpt-4o',
-      temperature: 0.3,
-      apiKey: process.env.OPENAI_API_KEY
+      temperature: 0.3
     })
   }
 

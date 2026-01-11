@@ -34,8 +34,7 @@ export class SyntheticSessionGenerator {
   constructor() {
     this.llm = new ChatOpenAI({
       modelName: 'gpt-4o',
-      temperature: 0.7,
-      apiKey: process.env.OPENAI_API_KEY
+      temperature: 0.7
     })
   }
 
