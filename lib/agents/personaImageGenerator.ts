@@ -79,7 +79,7 @@ export class PersonaImageGenerator {
     // 5. Update persona record
     await this.supabase
       .from('personas')
-      .update({ image_url: storedUrl })
+      .update({ image_url: storedUrl } as any)
       .eq('id', persona.id)
 
     return storedUrl
