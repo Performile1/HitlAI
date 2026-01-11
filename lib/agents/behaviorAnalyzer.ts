@@ -394,7 +394,7 @@ export class BehaviorAnalyzer {
         tech_literacy: pattern.tech_literacy,
         device_type: pattern.device_type,
         last_observed_at: new Date().toISOString()
-      }, {
+      } as any, {
         onConflict: 'pattern_name,url_pattern'
       })
 
