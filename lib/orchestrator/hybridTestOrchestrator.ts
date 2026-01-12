@@ -124,9 +124,9 @@ export class HybridTestOrchestrator {
     }
 
     // Update test request with AI run IDs
-    await this.supabase
-      .from('test_requests')
-      .update({ ai_test_run_ids: testRunIds } as any)
+    await (this.supabase
+      .from('test_requests') as any)
+      .update({ ai_test_run_ids: testRunIds })
       .eq('id', testRequest.id)
   }
 
@@ -173,9 +173,9 @@ export class HybridTestOrchestrator {
     }
 
     // Update test request
-    await this.supabase
-      .from('test_requests')
-      .update({ human_test_assignment_ids: assignmentIds } as any)
+    await (this.supabase
+      .from('test_requests') as any)
+      .update({ human_test_assignment_ids: assignmentIds })
       .eq('id', testRequest.id)
   }
 
@@ -341,12 +341,12 @@ Take your time and be thorough. Your feedback helps improve UX for everyone!
    * Update test request status
    */
   private async updateTestRequestStatus(testRequestId: string, status: string): Promise<void> {
-    await this.supabase
-      .from('test_requests')
+    await (this.supabase
+      .from('test_requests') as any)
       .update({ 
         status,
         updated_at: new Date().toISOString()
-      } as any)
+      })
       .eq('id', testRequestId)
   }
 }
