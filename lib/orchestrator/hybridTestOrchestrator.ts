@@ -202,7 +202,7 @@ export class HybridTestOrchestrator {
       .from('test_requests')
       .select('*')
       .eq('id', testRequestId)
-      .single()
+      .single() as { data: any; error: any }
 
     if (!testRequest) return
 
