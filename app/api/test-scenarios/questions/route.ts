@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { TestScenarioBuilder } from '@/lib/agents/testScenarioBuilder'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
+    const { searchParams } = request.nextUrl
     const appType = searchParams.get('appType') || 'web'
 
     const builder = new TestScenarioBuilder()
