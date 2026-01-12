@@ -222,11 +222,11 @@ export class HybridTestOrchestrator {
     if (!aiRuns || !humanAssignments) return
 
     // 4. Calculate metrics
-    const aiAvgSentiment = aiRuns.reduce((sum, r) => sum + (r.sentiment_score || 0), 0) / aiRuns.length
-    const humanAvgSentiment = humanAssignments.reduce((sum, a) => sum + (a.sentiment_score || 0), 0) / humanAssignments.length
+    const aiAvgSentiment = aiRuns.reduce((sum: number, r: any) => sum + (r.sentiment_score || 0), 0) / aiRuns.length
+    const humanAvgSentiment = humanAssignments.reduce((sum: number, a: any) => sum + (a.sentiment_score || 0), 0) / humanAssignments.length
 
-    const aiFrictionPoints = aiRuns.reduce((sum, r) => sum + (r.friction_points_count || 0), 0)
-    const humanFrictionPoints = humanAssignments.reduce((sum, a) => sum + (a.friction_points_found || 0), 0)
+    const aiFrictionPoints = aiRuns.reduce((sum: number, r: any) => sum + (r.friction_points_count || 0), 0)
+    const humanFrictionPoints = humanAssignments.reduce((sum: number, a: any) => sum + (a.friction_points_found || 0), 0)
 
     // 5. Calculate agreement score (how similar are AI and human findings?)
     const agreementScore = 1 - Math.abs(aiAvgSentiment - humanAvgSentiment)
