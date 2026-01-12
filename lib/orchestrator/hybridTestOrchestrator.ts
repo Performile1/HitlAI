@@ -44,7 +44,7 @@ export class HybridTestOrchestrator {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
-    this.aiOrchestrator = new HitlAIOrchestrator()
+    this.aiOrchestrator = new HitlAIOrchestrator(this.supabase)
     this.behaviorAnalyzer = new BehaviorAnalyzer()
   }
 
