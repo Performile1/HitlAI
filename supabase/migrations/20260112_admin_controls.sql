@@ -85,7 +85,7 @@ CREATE INDEX idx_hitlai_funded_approved_at ON hitlai_funded_tests(approved_at);
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS tester_equity (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  tester_id UUID REFERENCES tester_profiles(id) ON DELETE CASCADE,
+  tester_id UUID REFERENCES human_testers(id) ON DELETE CASCADE,
   
   -- Equity Details
   shares_granted INT NOT NULL,
@@ -265,7 +265,7 @@ CREATE POLICY admin_hitlai_funded_tests ON hitlai_funded_tests
 -- Testers can view their own equity
 CREATE POLICY tester_view_own_equity ON tester_equity
   FOR SELECT USING (tester_id IN (
-    SELECT id FROM tester_profiles WHERE user_id = auth.uid()
+    SELECT id FROM human_testers WHERE user_id = auth.uid()
   ));
 
 -- Admins can manage all equity
