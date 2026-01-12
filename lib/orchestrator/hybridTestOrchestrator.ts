@@ -126,7 +126,7 @@ export class HybridTestOrchestrator {
     // Update test request with AI run IDs
     await this.supabase
       .from('test_requests')
-      .update({ ai_test_run_ids: testRunIds })
+      .update({ ai_test_run_ids: testRunIds } as any)
       .eq('id', testRequest.id)
   }
 
@@ -175,7 +175,7 @@ export class HybridTestOrchestrator {
     // Update test request
     await this.supabase
       .from('test_requests')
-      .update({ human_test_assignment_ids: assignmentIds })
+      .update({ human_test_assignment_ids: assignmentIds } as any)
       .eq('id', testRequest.id)
   }
 
@@ -346,7 +346,7 @@ Take your time and be thorough. Your feedback helps improve UX for everyone!
       .update({ 
         status,
         updated_at: new Date().toISOString()
-      })
+      } as any)
       .eq('id', testRequestId)
   }
 }
