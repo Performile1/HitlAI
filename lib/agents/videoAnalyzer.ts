@@ -1,4 +1,5 @@
 import { ChatOpenAI } from '@langchain/openai'
+import { HumanMessage } from '@langchain/core/messages'
 
 interface FrustrationMoment {
   timestamp: number
@@ -191,13 +192,12 @@ Provide a concise explanation (2-3 sentences).`
 
     try {
       const response = await this.llm.invoke([
-        {
-          role: 'user',
+        new HumanMessage({
           content: [
             { type: 'text', text: prompt },
             { type: 'image_url', image_url: { url: screenshotUrl } }
           ]
-        }
+        })
       ])
 
       return response.content as string
