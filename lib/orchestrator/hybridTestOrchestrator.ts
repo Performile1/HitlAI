@@ -105,7 +105,7 @@ export class HybridTestOrchestrator {
           test_request_id: testRequest.id,
           test_type: 'ai_only',
           company_id: testRequest.company_id
-        })
+        } as any)
         .select()
         .single()
 
@@ -160,7 +160,7 @@ export class HybridTestOrchestrator {
           assigned_persona_id: persona.id,
           instructions: this.generateInstructions(testRequest, persona),
           status: 'assigned'
-        })
+        } as any)
         .select()
         .single()
 
@@ -249,7 +249,7 @@ export class HybridTestOrchestrator {
             ? 'AI and human testers largely agree on findings' 
             : 'Significant differences between AI and human findings - review for learning opportunities'
         }
-      })
+      } as any)
 
     // 7. If low agreement, trigger learning
     if (agreementScore < 0.7) {
@@ -289,7 +289,7 @@ export class HybridTestOrchestrator {
               source: 'human_tester',
               test_request_id: testRequestId
             }
-          })
+          } as any)
       }
     }
 
