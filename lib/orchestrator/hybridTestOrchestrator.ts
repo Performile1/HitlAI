@@ -238,10 +238,10 @@ export class HybridTestOrchestrator {
         test_request_id: testRequestId,
         ai_friction_points: aiFrictionPoints,
         ai_sentiment_score: aiAvgSentiment,
-        ai_completion_time_seconds: aiRuns.reduce((sum, r) => sum + (r.duration_seconds || 0), 0),
+        ai_completion_time_seconds: aiRuns.reduce((sum: number, r: any) => sum + (r.duration_seconds || 0), 0),
         human_friction_points_avg: humanFrictionPoints / humanAssignments.length,
         human_sentiment_score_avg: humanAvgSentiment,
-        human_completion_time_avg: humanAssignments.reduce((sum, a) => sum + (a.completion_time_seconds || 0), 0) / humanAssignments.length,
+        human_completion_time_avg: humanAssignments.reduce((sum: number, a: any) => sum + (a.completion_time_seconds || 0), 0) / humanAssignments.length,
         human_testers_count: humanAssignments.length,
         agreement_score: agreementScore,
         insights: {
