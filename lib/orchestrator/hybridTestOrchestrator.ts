@@ -210,14 +210,14 @@ export class HybridTestOrchestrator {
     const { data: aiRuns } = await this.supabase
       .from('test_runs')
       .select('*')
-      .in('id', testRequest.ai_test_run_ids || [])
+      .in('id', testRequest.ai_test_run_ids || []) as { data: any; error: any }
 
     // 3. Fetch human results
     const { data: humanAssignments } = await this.supabase
       .from('human_test_assignments')
       .select('*')
       .in('id', testRequest.human_test_assignment_ids || [])
-      .eq('status', 'completed')
+      .eq('status', 'completed') as { data: any; error: any }
 
     if (!aiRuns || !humanAssignments) return
 
