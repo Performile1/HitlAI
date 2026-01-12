@@ -137,7 +137,7 @@ export class HybridTestOrchestrator {
     const assignmentIds: string[] = []
 
     // Find matching testers
-    const { data: testers } = await this.supabase
+    const { data: testers } = await (this.supabase as any)
       .rpc('match_available_testers', {
         requirements: testRequest.tester_requirements,
         limit_count: testRequest.required_testers
