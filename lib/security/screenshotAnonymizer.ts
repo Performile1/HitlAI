@@ -1,4 +1,5 @@
 import { ChatOpenAI } from '@langchain/openai'
+import { HumanMessage } from '@langchain/core/messages'
 import sharp from 'sharp'
 
 interface PIIRegion {
@@ -65,13 +66,12 @@ If no PII found, return empty array: []`
 
     try {
       const response = await this.llm.invoke([
-        {
-          role: 'user',
+        new HumanMessage({
           content: [
             { type: 'text', text: prompt },
             { type: 'image_url', image_url: { url: screenshotUrl } }
           ]
-        }
+        })
       ])
 
       const content = response.content as string
