@@ -107,7 +107,7 @@ export class HybridTestOrchestrator {
           company_id: testRequest.company_id
         } as any)
         .select()
-        .single()
+        .single() as { data: any; error: any }
 
       if (testRun) {
         testRunIds.push(testRun.id)
@@ -162,7 +162,7 @@ export class HybridTestOrchestrator {
           status: 'assigned'
         } as any)
         .select()
-        .single()
+        .single() as { data: any; error: any }
 
       if (assignment) {
         assignmentIds.push(assignment.id)
