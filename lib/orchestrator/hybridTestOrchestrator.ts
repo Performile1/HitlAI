@@ -57,7 +57,7 @@ export class HybridTestOrchestrator {
       .from('test_requests')
       .select('*')
       .eq('id', testRequestId)
-      .single()
+      .single() as { data: any; error: any }
 
     if (error || !testRequest) {
       throw new Error('Test request not found')
