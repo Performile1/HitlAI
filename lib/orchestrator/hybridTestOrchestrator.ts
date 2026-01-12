@@ -124,7 +124,6 @@ export class HybridTestOrchestrator {
     }
 
     // Update test request with AI run IDs
-    // @ts-expect-error - Supabase type inference issue
     await this.supabase
       .from('test_requests')
       .update({ ai_test_run_ids: testRunIds })
@@ -174,7 +173,6 @@ export class HybridTestOrchestrator {
     }
 
     // Update test request
-    // @ts-expect-error - Supabase type inference issue
     await this.supabase
       .from('test_requests')
       .update({ human_test_assignment_ids: assignmentIds })
@@ -343,7 +341,6 @@ Take your time and be thorough. Your feedback helps improve UX for everyone!
    * Update test request status
    */
   private async updateTestRequestStatus(testRequestId: string, status: string): Promise<void> {
-    // @ts-expect-error - Supabase type inference issue
     await this.supabase
       .from('test_requests')
       .update({ 
