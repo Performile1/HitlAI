@@ -157,7 +157,7 @@ export class RateLimiter {
     const { data, error } = await supabase
       .from('api_rate_limits')
       .delete()
-      .lt('window_end', new Date().toISOString())
+      .lt('window_end', new Date().toISOString()) as { data: any; error: any }
 
     if (error) {
       console.error('Rate limit cleanup failed:', error)
