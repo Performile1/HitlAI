@@ -64,7 +64,8 @@ export class HitlAIOrchestrator {
         this.monitor.heartbeat(scoutId, 100, 'Page fetched')
         await this.monitor.completeExecution(scoutId)
       } catch (error) {
-        await this.monitor.failExecution(scoutId, error.message)
+        const errorMessage = error instanceof Error ? error.message : String(error)
+        await this.monitor.failExecution(scoutId, errorMessage)
         throw error
       }
       await this.updateTestRun(config.testRunId, {
@@ -102,7 +103,8 @@ export class HitlAIOrchestrator {
         this.monitor.heartbeat(plannerId, 100, 'Mission planned')
         await this.monitor.completeExecution(plannerId)
       } catch (error) {
-        await this.monitor.failExecution(plannerId, error.message)
+        const errorMessage = error instanceof Error ? error.message : String(error)
+        await this.monitor.failExecution(plannerId, errorMessage)
         throw error
       }
 
@@ -143,7 +145,8 @@ export class HitlAIOrchestrator {
         this.monitor.heartbeat(auditId, 100, 'UX audit complete')
         await this.monitor.completeExecution(auditId)
       } catch (error) {
-        await this.monitor.failExecution(auditId, error.message)
+        const errorMessage = error instanceof Error ? error.message : String(error)
+        await this.monitor.failExecution(auditId, errorMessage)
         throw error
       }
 
@@ -193,7 +196,8 @@ export class HitlAIOrchestrator {
             
             await this.monitor.completeExecution(scriptId)
           } catch (error) {
-            await this.monitor.failExecution(scriptId, error.message)
+            const errorMessage = error instanceof Error ? error.message : String(error)
+            await this.monitor.failExecution(scriptId, errorMessage)
             throw error
           }
 
@@ -211,8 +215,9 @@ export class HitlAIOrchestrator {
             this.monitor.heartbeat(execId, 100, 'Script executed')
             await this.monitor.completeExecution(execId)
           } catch (error) {
-            await this.monitor.failExecution(execId, error.message)
-            executionResult = { success: false, error: error.message }
+            const errorMessage = error instanceof Error ? error.message : String(error)
+            await this.monitor.failExecution(execId, errorMessage)
+            executionResult = { success: false, error: errorMessage }
           }
 
           await this.insertActionAttempt(config.testRunId, {
