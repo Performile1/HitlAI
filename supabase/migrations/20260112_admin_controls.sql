@@ -248,7 +248,7 @@ ALTER TABLE digital_twin_performance ENABLE ROW LEVEL SECURITY;
 CREATE POLICY admin_platform_settings ON platform_settings
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM company_profiles
+      SELECT 1 FROM company_members
       WHERE user_id = auth.uid() AND role = 'admin'
     )
   );
@@ -257,7 +257,7 @@ CREATE POLICY admin_platform_settings ON platform_settings
 CREATE POLICY admin_hitlai_funded_tests ON hitlai_funded_tests
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM company_profiles
+      SELECT 1 FROM company_members
       WHERE user_id = auth.uid() AND role = 'admin'
     )
   );
@@ -272,7 +272,7 @@ CREATE POLICY tester_view_own_equity ON tester_equity
 CREATE POLICY admin_manage_equity ON tester_equity
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM company_profiles
+      SELECT 1 FROM company_members
       WHERE user_id = auth.uid() AND role = 'admin'
     )
   );
@@ -285,7 +285,7 @@ CREATE POLICY public_view_digital_twins ON digital_twin_performance
 CREATE POLICY admin_update_digital_twins ON digital_twin_performance
   FOR UPDATE USING (
     EXISTS (
-      SELECT 1 FROM company_profiles
+      SELECT 1 FROM company_members
       WHERE user_id = auth.uid() AND role = 'admin'
     )
   );
