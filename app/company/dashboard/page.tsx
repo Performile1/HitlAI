@@ -105,22 +105,28 @@ export default function CompanyDashboardPage() {
   const quotaPercentage = company ? (company.tests_used_this_month / company.monthly_test_quota) * 100 : 0
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 relative">
+      {/* Ambient Background */}
+      <div className="absolute inset-0 bg-gradient-mesh opacity-20 pointer-events-none" />
+      
       {/* Header */}
-      <header className="bg-white border-b border-slate-200">
+      <header className="glass-effect border-b border-white/20 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Brain className="w-8 h-8 text-blue-600" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-blue-500 rounded-full blur-lg opacity-30 animate-pulse" />
+                <Brain className="w-8 h-8 text-blue-600 relative" />
+              </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900">{company?.name}</h1>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-blue-900 bg-clip-text text-transparent">{company?.name}</h1>
                 <p className="text-sm text-slate-600 capitalize">{company?.plan_type} Plan</p>
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
               <Link href="/company/tests/new">
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300">
                   <Plus className="w-4 h-4 mr-2" />
                   New Test
                 </Button>
@@ -134,63 +140,71 @@ export default function CompanyDashboardPage() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         {/* Stats */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg border border-slate-200 p-6">
+          <div className="group bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-100 p-6 card-hover shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-slate-600">Tests This Month</p>
-              <TrendingUp className="w-5 h-5 text-blue-600" />
+              <p className="text-sm font-medium text-slate-700">Tests This Month</p>
+              <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg shadow-lg">
+                <TrendingUp className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900">
+            <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               {company?.tests_used_this_month || 0}
             </p>
             <p className="text-xs text-slate-500 mt-1">
               of {company?.monthly_test_quota || 0} quota
             </p>
-            <div className="mt-3 bg-slate-100 rounded-full h-2">
+            <div className="mt-3 bg-slate-100 rounded-full h-2 overflow-hidden">
               <div 
-                className="bg-blue-600 h-2 rounded-full transition-all"
+                className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500 shadow-lg shadow-blue-500/50"
                 style={{ width: `${Math.min(quotaPercentage, 100)}%` }}
               />
             </div>
           </div>
 
-          <div className="bg-white rounded-lg border border-slate-200 p-6">
+          <div className="group bg-gradient-to-br from-yellow-50 to-white rounded-xl border border-yellow-100 p-6 card-hover shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-slate-600">In Progress</p>
-              <Clock className="w-5 h-5 text-yellow-600" />
+              <p className="text-sm font-medium text-slate-700">In Progress</p>
+              <div className="p-2 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg shadow-lg">
+                <Clock className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900">
+            <p className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
               {testRequests.filter(t => t.status === 'in_progress').length}
             </p>
           </div>
 
-          <div className="bg-white rounded-lg border border-slate-200 p-6">
+          <div className="group bg-gradient-to-br from-green-50 to-white rounded-xl border border-green-100 p-6 card-hover shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-slate-600">Completed</p>
-              <CheckCircle className="w-5 h-5 text-green-600" />
+              <p className="text-sm font-medium text-slate-700">Completed</p>
+              <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg shadow-lg">
+                <CheckCircle className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900">
+            <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
               {testRequests.filter(t => t.status === 'completed').length}
             </p>
           </div>
 
-          <div className="bg-white rounded-lg border border-slate-200 p-6">
+          <div className="group bg-gradient-to-br from-slate-50 to-white rounded-xl border border-slate-200 p-6 card-hover shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-slate-600">Pending</p>
-              <AlertCircle className="w-5 h-5 text-slate-400" />
+              <p className="text-sm font-medium text-slate-700">Pending</p>
+              <div className="p-2 bg-gradient-to-br from-slate-500 to-slate-600 rounded-lg shadow-lg">
+                <AlertCircle className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900">
+            <p className="text-3xl font-bold bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent">
               {testRequests.filter(t => t.status === 'pending').length}
             </p>
           </div>
         </div>
 
         {/* Recent Tests */}
-        <div className="bg-white rounded-lg border border-slate-200">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 shadow-xl animate-fade-in-up" style={{animationDelay: '0.4s'}}>
           <div className="p-6 border-b border-slate-200">
-            <h2 className="text-lg font-semibold text-slate-900">Recent Tests</h2>
+            <h2 className="text-lg font-semibold bg-gradient-to-r from-slate-900 to-blue-900 bg-clip-text text-transparent">Recent Tests</h2>
           </div>
 
           {testRequests.length === 0 ? (
@@ -211,7 +225,7 @@ export default function CompanyDashboardPage() {
                 <Link 
                   key={test.id} 
                   href={`/company/tests/${test.id}`}
-                  className="block p-6 hover:bg-slate-50 transition"
+                  className="block p-6 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-transparent transition-all duration-300 group"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">

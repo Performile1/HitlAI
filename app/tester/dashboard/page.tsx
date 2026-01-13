@@ -104,14 +104,20 @@ export default function TesterDashboardPage() {
   const completedTests = profile?.total_tests_completed || 0
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-200">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50/30 to-slate-50 relative">
+      {/* Ambient Background */}
+      <div className="absolute inset-0 bg-gradient-mesh opacity-20 pointer-events-none" />
+      
+      <header className="glass-effect border-b border-white/20 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Brain className="w-8 h-8 text-green-600" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-green-500 rounded-full blur-lg opacity-30 animate-pulse" />
+                <Brain className="w-8 h-8 text-green-600 relative" />
+              </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900">{profile?.display_name}</h1>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-green-900 bg-clip-text text-transparent">{profile?.display_name}</h1>
                 <p className="text-sm text-slate-600">
                   {profile?.is_verified ? '✓ Verified Tester' : 'Pending Verification'}
                 </p>
@@ -125,39 +131,47 @@ export default function TesterDashboardPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         {/* Stats */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg border border-slate-200 p-6">
+          <div className="group bg-gradient-to-br from-green-50 to-white rounded-xl border border-green-100 p-6 card-hover shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-slate-600">Available Tests</p>
-              <Clock className="w-5 h-5 text-green-600" />
+              <p className="text-sm font-medium text-slate-700">Available Tests</p>
+              <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg shadow-lg">
+                <Clock className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900">{availableTests}</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{availableTests}</p>
           </div>
 
-          <div className="bg-white rounded-lg border border-slate-200 p-6">
+          <div className="group bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-100 p-6 card-hover shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-slate-600">In Progress</p>
-              <Clock className="w-5 h-5 text-blue-600" />
+              <p className="text-sm font-medium text-slate-700">In Progress</p>
+              <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg shadow-lg">
+                <Clock className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900">{inProgressTests}</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{inProgressTests}</p>
           </div>
 
-          <div className="bg-white rounded-lg border border-slate-200 p-6">
+          <div className="group bg-gradient-to-br from-emerald-50 to-white rounded-xl border border-emerald-100 p-6 card-hover shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-slate-600">Completed</p>
-              <CheckCircle className="w-5 h-5 text-green-600" />
+              <p className="text-sm font-medium text-slate-700">Completed</p>
+              <div className="p-2 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg shadow-lg">
+                <CheckCircle className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900">{completedTests}</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">{completedTests}</p>
           </div>
 
-          <div className="bg-white rounded-lg border border-slate-200 p-6">
+          <div className="group bg-gradient-to-br from-yellow-50 to-white rounded-xl border border-yellow-100 p-6 card-hover shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-slate-600">Rating</p>
-              <Star className="w-5 h-5 text-yellow-600" />
+              <p className="text-sm font-medium text-slate-700">Rating</p>
+              <div className="p-2 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg shadow-lg">
+                <Star className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900">
+            <p className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
               {profile?.average_rating?.toFixed(1) || '—'}
             </p>
           </div>
@@ -165,7 +179,7 @@ export default function TesterDashboardPage() {
 
         {/* Verification Notice */}
         {!profile?.is_verified && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 mb-8 shadow-lg animate-fade-in-up" style={{animationDelay: '0.4s'}}>
             <h3 className="font-semibold text-yellow-900 mb-2">Verification Pending</h3>
             <p className="text-sm text-yellow-700">
               Complete your first test to get verified and start receiving more assignments!
@@ -174,9 +188,9 @@ export default function TesterDashboardPage() {
         )}
 
         {/* Test Assignments */}
-        <div className="bg-white rounded-lg border border-slate-200">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 shadow-xl animate-fade-in-up" style={{animationDelay: '0.5s'}}>
           <div className="p-6 border-b border-slate-200">
-            <h2 className="text-lg font-semibold text-slate-900">Your Test Assignments</h2>
+            <h2 className="text-lg font-semibold bg-gradient-to-r from-slate-900 to-green-900 bg-clip-text text-transparent">Your Test Assignments</h2>
           </div>
 
           {assignments.length === 0 ? (
@@ -190,7 +204,7 @@ export default function TesterDashboardPage() {
           ) : (
             <div className="divide-y divide-slate-200">
               {assignments.map((assignment) => (
-                <div key={assignment.id} className="p-6 hover:bg-slate-50 transition">
+                <div key={assignment.id} className="p-6 hover:bg-gradient-to-r hover:from-green-50/50 hover:to-transparent transition-all duration-300 group">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <h3 className="font-semibold text-slate-900 mb-1">
@@ -209,7 +223,7 @@ export default function TesterDashboardPage() {
                     <div className="ml-6">
                       {assignment.status === 'assigned' && (
                         <Link href={`/tester/tests/${assignment.id}`}>
-                          <Button className="bg-green-600 hover:bg-green-700">
+                          <Button className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 transition-all duration-300">
                             Start Test
                           </Button>
                         </Link>

@@ -76,31 +76,40 @@ export default function TesterSignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <Link href="/" className="inline-flex items-center text-sm text-slate-600 hover:text-slate-900 mb-8">
-          <ArrowLeft className="w-4 h-4 mr-2" />
+    <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden">
+      {/* Gradient Mesh Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-white to-emerald-50" />
+      <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
+      <div className="absolute top-20 -left-20 w-96 h-96 bg-green-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" />
+      <div className="absolute bottom-20 -right-20 w-96 h-96 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float-delayed" />
+
+      <div className="w-full max-w-md relative z-10">
+        <Link href="/" className="inline-flex items-center text-sm text-slate-700 hover:text-green-600 mb-8 transition-colors group">
+          <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back to home
         </Link>
 
-        <div className="flex items-center justify-center mb-8">
-          <Brain className="w-10 h-10 text-green-600 mr-3" />
-          <h1 className="text-3xl font-bold text-slate-900">HitlAI</h1>
+        <div className="flex items-center justify-center mb-8 animate-fade-in-up">
+          <div className="relative">
+            <div className="absolute inset-0 bg-green-500 rounded-full blur-xl opacity-50 animate-pulse" />
+            <Brain className="w-10 h-10 text-green-600 mr-3 relative" />
+          </div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 via-green-900 to-slate-900 bg-clip-text text-transparent">HitlAI</h1>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Become a Tester</h2>
+        <div className="glass-effect rounded-2xl p-8 shadow-2xl border border-white/20 backdrop-blur-xl animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2">Become a Tester</h2>
           <p className="text-slate-600 mb-6">Earn money testing websites</p>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-red-50/80 backdrop-blur-sm border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 animate-shake">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="email">Email</Label>
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-slate-700 font-medium">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -108,11 +117,12 @@ export default function TesterSignupPage() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="you@example.com"
+                className="bg-white/50 backdrop-blur-sm border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
               />
             </div>
 
-            <div>
-              <Label htmlFor="password">Password</Label>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-slate-700 font-medium">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -121,11 +131,12 @@ export default function TesterSignupPage() {
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 placeholder="Min. 8 characters"
+                className="bg-white/50 backdrop-blur-sm border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
               />
             </div>
 
-            <div>
-              <Label htmlFor="displayName">Display Name</Label>
+            <div className="space-y-2">
+              <Label htmlFor="displayName" className="text-slate-700 font-medium">Display Name</Label>
               <Input
                 id="displayName"
                 type="text"
@@ -133,11 +144,12 @@ export default function TesterSignupPage() {
                 value={formData.displayName}
                 onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
                 placeholder="How should we call you?"
+                className="bg-white/50 backdrop-blur-sm border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
               />
             </div>
 
-            <div>
-              <Label htmlFor="age">Age</Label>
+            <div className="space-y-2">
+              <Label htmlFor="age" className="text-slate-700 font-medium">Age</Label>
               <Input
                 id="age"
                 type="number"
@@ -147,17 +159,18 @@ export default function TesterSignupPage() {
                 value={formData.age}
                 onChange={(e) => setFormData({ ...formData, age: e.target.value })}
                 placeholder="18+"
+                className="bg-white/50 backdrop-blur-sm border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
               />
             </div>
 
-            <div>
-              <Label htmlFor="techLiteracy">Tech Literacy</Label>
+            <div className="space-y-2">
+              <Label htmlFor="techLiteracy" className="text-slate-700 font-medium">Tech Literacy</Label>
               <select
                 id="techLiteracy"
                 required
                 value={formData.techLiteracy}
                 onChange={(e) => setFormData({ ...formData, techLiteracy: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg bg-white/50 backdrop-blur-sm focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
               >
                 <option value="low">Low - I struggle with technology</option>
                 <option value="medium">Medium - I'm comfortable with basics</option>
@@ -165,14 +178,14 @@ export default function TesterSignupPage() {
               </select>
             </div>
 
-            <div>
-              <Label htmlFor="primaryDevice">Primary Device</Label>
+            <div className="space-y-2">
+              <Label htmlFor="primaryDevice" className="text-slate-700 font-medium">Primary Device</Label>
               <select
                 id="primaryDevice"
                 required
                 value={formData.primaryDevice}
                 onChange={(e) => setFormData({ ...formData, primaryDevice: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg bg-white/50 backdrop-blur-sm focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
               >
                 <option value="desktop">Desktop/Laptop</option>
                 <option value="mobile">Mobile Phone</option>
@@ -180,14 +193,18 @@ export default function TesterSignupPage() {
               </select>
             </div>
 
-            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={loading}>
+            <Button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 transition-all duration-300 btn-glow" 
+              disabled={loading}
+            >
               {loading ? 'Creating account...' : 'Create Account'}
             </Button>
           </form>
 
           <p className="text-sm text-slate-600 text-center mt-6">
             Already have an account?{' '}
-            <Link href="/tester/login" className="text-green-600 hover:text-green-700 font-semibold">
+            <Link href="/tester/login" className="text-green-600 hover:text-green-700 font-semibold hover:underline transition-all">
               Sign in
             </Link>
           </p>
