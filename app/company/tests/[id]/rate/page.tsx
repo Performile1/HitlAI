@@ -67,7 +67,7 @@ export default function RateTestersPage({ params }: { params: { id: string } }) 
     }
   }
 
-  const handleRatingChange = (assignmentId: string, category: string, value: number) => {
+  const handleRatingChange = (assignmentId: string, category: string, value: number | boolean | string) => {
     setRatings({
       ...ratings,
       [assignmentId]: {
