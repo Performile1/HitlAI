@@ -256,32 +256,32 @@ export default function HomePage() {
                 <div className="flex items-start">
                   <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-slate-900">Create Profile</p>
-                    <p className="text-sm text-slate-600">Share your age, tech skills, devices</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-slate-900">Get Matched</p>
-                    <p className="text-sm text-slate-600">Receive tests matching your profile</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                  <div>
                     <p className="font-semibold text-slate-900">Complete Tests</p>
-                    <p className="text-sm text-slate-600">Test websites, report friction points</p>
+                    <p className="text-sm text-slate-600">Earn <span className="font-semibold text-green-600">$20 per test</span> testing websites</p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
                   <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-slate-900">Earn & Help</p>
-                    <p className="text-sm text-slate-600">Get paid while improving UX for everyone</p>
+                    <p className="font-semibold text-slate-900">Train AI Testers</p>
+                    <p className="text-sm text-slate-600">Your tests help train AI personas</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-slate-900">Earn Passive Income</p>
+                    <p className="text-sm text-slate-600"><span className="font-semibold text-green-600">Get paid forever</span> when AI you trained runs tests</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-slate-900">Build Your Portfolio</p>
+                    <p className="text-sm text-slate-600">Higher ratings = better pay + more AI revenue</p>
                   </div>
                 </div>
               </div>
