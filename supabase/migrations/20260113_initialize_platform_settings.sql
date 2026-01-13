@@ -53,27 +53,8 @@ SELECT
   NOW()
 WHERE NOT EXISTS (SELECT 1 FROM platform_settings LIMIT 1);
 
--- Initialize budget status if none exists
-INSERT INTO hitlai_budget_status (
-  id,
-  monthly_budget,
-  current_spend,
-  remaining_budget,
-  spend_percent,
-  reset_date,
-  created_at,
-  updated_at
-)
-SELECT
-  gen_random_uuid(),
-  5000.00,
-  0.00,
-  5000.00,
-  0.0,
-  DATE_TRUNC('month', NOW()) + INTERVAL '1 month',
-  NOW(),
-  NOW()
-WHERE NOT EXISTS (SELECT 1 FROM hitlai_budget_status LIMIT 1);
+-- Note: hitlai_budget_status is a VIEW that automatically calculates from platform_settings
+-- No need to insert data - it's derived from the platform_settings table above
 
 -- Create some sample digital twins for demo purposes
 INSERT INTO digital_twin_performance (
