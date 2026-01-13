@@ -26,6 +26,11 @@ interface PlatformSettings {
   equity_shares_per_test: number
   auto_retrain_threshold: number
   confidence_threshold: number
+  human_tester_flag_threshold: number
+  human_tester_disable_threshold: number
+  ai_tester_flag_threshold: number
+  ai_tester_disable_threshold: number
+  min_ratings_before_action: number
 }
 
 interface BudgetStatus {
