@@ -35,34 +35,29 @@
 INSERT INTO companies (
   id,
   name,
-  email,
+  slug,
   industry,
   company_size,
   website,
   plan_type,
   monthly_test_quota,
   tests_used_this_month,
-  credits_balance,
-  is_active,
   created_at
 ) VALUES (
   gen_random_uuid(),
   'Demo Tech Inc.',
-  'demo@company.com',
+  'demo-tech-inc',
   'technology',
-  '50-200',
+  'medium',
   'https://demotech.example.com',
   'pro',
   100,
   15,
-  250,
-  true,
   NOW()
-) ON CONFLICT (email) DO UPDATE SET
+) ON CONFLICT (slug) DO UPDATE SET
   name = EXCLUDED.name,
   plan_type = EXCLUDED.plan_type,
-  monthly_test_quota = EXCLUDED.monthly_test_quota,
-  credits_balance = EXCLUDED.credits_balance;
+  monthly_test_quota = EXCLUDED.monthly_test_quota;
 
 
 -- ============================================================================
@@ -174,44 +169,12 @@ INSERT INTO human_testers (
 
 
 -- ============================================================================
--- DEMO TEST HISTORY FOR TESTER
+-- NO TEST DATA INCLUDED
 -- ============================================================================
--- Create some test history entries for the demo tester
-
-DO $$
-DECLARE
-  demo_tester_id UUID;
-  demo_company_id UUID;
-  test_categories TEXT[] := ARRAY['usability', 'accessibility', 'ecommerce', 'functional', 'saas'];
-  i INT;
-BEGIN
-  -- Get demo tester ID
-  SELECT id INTO demo_tester_id FROM human_testers WHERE email = 'tester@demo.com';
-  SELECT id INTO demo_company_id FROM companies WHERE email = 'demo@company.com';
-  
-  IF demo_tester_id IS NOT NULL AND demo_company_id IS NOT NULL THEN
-    -- Create 10 recent test history entries
-    FOR i IN 1..10 LOOP
-      INSERT INTO tester_test_history (
-        tester_id,
-        company_id,
-        test_category,
-        completed_at,
-        completion_time_minutes,
-        company_rating,
-        amount_earned_usd
-      ) VALUES (
-        demo_tester_id,
-        demo_company_id,
-        test_categories[(i % 5) + 1],
-        NOW() - (i || ' days')::INTERVAL,
-        15 + (i * 3),
-        4.0 + (random() * 1.0),
-        14.00 + (random() * 6.00)
-      );
-    END LOOP;
-  END IF;
-END $$;
+-- We intentionally do NOT create any test requests, test runs, or test history
+-- to avoid affecting AI training data and model accuracy.
+-- 
+-- Demo accounts can create their own tests when needed for demonstration purposes.
 
 
 -- ============================================================================
@@ -274,68 +237,6 @@ INSERT INTO personas (
 ON CONFLICT (name) DO NOTHING;
 
 
--- ============================================================================
--- DEMO TEST REQUEST
--- ============================================================================
--- Create a sample test request from the demo company
-
-DO $$
-DECLARE
-  demo_company_id UUID;
-  test_request_id UUID;
-BEGIN
-  SELECT id INTO demo_company_id FROM companies WHERE email = 'demo@company.com';
-  
-  IF demo_company_id IS NOT NULL THEN
-    INSERT INTO test_requests (
-      company_id,
-      title,
-      description,
-      target_url,
-      test_type,
-      status,
-      total_tests_requested,
-      ai_tests_requested,
-      human_tests_requested,
-      total_cost,
-      created_at
-    ) VALUES (
-      demo_company_id,
-      'E-commerce Checkout Flow Test',
-      'Test the new checkout process for usability issues and friction points',
-      'https://demo-store.example.com/checkout',
-      'usability',
-      'completed',
-      20,
-      15,
-      5,
-      200.00,
-      NOW() - INTERVAL '7 days'
-    ) RETURNING id INTO test_request_id;
-    
-    -- Add some test runs for this request
-    INSERT INTO test_runs (
-      test_request_id,
-      persona_id,
-      status,
-      friction_score,
-      sentiment_score,
-      created_at,
-      completed_at
-    )
-    SELECT 
-      test_request_id,
-      p.id,
-      'completed',
-      0.3 + (random() * 0.4),
-      0.6 + (random() * 0.3),
-      NOW() - INTERVAL '6 days',
-      NOW() - INTERVAL '6 days' + INTERVAL '15 minutes'
-    FROM personas p
-    WHERE p.is_public = true
-    LIMIT 3;
-  END IF;
-END $$;
 
 
 -- ============================================================================
@@ -391,20 +292,24 @@ INSERT INTO platform_settings (
 --   Password: Demo123!
 --   Company: Demo Tech Inc.
 --   Plan: Pro (100 tests/month)
---   Credits: 250
 --   Access: /company/login -> /company/dashboard, /company/tests
 --   Features: Create tests, view results, rate testers
+--   Note: No test data included - create your own tests for demos
 --
 -- TESTER ACCOUNT:
 --   Email: tester@demo.com
 --   Password: Demo123!
 --   Name: Sarah Johnson
 --   Tier: Expert (20% platform fee)
---   Stats: 127 tests completed, 4.7★ rating, $1,778 earned
+--   Stats: Profile shows simulated stats (127 tests, 4.7★ rating, $1,778 earned)
 --   Access: /tester/login -> /tester/dashboard, /tester/performance
 --   Features: View available tests, complete tests, track earnings
+--   Note: Stats are for display only - no actual test history to avoid affecting AI
+--
+-- IMPORTANT: No test requests, test runs, or test history are created
+-- to preserve AI training data integrity. Demo users can create real tests as needed.
 --
 -- ============================================================================
 
 COMMENT ON TABLE companies IS 'Demo company: demo@company.com / Demo123!';
-COMMENT ON TABLE human_testers IS 'Demo tester: tester@demo.com / Demo123!';
+COMMENT ON TABLE human_testers IS 'Demo tester: tester@demo.com / Demo123! (stats are simulated for display)';
