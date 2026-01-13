@@ -33,6 +33,19 @@ VALUES (
 ON CONFLICT (id) DO NOTHING;
 
 -- Storage Policies
+-- Drop existing policies to avoid conflicts when re-running
+
+DROP POLICY IF EXISTS "Public can view persona avatars" ON storage.objects;
+DROP POLICY IF EXISTS "System can upload persona avatars" ON storage.objects;
+DROP POLICY IF EXISTS "Public can view screenshots" ON storage.objects;
+DROP POLICY IF EXISTS "System can upload screenshots" ON storage.objects;
+DROP POLICY IF EXISTS "Company members can view their test recordings" ON storage.objects;
+DROP POLICY IF EXISTS "System can upload test recordings" ON storage.objects;
+DROP POLICY IF EXISTS "Company members can view their reports" ON storage.objects;
+DROP POLICY IF EXISTS "System can upload reports" ON storage.objects;
+DROP POLICY IF EXISTS "Companies can upload test apps" ON storage.objects;
+DROP POLICY IF EXISTS "Companies can view their test apps" ON storage.objects;
+DROP POLICY IF EXISTS "Companies can delete their test apps" ON storage.objects;
 
 -- Persona Avatars: Anyone can read, system can write
 CREATE POLICY "Public can view persona avatars"
@@ -43,14 +56,14 @@ CREATE POLICY "System can upload persona avatars"
 ON storage.objects FOR INSERT
 WITH CHECK (bucket_id = 'persona-avatars' AND auth.role() = 'service_role');
 
--- Screenshots: Anyone can read, system can write
+-- Screenshots: Anyone can read, authenticated users can write
 CREATE POLICY "Public can view screenshots"
 ON storage.objects FOR SELECT
 USING (bucket_id = 'screenshots');
 
 CREATE POLICY "System can upload screenshots"
 ON storage.objects FOR INSERT
-WITH CHECK (bucket_id = 'screenshots');
+WITH CHECK (bucket_id = 'screenshots' AND auth.uid() IS NOT NULL);
 
 -- Test Recordings: Only company members can access their recordings
 CREATE POLICY "Company members can view their test recordings"
@@ -67,7 +80,7 @@ USING (
 
 CREATE POLICY "System can upload test recordings"
 ON storage.objects FOR INSERT
-WITH CHECK (bucket_id = 'test-recordings');
+WITH CHECK (bucket_id = 'test-recordings' AND auth.uid() IS NOT NULL);
 
 -- Reports: Only company members can access their reports
 CREATE POLICY "Company members can view their reports"
@@ -84,7 +97,7 @@ USING (
 
 CREATE POLICY "System can upload reports"
 ON storage.objects FOR INSERT
-WITH CHECK (bucket_id = 'reports');
+WITH CHECK (bucket_id = 'reports' AND auth.uid() IS NOT NULL);
 
 -- Test Apps: Companies can upload and view their own app files
 CREATE POLICY "Companies can upload test apps"
@@ -92,9 +105,7 @@ ON storage.objects FOR INSERT
 TO authenticated
 WITH CHECK (
   bucket_id = 'test-apps' AND
-  auth.uid() IN (
-    SELECT profile_id FROM companies
-  )
+  auth.uid() IS NOT NULL
 );
 
 CREATE POLICY "Companies can view their test apps"
@@ -102,38 +113,12 @@ ON storage.objects FOR SELECT
 TO authenticated
 USING (
   bucket_id = 'test-apps' AND
-  auth.uid() IN (
-    SELECT profile_id FROM companies
-  )
+  auth.uid() IS NOT NULL
 );
 
 CREATE POLICY "Companies can delete their test apps"
 ON storage.objects FOR DELETE
 TO authenticated
-USING (
-  bucket_id = 'test-apps' AND
-  auth.uid() IN (
-    SELECT profile_id FROM companies
-  )
-);
-
--- Test Apps: Companies can upload and view their own app files
-CREATE POLICY "Companies can upload test apps"
-ON storage.objects FOR INSERT
-WITH CHECK (
-  bucket_id = 'test-apps' AND
-  auth.uid() IS NOT NULL
-);
-
-CREATE POLICY "Companies can view their test apps"
-ON storage.objects FOR SELECT
-USING (
-  bucket_id = 'test-apps' AND
-  auth.uid() IS NOT NULL
-);
-
-CREATE POLICY "Companies can delete their test apps"
-ON storage.objects FOR DELETE
 USING (
   bucket_id = 'test-apps' AND
   auth.uid() IS NOT NULL
