@@ -67,8 +67,7 @@ WHERE ht.email = 'tester@demo.com';
 SELECT 
   'AI PERSONAS CHECK' as check_type,
   COUNT(*) as total_personas,
-  COUNT(*) FILTER (WHERE is_default = true) as default_personas,
-  COUNT(*) FILTER (WHERE is_active = true) as active_personas
+  COUNT(*) FILTER (WHERE is_default = true) as default_personas
 FROM personas;
 
 -- Expected: Multiple personas created

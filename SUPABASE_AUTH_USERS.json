@@ -1,0 +1,56 @@
+{
+  "instructions": "Copy each user's raw_user_meta_data JSON and paste it into the User Metadata field in Supabase Dashboard → Authentication → Users",
+  "users": [
+    {
+      "email": "admin@hitlai.com",
+      "password": "Demo123!",
+      "auto_confirm": true,
+      "raw_user_meta_data": {
+        "email_verified": true,
+        "user_type": "admin"
+      },
+      "complete_user_json": {
+        "email": "admin@hitlai.com",
+        "email_confirmed": true,
+        "raw_user_meta_data": {
+          "email_verified": true,
+          "user_type": "admin"
+        }
+      }
+    },
+    {
+      "email": "demo@company.com",
+      "password": "Demo123!",
+      "auto_confirm": true,
+      "raw_user_meta_data": {
+        "email_verified": true,
+        "user_type": "company"
+      },
+      "complete_user_json": {
+        "email": "demo@company.com",
+        "email_confirmed": true,
+        "raw_user_meta_data": {
+          "email_verified": true,
+          "user_type": "company"
+        }
+      }
+    },
+    {
+      "email": "tester@demo.com",
+      "password": "Demo123!",
+      "auto_confirm": true,
+      "raw_user_meta_data": {
+        "email_verified": true,
+        "user_type": "tester"
+      },
+      "complete_user_json": {
+        "email": "tester@demo.com",
+        "email_confirmed": true,
+        "raw_user_meta_data": {
+          "email_verified": true,
+          "user_type": "tester"
+        }
+      }
+    }
+  ]
+}
