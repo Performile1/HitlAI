@@ -50,7 +50,7 @@ export default function HomePage() {
             </p>
 
             {/* Dual CTAs */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-scale-in">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8 animate-scale-in">
               <Link href="/company/signup">
                 <Button size="lg" className="text-lg px-10 py-7 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-glow-md hover:shadow-glow-lg transition-all duration-300 btn-glow group">
                   Request Testing
@@ -63,6 +63,18 @@ export default function HomePage() {
                   Become a Tester
                   <Users className="ml-2 w-5 h-5 group-hover:scale-110 transition-transform" />
                 </Button>
+              </Link>
+            </div>
+
+            {/* Login Links */}
+            <div className="flex gap-6 justify-center items-center mb-16 text-sm">
+              <span className="text-slate-500">Already have an account?</span>
+              <Link href="/company/login" className="text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors">
+                Company Login
+              </Link>
+              <span className="text-slate-300">|</span>
+              <Link href="/tester/login" className="text-green-600 hover:text-green-700 font-semibold hover:underline transition-colors">
+                Tester Login
               </Link>
             </div>
 
