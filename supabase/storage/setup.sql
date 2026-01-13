@@ -21,6 +21,17 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('reports', 'reports', false)
 ON CONFLICT (id) DO NOTHING;
 
+-- 5. Create test-apps bucket (private) for APK/IPA uploads
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'test-apps', 
+  'test-apps', 
+  false,
+  524288000, -- 500MB limit
+  ARRAY['application/vnd.android.package-archive', 'application/octet-stream']
+)
+ON CONFLICT (id) DO NOTHING;
+
 -- Storage Policies
 
 -- Persona Avatars: Anyone can read, system can write
@@ -74,3 +85,25 @@ USING (
 CREATE POLICY "System can upload reports"
 ON storage.objects FOR INSERT
 WITH CHECK (bucket_id = 'reports');
+
+-- Test Apps: Companies can upload and view their own app files
+CREATE POLICY "Companies can upload test apps"
+ON storage.objects FOR INSERT
+WITH CHECK (
+  bucket_id = 'test-apps' AND
+  auth.uid() IS NOT NULL
+);
+
+CREATE POLICY "Companies can view their test apps"
+ON storage.objects FOR SELECT
+USING (
+  bucket_id = 'test-apps' AND
+  auth.uid() IS NOT NULL
+);
+
+CREATE POLICY "Companies can delete their test apps"
+ON storage.objects FOR DELETE
+USING (
+  bucket_id = 'test-apps' AND
+  auth.uid() IS NOT NULL
+);
