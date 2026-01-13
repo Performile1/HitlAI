@@ -12,6 +12,9 @@
 -- Password: Demo123!
 -- Company Name: Demo Tech Inc.
 
+-- Delete existing demo company if it exists
+DELETE FROM companies WHERE slug = 'demo-tech-inc';
+
 INSERT INTO companies (
   id,
   name,
@@ -34,10 +37,7 @@ INSERT INTO companies (
   100,
   15,
   NOW()
-) ON CONFLICT (slug) DO UPDATE SET
-  name = EXCLUDED.name,
-  plan_type = EXCLUDED.plan_type,
-  monthly_test_quota = EXCLUDED.monthly_test_quota;
+);
 
 
 -- ============================================================================
@@ -141,11 +141,10 @@ INSERT INTO human_testers (
   ARRAY['top_rated', 'fast_responder'],
   
   NOW()
-) ON CONFLICT (email) DO UPDATE SET
-  display_name = EXCLUDED.display_name,
-  total_tests_completed = EXCLUDED.total_tests_completed,
-  average_rating = EXCLUDED.average_rating,
-  tier = EXCLUDED.tier;
+);
+
+-- Note: If tester already exists, this will fail. Delete manually first:
+-- DELETE FROM human_testers WHERE email = 'tester@demo.com';
 
 
 -- ============================================================================
