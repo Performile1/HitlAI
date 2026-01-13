@@ -90,6 +90,7 @@ INSERT INTO human_testers (
   would_work_again_percent,
   tier,
   platform_fee_percent,
+  total_earnings_usd,
   badges,
   
   created_at
@@ -136,6 +137,7 @@ INSERT INTO human_testers (
   92.5,
   'expert',
   20,
+  1778.00,
   ARRAY['top_rated', 'fast_responder'],
   
   NOW()
