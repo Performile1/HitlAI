@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@hitlai.com"
-                className="bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-purple-300"
+                className="bg-white/90 backdrop-blur-sm border-white/30 text-slate-900 placeholder:text-slate-400 focus:bg-white"
               />
             </div>
 
@@ -116,7 +116,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-purple-300"
+                className="bg-white/90 backdrop-blur-sm border-white/30 text-slate-900 placeholder:text-slate-400 focus:bg-white"
               />
             </div>
 
