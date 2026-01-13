@@ -89,6 +89,37 @@ WITH CHECK (bucket_id = 'reports');
 -- Test Apps: Companies can upload and view their own app files
 CREATE POLICY "Companies can upload test apps"
 ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (
+  bucket_id = 'test-apps' AND
+  auth.uid() IN (
+    SELECT profile_id FROM companies
+  )
+);
+
+CREATE POLICY "Companies can view their test apps"
+ON storage.objects FOR SELECT
+TO authenticated
+USING (
+  bucket_id = 'test-apps' AND
+  auth.uid() IN (
+    SELECT profile_id FROM companies
+  )
+);
+
+CREATE POLICY "Companies can delete their test apps"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (
+  bucket_id = 'test-apps' AND
+  auth.uid() IN (
+    SELECT profile_id FROM companies
+  )
+);
+
+-- Test Apps: Companies can upload and view their own app files
+CREATE POLICY "Companies can upload test apps"
+ON storage.objects FOR INSERT
 WITH CHECK (
   bucket_id = 'test-apps' AND
   auth.uid() IS NOT NULL
