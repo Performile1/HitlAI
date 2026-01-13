@@ -370,6 +370,7 @@ ALTER TABLE company_tester_ratings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_persona_ratings ENABLE ROW LEVEL SECURITY;
 
 -- Testers can view their own test history
+DROP POLICY IF EXISTS "Testers can view own test history" ON tester_test_history;
 CREATE POLICY "Testers can view own test history"
   ON tester_test_history FOR SELECT
   USING (
@@ -381,6 +382,7 @@ CREATE POLICY "Testers can view own test history"
   );
 
 -- Companies can view ratings for their testers
+DROP POLICY IF EXISTS "Companies can view their tester ratings" ON company_tester_ratings;
 CREATE POLICY "Companies can view their tester ratings"
   ON company_tester_ratings FOR ALL
   USING (
@@ -392,10 +394,12 @@ CREATE POLICY "Companies can view their tester ratings"
   );
 
 -- AI persona ratings are public (read-only for non-admins)
+DROP POLICY IF EXISTS "Anyone can view AI persona ratings" ON ai_persona_ratings;
 CREATE POLICY "Anyone can view AI persona ratings"
   ON ai_persona_ratings FOR SELECT
   USING (true);
 
+DROP POLICY IF EXISTS "Only admins can modify AI persona ratings" ON ai_persona_ratings;
 CREATE POLICY "Only admins can modify AI persona ratings"
   ON ai_persona_ratings FOR ALL
   USING (
