@@ -19,14 +19,38 @@ export default function TesterSignupPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   
+  const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
+    // Step 1: Account
     email: '',
     password: '',
     displayName: '',
+    
+    // Step 2: Demographics
     age: '',
+    gender: '',
+    occupation: '',
+    educationLevel: '',
+    locationCountry: '',
+    
+    // Step 3: Experience
     techLiteracy: 'medium',
     primaryDevice: 'desktop',
-    languages: 'en'
+    languages: 'en',
+    yearsOfTestingExperience: '0',
+    previousPlatforms: [] as string[],
+    
+    // Step 4: Preferences
+    preferredTestTypes: [] as string[],
+    preferredIndustries: [] as string[],
+    minTestDuration: '10',
+    maxTestDuration: '60',
+    maxTestsPerWeek: '10',
+    
+    // Step 5: Payment
+    paymentMethod: 'stripe',
+    paypalEmail: '',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,11 +78,36 @@ export default function TesterSignupPage() {
         .from('human_testers')
         .insert({
           user_id: authData.user.id,
+          email: formData.email,
           display_name: formData.displayName,
+          
+          // Demographics
           age: parseInt(formData.age),
+          gender: formData.gender || null,
+          occupation: formData.occupation || null,
+          education_level: formData.educationLevel || null,
+          location_country: formData.locationCountry || null,
+          
+          // Experience
           tech_literacy: formData.techLiteracy,
           primary_device: formData.primaryDevice,
           languages: [formData.languages],
+          years_of_testing_experience: parseInt(formData.yearsOfTestingExperience),
+          previous_platforms: formData.previousPlatforms,
+          
+          // Preferences
+          preferred_test_types: formData.preferredTestTypes,
+          preferred_industries: formData.preferredIndustries,
+          min_test_duration_minutes: parseInt(formData.minTestDuration),
+          max_test_duration_minutes: parseInt(formData.maxTestDuration),
+          max_tests_per_week: parseInt(formData.maxTestsPerWeek),
+          
+          // Payment & Availability
+          payment_method: formData.paymentMethod,
+          paypal_email: formData.paymentMethod === 'paypal' ? formData.paypalEmail : null,
+          timezone: formData.timezone,
+          
+          // Status
           is_available: true,
           is_verified: false
         })
