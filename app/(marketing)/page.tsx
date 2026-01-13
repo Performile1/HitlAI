@@ -302,17 +302,21 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Free */}
+            {/* Starter Pack */}
             <div className="group p-8 rounded-3xl border-2 border-slate-200 bg-white hover:border-slate-300 hover:shadow-xl transition-all duration-300">
-              <h4 className="text-2xl font-bold text-slate-900 mb-3">Free</h4>
-              <p className="mb-6">
-                <span className="text-5xl font-black text-slate-900">$0</span>
-                <span className="text-lg text-slate-600">/mo</span>
+              <h4 className="text-2xl font-bold text-slate-900 mb-3">Starter Pack</h4>
+              <p className="mb-2">
+                <span className="text-5xl font-black text-slate-900">$99</span>
               </p>
+              <p className="text-sm text-slate-600 mb-6">25 credits (never expire)</p>
               <ul className="space-y-3 text-slate-600 mb-8">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span>10 AI tests/month</span>
+                  <span>1 credit = 1 AI test</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span>5 credits = 1 human test</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -323,27 +327,26 @@ export default function HomePage() {
                   <span>Email support</span>
                 </li>
               </ul>
-              <Button variant="outline" className="w-full py-6 border-2 hover:bg-slate-50">Get Started</Button>
+              <Link href="/company/signup">
+                <Button variant="outline" className="w-full py-6 border-2 hover:bg-slate-50">Buy Credits</Button>
+              </Link>
             </div>
 
-            {/* Pro */}
+            {/* Growth Pack */}
             <div className="group relative p-8 rounded-3xl border-2 border-blue-600 bg-gradient-to-br from-blue-50 to-white hover:shadow-2xl transition-all duration-300 scale-105">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-                POPULAR
+                MOST POPULAR
               </div>
-              <h4 className="text-2xl font-bold text-slate-900 mb-3">Pro</h4>
-              <p className="mb-6">
-                <span className="text-5xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">$99</span>
-                <span className="text-lg text-slate-600">/mo</span>
+              <h4 className="text-2xl font-bold text-slate-900 mb-3">Growth Pack</h4>
+              <p className="mb-2">
+                <span className="text-5xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">$449</span>
               </p>
+              <p className="text-sm text-slate-600 mb-2">120 credits + 10% bonus</p>
+              <p className="text-xs text-green-600 font-semibold mb-6">Save $50 vs pay-per-test</p>
               <ul className="space-y-3 text-slate-600 mb-8">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                  <span className="font-medium">100 AI tests/month</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                  <span className="font-medium">10 human tests/month</span>
+                  <span className="font-medium">Credits never expire</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
@@ -353,24 +356,28 @@ export default function HomePage() {
                   <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
                   <span className="font-medium">Priority support</span>
                 </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                  <span className="font-medium">Advanced analytics</span>
+                </li>
               </ul>
-              <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-6 shadow-lg hover:shadow-xl transition-all btn-glow">Start Free Trial</Button>
+              <Link href="/company/signup">
+                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-6 shadow-lg hover:shadow-xl transition-all btn-glow">Buy Credits</Button>
+              </Link>
             </div>
 
-            {/* Enterprise */}
+            {/* Enterprise Pack */}
             <div className="group p-8 rounded-3xl border-2 border-slate-200 bg-white hover:border-slate-300 hover:shadow-xl transition-all duration-300">
-              <h4 className="text-2xl font-bold text-slate-900 mb-3">Enterprise</h4>
-              <p className="mb-6">
-                <span className="text-5xl font-black text-slate-900">Custom</span>
+              <h4 className="text-2xl font-bold text-slate-900 mb-3">Enterprise Pack</h4>
+              <p className="mb-2">
+                <span className="text-5xl font-black text-slate-900">$1,999</span>
               </p>
+              <p className="text-sm text-slate-600 mb-2">600 credits + 20% bonus</p>
+              <p className="text-xs text-green-600 font-semibold mb-6">Save $400 vs pay-per-test</p>
               <ul className="space-y-3 text-slate-600 mb-8">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span>Unlimited tests</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span>Dedicated testers</span>
+                  <span>Dedicated account manager</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -378,10 +385,16 @@ export default function HomePage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span>24/7 support</span>
+                  <span>White-label reports</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span>24/7 priority support</span>
                 </li>
               </ul>
-              <Button variant="outline" className="w-full py-6 border-2 hover:bg-slate-50">Contact Sales</Button>
+              <Link href="/company/signup">
+                <Button variant="outline" className="w-full py-6 border-2 hover:bg-slate-50">Buy Credits</Button>
+              </Link>
             </div>
           </div>
         </div>
