@@ -35,18 +35,19 @@ export default function HomePage() {
             <div className="animate-slide-up">
               <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-blue-50 border border-blue-100">
                 <Sparkles className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-medium text-blue-700">Trusted by 500+ companies worldwide</span>
+                <span className="text-sm font-medium text-blue-700">AI Testers Trained by Real Humans</span>
               </div>
               <h2 className="text-6xl md:text-7xl lg:text-8xl font-black text-slate-900 mb-8 leading-tight">
-                Human-Centric Testing,
+                AI Testing at Scale,
                 <br />
-                <span className="gradient-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">AI-Powered Insights</span>
+                <span className="gradient-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Human Insight When Needed</span>
               </h2>
             </div>
 
             <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in">
-              Test your website through the eyes of <span className="font-semibold text-slate-900">real users</span>. Combine AI automation 
-              with human testers to discover friction points <span className="font-semibold text-slate-900">before your customers do</span>.
+              Our AI testers learn from <span className="font-semibold text-slate-900">real human behavior</span> to test your site at a fraction of the cost. 
+              Choose <span className="font-semibold text-slate-900">AI-only for speed</span>, <span className="font-semibold text-slate-900">human-only for emotion</span>, 
+              or <span className="font-semibold text-slate-900">mix both</span> for the perfect balance.
             </p>
 
             {/* Dual CTAs */}
@@ -104,13 +105,13 @@ export default function HomePage() {
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100">
               <Target className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-semibold text-blue-700">Why Choose Us</span>
+              <span className="text-sm font-semibold text-blue-700">How It Works</span>
             </div>
             <h3 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">
-              Why HitlAI?
+              Choose Your Testing Mix
             </h3>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              The only platform that combines <span className="font-semibold text-slate-900">AI testing</span> with <span className="font-semibold text-slate-900">real human behavior</span> analysis
+              AI testers trained by humans. <span className="font-semibold text-slate-900">Lower costs</span>, <span className="font-semibold text-slate-900">faster results</span>, with human insight when you need it.
             </p>
           </div>
 
@@ -122,11 +123,11 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-blue-400 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
               </div>
               <h4 className="text-2xl font-bold text-slate-900 mb-3">
-                AI-Powered Testing
+                AI-Only Testing
               </h4>
               <p className="text-slate-600 leading-relaxed">
-                Autonomous AI agents test your site <span className="font-semibold text-slate-900">24/7</span>, covering happy paths, 
-                error flows, accessibility, and edge cases.
+                <span className="font-semibold text-slate-900">$5 per test.</span> AI testers trained on real human behavior run tests 24/7. 
+                Perfect for <span className="font-semibold text-slate-900">regression testing</span> and catching technical issues fast.
               </p>
             </div>
 
@@ -137,11 +138,11 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-green-400 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
               </div>
               <h4 className="text-2xl font-bold text-slate-900 mb-3">
-                Real Human Testers
+                Human-Only Testing
               </h4>
               <p className="text-slate-600 leading-relaxed">
-                Get feedback from <span className="font-semibold text-slate-900">actual users</span> matching your target personas—seniors, 
-                mobile users, low tech literacy, and more.
+                <span className="font-semibold text-slate-900">$25 per test.</span> Real users matching your personas provide 
+                <span className="font-semibold text-slate-900"> emotional feedback</span>, confusion points, and UX insights AI can't catch.
               </p>
             </div>
 
@@ -152,11 +153,11 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-purple-400 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
               </div>
               <h4 className="text-2xl font-bold text-slate-900 mb-3">
-                Continuous Learning
+                Mixed Testing
               </h4>
               <p className="text-slate-600 leading-relaxed">
-                AI learns from human behavior to refine personas and catch issues 
-                that <span className="font-semibold text-slate-900">matter to your real users</span>.
+                <span className="font-semibold text-slate-900">Best of both worlds.</span> AI handles volume and speed, 
+                humans train the AI and provide emotional context. <span className="font-semibold text-slate-900">You control the ratio.</span>
               </p>
             </div>
           </div>
