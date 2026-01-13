@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Slider } from '@/components/ui/slider'
-import { Settings, DollarSign, Users, Brain, TrendingUp } from 'lucide-react'
+import { Settings, DollarSign, Users, Brain, TrendingUp, AlertCircle } from 'lucide-react'
 
 interface PlatformSettings {
   id: string
@@ -343,6 +343,100 @@ export default function AdminSettingsPage() {
                   </div>
                 </>
               )}
+            </CardContent>
+          </Card>
+
+          {/* Rating Monitoring Settings */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertCircle className="w-5 h-5 text-orange-600" />
+                Rating Monitoring & Auto-Disable
+              </CardTitle>
+              <CardDescription>Configure automatic flagging and disabling thresholds for low-rated testers</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <h4 className="font-semibold text-slate-900">Human Tester Thresholds</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="human_flag_threshold">Flag Threshold (out of 5.0)</Label>
+                    <p className="text-sm text-slate-500 mb-2">Testers below this rating get flagged for review</p>
+                    <Input
+                      id="human_flag_threshold"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="5"
+                      value={settings.human_tester_flag_threshold || 3.5}
+                      onChange={(e) => setSettings({ ...settings, human_tester_flag_threshold: parseFloat(e.target.value) })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="human_disable_threshold">Auto-Disable Threshold (out of 5.0)</Label>
+                    <p className="text-sm text-slate-500 mb-2">Testers below this rating get auto-disabled</p>
+                    <Input
+                      id="human_disable_threshold"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="5"
+                      value={settings.human_tester_disable_threshold || 2.5}
+                      onChange={(e) => setSettings({ ...settings, human_tester_disable_threshold: parseFloat(e.target.value) })}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="font-semibold text-slate-900">AI Tester Thresholds</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="ai_flag_threshold">Flag Threshold (0.00 - 1.00)</Label>
+                    <p className="text-sm text-slate-500 mb-2">AI accuracy below this gets flagged for retraining</p>
+                    <Input
+                      id="ai_flag_threshold"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      max="1"
+                      value={settings.ai_tester_flag_threshold || 0.75}
+                      onChange={(e) => setSettings({ ...settings, ai_tester_flag_threshold: parseFloat(e.target.value) })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ai_disable_threshold">Auto-Disable Threshold (0.00 - 1.00)</Label>
+                    <p className="text-sm text-slate-500 mb-2">AI accuracy below this gets auto-disabled</p>
+                    <Input
+                      id="ai_disable_threshold"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      max="1"
+                      value={settings.ai_tester_disable_threshold || 0.60}
+                      onChange={(e) => setSettings({ ...settings, ai_tester_disable_threshold: parseFloat(e.target.value) })}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="min_ratings">Minimum Ratings Before Action</Label>
+                <p className="text-sm text-slate-500 mb-2">Minimum number of ratings/tests before flagging or disabling</p>
+                <Input
+                  id="min_ratings"
+                  type="number"
+                  min="1"
+                  value={settings.min_ratings_before_action || 5}
+                  onChange={(e) => setSettings({ ...settings, min_ratings_before_action: parseInt(e.target.value) })}
+                />
+              </div>
+
+              <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                <p className="text-sm text-orange-900">
+                  <strong>Note:</strong> Flagged testers appear in the Flagged Testers dashboard. Auto-disabled testers are immediately marked unavailable and cannot accept new tests.
+                </p>
+              </div>
             </CardContent>
           </Card>
 
