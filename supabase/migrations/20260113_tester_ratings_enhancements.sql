@@ -258,7 +258,8 @@ CREATE OR REPLACE VIEW ai_persona_performance AS
 SELECT 
   p.id,
   p.name,
-  p.persona_type,
+  p.age,
+  p.tech_literacy,
   apr.accuracy_score,
   apr.total_tests_run,
   apr.company_satisfaction_score,
