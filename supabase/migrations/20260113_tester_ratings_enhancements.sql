@@ -108,10 +108,10 @@ CREATE TABLE IF NOT EXISTS tester_test_history (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_tester_history_tester ON tester_test_history(tester_id);
-CREATE INDEX idx_tester_history_category ON tester_test_history(test_category);
-CREATE INDEX idx_tester_history_industry ON tester_test_history(industry);
-CREATE INDEX idx_tester_history_completed ON tester_test_history(completed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_tester_history_tester ON tester_test_history(tester_id);
+CREATE INDEX IF NOT EXISTS idx_tester_history_category ON tester_test_history(test_category);
+CREATE INDEX IF NOT EXISTS idx_tester_history_industry ON tester_test_history(industry);
+CREATE INDEX IF NOT EXISTS idx_tester_history_completed ON tester_test_history(completed_at DESC);
 
 -- ============================================================================
 -- 4. COMPANY-SPECIFIC TESTER RATINGS TABLE
@@ -139,9 +139,9 @@ CREATE TABLE IF NOT EXISTS company_tester_ratings (
   UNIQUE(company_id, tester_id)
 );
 
-CREATE INDEX idx_company_tester_company ON company_tester_ratings(company_id);
-CREATE INDEX idx_company_tester_tester ON company_tester_ratings(tester_id);
-CREATE INDEX idx_company_tester_preferred ON company_tester_ratings(company_id, is_preferred_tester) WHERE is_preferred_tester = TRUE;
+CREATE INDEX IF NOT EXISTS idx_company_tester_company ON company_tester_ratings(company_id);
+CREATE INDEX IF NOT EXISTS idx_company_tester_tester ON company_tester_ratings(tester_id);
+CREATE INDEX IF NOT EXISTS idx_company_tester_preferred ON company_tester_ratings(company_id, is_preferred_tester) WHERE is_preferred_tester = TRUE;
 
 -- ============================================================================
 -- 5. AI PERSONA RATINGS TABLE
@@ -178,8 +178,8 @@ CREATE TABLE IF NOT EXISTS ai_persona_ratings (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_ai_persona_ratings_accuracy ON ai_persona_ratings(accuracy_score DESC);
-CREATE INDEX idx_ai_persona_ratings_needs_training ON ai_persona_ratings(needs_more_training) WHERE needs_more_training = TRUE;
+CREATE INDEX IF NOT EXISTS idx_ai_persona_ratings_accuracy ON ai_persona_ratings(accuracy_score DESC);
+CREATE INDEX IF NOT EXISTS idx_ai_persona_ratings_needs_training ON ai_persona_ratings(needs_more_training) WHERE needs_more_training = TRUE;
 
 -- ============================================================================
 -- 6. ENHANCE TEST RUNS TABLE (AI Performance Tracking)
