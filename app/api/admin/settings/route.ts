@@ -17,13 +17,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: profile } = await supabase
-      .from('company_profiles')
-      .select('role')
-      .eq('user_id', user.id)
-      .single()
-
-    if (!profile || profile.role !== 'admin') {
+    // Check user_type in metadata
+    const userType = user.user_metadata?.user_type
+    if (userType !== 'admin') {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
@@ -74,13 +70,9 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: profile } = await supabase
-      .from('company_profiles')
-      .select('role')
-      .eq('user_id', user.id)
-      .single()
-
-    if (!profile || profile.role !== 'admin') {
+    // Check user_type in metadata
+    const userType = user.user_metadata?.user_type
+    if (userType !== 'admin') {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
@@ -113,6 +105,11 @@ export async function PUT(request: NextRequest) {
         equity_shares_per_test: body.equity_shares_per_test,
         auto_retrain_threshold: body.auto_retrain_threshold,
         confidence_threshold: body.confidence_threshold,
+        human_tester_flag_threshold: body.human_tester_flag_threshold,
+        human_tester_disable_threshold: body.human_tester_disable_threshold,
+        ai_tester_flag_threshold: body.ai_tester_flag_threshold,
+        ai_tester_disable_threshold: body.ai_tester_disable_threshold,
+        min_ratings_before_action: body.min_ratings_before_action,
         updated_by: user.id,
         updated_at: new Date().toISOString()
       })
