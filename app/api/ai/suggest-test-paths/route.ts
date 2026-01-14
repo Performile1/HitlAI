@@ -1,4 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,11 +17,18 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Simple AI-powered suggestions based on keywords
-    // In production, this would call an LLM API like OpenAI
-    const suggestions = generateTestPathSuggestions(mission, url, title)
+    // Generate test path suggestions
+    const pathSuggestions = generateTestPathSuggestions(mission, url, title)
+    
+    // Get persona and tester recommendations
+    const personaRecommendations = await getPersonaRecommendations(mission, url)
+    const testerRecommendations = await getTesterRecommendations(mission, url)
 
-    return NextResponse.json(suggestions)
+    return NextResponse.json({
+      ...pathSuggestions,
+      recommendedPersonas: personaRecommendations,
+      recommendedTesters: testerRecommendations
+    })
   } catch (error) {
     console.error('Error generating suggestions:', error)
     return NextResponse.json(
@@ -23,6 +36,206 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     )
   }
+}
+
+async function getPersonaRecommendations(mission: string, url: string) {
+  const missionLower = mission.toLowerCase()
+  
+  // Fetch all public personas
+  const { data: personas } = await supabase
+    .from('personas')
+    .select('*')
+    .eq('is_public', true)
+    .order('name')
+  
+  if (!personas) return []
+  
+  // Score and filter personas based on mission requirements
+  const scoredPersonas = personas.map(persona => {
+    let score = 0
+    const literacy = persona.tech_literacy.toLowerCase()
+    
+    // Accessibility tests - all personas valuable
+    if (missionLower.includes('accessibility') || missionLower.includes('wcag') || missionLower.includes('a11y')) {
+      score += 10
+      if (persona.eyesight === 'poor' || persona.eyesight === 'moderate') score += 5
+    }
+    
+    // E-commerce/Checkout - prefer medium to high literacy
+    if (missionLower.includes('checkout') || missionLower.includes('purchase') || missionLower.includes('cart') || missionLower.includes('payment')) {
+      if (literacy === 'medium' || literacy === 'high') score += 8
+      if (persona.age >= 25 && persona.age <= 55) score += 3
+    }
+    
+    // Senior/elderly focused
+    if (missionLower.includes('senior') || missionLower.includes('elderly') || missionLower.includes('60+')) {
+      if (persona.age >= 55) score += 10
+      if (literacy === 'low' || literacy === 'medium') score += 5
+    }
+    
+    // Technical/Developer focused
+    if (missionLower.includes('developer') || missionLower.includes('technical') || missionLower.includes('api') || missionLower.includes('code')) {
+      if (literacy === 'high') score += 10
+      if (persona.age <= 45) score += 3
+    }
+    
+    // Mobile/App testing
+    if (missionLower.includes('mobile') || missionLower.includes('app') || missionLower.includes('smartphone')) {
+      if (literacy === 'medium' || literacy === 'high') score += 7
+      if (persona.age <= 50) score += 4
+    }
+    
+    // Form/Input testing - diverse personas
+    if (missionLower.includes('form') || missionLower.includes('input') || missionLower.includes('signup') || missionLower.includes('register')) {
+      score += 5
+    }
+    
+    return { ...persona, matchScore: score }
+  })
+  
+  // Return top 5 recommended personas
+  return scoredPersonas
+    .filter(p => p.matchScore > 0)
+    .sort((a, b) => b.matchScore - a.matchScore)
+    .slice(0, 5)
+    .map(p => ({
+      id: p.id,
+      name: p.name,
+      age: p.age,
+      tech_literacy: p.tech_literacy,
+      matchScore: p.matchScore,
+      reason: getPersonaMatchReason(p, missionLower)
+    }))
+}
+
+async function getTesterRecommendations(mission: string, url: string) {
+  const missionLower = mission.toLowerCase()
+  
+  // Determine required skills and preferences
+  const requiredTestTypes = []
+  const requiredSkills = []
+  
+  if (missionLower.includes('ecommerce') || missionLower.includes('checkout') || missionLower.includes('cart')) {
+    requiredTestTypes.push('ecommerce')
+    requiredSkills.push('payment_testing', 'checkout_flows')
+  }
+  if (missionLower.includes('accessibility') || missionLower.includes('wcag')) {
+    requiredTestTypes.push('accessibility')
+    requiredSkills.push('wcag', 'screen_readers')
+  }
+  if (missionLower.includes('mobile') || missionLower.includes('app')) {
+    requiredTestTypes.push('mobile_apps')
+    requiredSkills.push('mobile_testing')
+  }
+  if (missionLower.includes('usability') || missionLower.includes('ux')) {
+    requiredTestTypes.push('usability')
+    requiredSkills.push('ux_evaluation')
+  }
+  
+  // Fetch matching testers
+  const { data: testers } = await supabase
+    .from('human_testers')
+    .select('*')
+    .eq('is_available', true)
+    .eq('is_verified', true)
+    .gte('rating', 4.0)
+    .order('rating', { ascending: false })
+    .limit(20)
+  
+  if (!testers) return []
+  
+  // Score testers based on match
+  const scoredTesters = testers.map(tester => {
+    let score = 0
+    
+    // Match test types
+    if (tester.preferred_test_types) {
+      const matchingTypes = requiredTestTypes.filter(type => 
+        tester.preferred_test_types.includes(type)
+      )
+      score += matchingTypes.length * 10
+    }
+    
+    // Tech literacy matching
+    const literacy = tester.tech_literacy?.toLowerCase()
+    if (missionLower.includes('technical') || missionLower.includes('developer')) {
+      if (literacy === 'high') score += 8
+    } else if (missionLower.includes('senior') || missionLower.includes('simple')) {
+      if (literacy === 'low' || literacy === 'medium') score += 8
+    } else {
+      if (literacy === 'medium') score += 5
+    }
+    
+    // Experience bonus
+    if (tester.years_of_testing_experience >= 2) score += 5
+    if (tester.years_of_testing_experience >= 5) score += 3
+    
+    // Rating bonus
+    if (tester.rating >= 4.5) score += 5
+    if (tester.rating >= 4.8) score += 3
+    
+    // Tests completed bonus
+    if (tester.tests_completed >= 10) score += 3
+    if (tester.tests_completed >= 50) score += 5
+    
+    return { ...tester, matchScore: score }
+  })
+  
+  // Return top 10 recommended testers
+  return scoredTesters
+    .filter(t => t.matchScore > 0)
+    .sort((a, b) => b.matchScore - a.matchScore)
+    .slice(0, 10)
+    .map(t => ({
+      id: t.id,
+      display_name: t.display_name,
+      age: t.age,
+      tech_literacy: t.tech_literacy,
+      rating: t.rating,
+      tests_completed: t.tests_completed,
+      years_of_testing_experience: t.years_of_testing_experience,
+      preferred_test_types: t.preferred_test_types,
+      matchScore: t.matchScore,
+      reason: getTesterMatchReason(t, missionLower)
+    }))
+}
+
+function getPersonaMatchReason(persona: any, mission: string): string {
+  const reasons = []
+  const literacy = persona.tech_literacy.toLowerCase()
+  
+  if (mission.includes('accessibility')) {
+    reasons.push('Accessibility testing')
+    if (persona.eyesight !== 'perfect') reasons.push('Visual impairment perspective')
+  }
+  if (mission.includes('senior') && persona.age >= 55) {
+    reasons.push('Senior user perspective')
+  }
+  if (mission.includes('checkout') && (literacy === 'medium' || literacy === 'high')) {
+    reasons.push('E-commerce experience')
+  }
+  if (mission.includes('technical') && literacy === 'high') {
+    reasons.push('Technical proficiency')
+  }
+  
+  return reasons.length > 0 ? reasons.join(', ') : 'General testing fit'
+}
+
+function getTesterMatchReason(tester: any, mission: string): string {
+  const reasons = []
+  
+  if (tester.preferred_test_types) {
+    const types = tester.preferred_test_types.slice(0, 2).map((t: string) => 
+      t.replace('_', ' ')
+    )
+    if (types.length > 0) reasons.push(`Specializes in ${types.join(', ')}`)
+  }
+  
+  if (tester.rating >= 4.5) reasons.push('Highly rated')
+  if (tester.years_of_testing_experience >= 3) reasons.push('Experienced tester')
+  if (tester.tests_completed >= 50) reasons.push('Proven track record')
+  
+  return reasons.length > 0 ? reasons.join(' • ') : 'Good match'
 }
 
 function generateTestPathSuggestions(mission: string, url: string, title: string) {

@@ -55,6 +55,8 @@ export default function NewTestPage() {
     happyPath?: string
     negativePaths?: string[]
     fixtures?: any
+    recommendedPersonas?: any[]
+    recommendedTesters?: any[]
   } | null>(null)
   const [loadingSuggestions, setLoadingSuggestions] = useState(false)
 
@@ -300,10 +302,110 @@ export default function NewTestPage() {
                   className="text-sm"
                 >
                   <Brain className="w-4 h-4 mr-2" />
-                  {loadingSuggestions ? 'Generating...' : 'AI Suggest Test Paths'}
+                  {loadingSuggestions ? 'Generating...' : 'AI Suggest Test Paths & Testers'}
                 </Button>
               </div>
             </div>
+
+            {/* AI Recommendations */}
+            {aiSuggestions && (aiSuggestions.recommendedPersonas?.length > 0 || aiSuggestions.recommendedTesters?.length > 0) && (
+              <div className="border-2 border-purple-200 rounded-lg p-6 bg-purple-50/50">
+                <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
+                  <Brain className="w-5 h-5 text-purple-600 mr-2" />
+                  AI Recommendations
+                </h3>
+
+                {/* Recommended AI Personas */}
+                {aiSuggestions.recommendedPersonas && aiSuggestions.recommendedPersonas.length > 0 && (
+                  <div className="mb-6">
+                    <Label className="text-sm font-semibold mb-2 block">Recommended AI Personas</Label>
+                    <p className="text-xs text-slate-600 mb-3">AI suggests these personas based on your test objective</p>
+                    <div className="grid grid-cols-1 gap-2">
+                      {aiSuggestions.recommendedPersonas.map((persona: any) => (
+                        <div
+                          key={persona.id}
+                          className="bg-white p-3 rounded-lg border border-purple-200 flex items-start justify-between"
+                        >
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-slate-900">{persona.name}</span>
+                              <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">
+                                {persona.matchScore}% match
+                              </span>
+                            </div>
+                            <div className="text-xs text-slate-600 mt-1">
+                              Age {persona.age} • {persona.tech_literacy} tech literacy
+                            </div>
+                            <div className="text-xs text-purple-600 mt-1">{persona.reason}</div>
+                          </div>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              if (!formData.selectedPersonas.includes(persona.id)) {
+                                setFormData(prev => ({
+                                  ...prev,
+                                  selectedPersonas: [...prev.selectedPersonas, persona.id]
+                                }))
+                              }
+                            }}
+                            disabled={formData.selectedPersonas.includes(persona.id)}
+                            className="ml-2"
+                          >
+                            {formData.selectedPersonas.includes(persona.id) ? 'Added' : 'Add'}
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Recommended Human Testers */}
+                {aiSuggestions.recommendedTesters && aiSuggestions.recommendedTesters.length > 0 && (
+                  <div>
+                    <Label className="text-sm font-semibold mb-2 block">Recommended Human Testers</Label>
+                    <p className="text-xs text-slate-600 mb-3">
+                      Top-rated testers with relevant skills and experience
+                    </p>
+                    <div className="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+                      {aiSuggestions.recommendedTesters.map((tester: any) => (
+                        <div
+                          key={tester.id}
+                          className="bg-white p-3 rounded-lg border border-purple-200"
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-slate-900">{tester.display_name}</span>
+                                <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded">
+                                  ⭐ {tester.rating?.toFixed(1) || 'N/A'}
+                                </span>
+                                <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">
+                                  {tester.matchScore}% match
+                                </span>
+                              </div>
+                              <div className="text-xs text-slate-600 mt-1">
+                                Age {tester.age} • {tester.tech_literacy} tech literacy • {tester.tests_completed} tests completed
+                              </div>
+                              {tester.preferred_test_types && tester.preferred_test_types.length > 0 && (
+                                <div className="text-xs text-slate-500 mt-1">
+                                  Skills: {tester.preferred_test_types.slice(0, 3).map((t: string) => t.replace('_', ' ')).join(', ')}
+                                </div>
+                              )}
+                              <div className="text-xs text-purple-600 mt-1">{tester.reason}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500 mt-2">
+                      💡 Human testers will be automatically matched based on your AI/Human ratio slider
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Test Paths Section */}
             <div className="border-2 border-indigo-200 rounded-lg p-6 bg-indigo-50/50">
