@@ -11,19 +11,14 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = createClient()
 
-    // Check if user is admin
+    // Check if user is HitlAI admin
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: membership } = await supabase
-      .from('company_members')
-      .select('role')
-      .eq('user_id', user.id)
-      .single()
-
-    if (!membership || membership.role !== 'admin') {
+    // Only admin@hitlai.com has admin access
+    if (user.email !== 'admin@hitlai.com') {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
@@ -76,19 +71,14 @@ export async function PUT(request: NextRequest) {
   try {
     const supabase = createClient()
 
-    // Check if user is admin
+    // Check if user is HitlAI admin
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: membership } = await supabase
-      .from('company_members')
-      .select('role')
-      .eq('user_id', user.id)
-      .single()
-
-    if (!membership || membership.role !== 'admin') {
+    // Only admin@hitlai.com has admin access
+    if (user.email !== 'admin@hitlai.com') {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 

@@ -1,22 +1,25 @@
 # HitlAI Demo Credentials
 
-## Admin Account
+## Authentication Model
+
+**Simple Model**: One login per company. Only `admin@hitlai.com` has special admin privileges for the HitlAI platform.
+
+## Admin Account (HitlAI Platform Admin)
 - **Email**: `admin@hitlai.com`
 - **Password**: `demo123`
-- **Role**: Admin
 - **Access**: Full admin panel access including Digital Twins, Settings, Forge, etc.
+- **Note**: This is the ONLY account with admin privileges (checked by email address)
 
 ## Company Account
 - **Email**: `demo@company.com`
 - **Password**: `demo123`
-- **Role**: Company Owner
 - **Company**: Demo Corporation
-- **Access**: Create tests, view results, manage team
+- **Access**: Create tests, view results, manage company account
+- **Note**: One login per company (no multiple roles within company)
 
 ## Tester Account
 - **Email**: `demo@tester.com`
 - **Password**: `demo123`
-- **Role**: Human Tester
 - **Profile**: Demo Tester (Intermediate level, 4.5 rating, 25 tests completed)
 - **Access**: Accept tests, submit results, view earnings
 
@@ -33,10 +36,18 @@ npm run supabase:migrate
 # 20260114000002_add_admin_account.sql
 ```
 
+## Authentication Logic
+
+- **Admin Check**: `user.email === 'admin@hitlai.com'`
+- **Company Check**: User exists in `company_members` table
+- **Tester Check**: User exists in `human_testers` table
+- **No role-based permissions** within companies (one login per company)
+
 ## Notes
 
 - All accounts use the same password: `demo123`
-- The admin account has special privileges via the `company_members` table with `role = 'admin'`
+- Admin authentication is done by checking the email address directly
+- Each company has ONE login - no multiple users/roles per company
 - Demo data includes sample test requests and tester profiles
 - These are for development/testing only - change passwords in production!
 
@@ -45,5 +56,5 @@ npm run supabase:migrate
 If you can't log in:
 1. Ensure migrations have been run
 2. Check Supabase dashboard to verify users exist in `auth.users`
-3. Verify `company_members` table has the correct role assignments
+3. For admin access, verify email is exactly `admin@hitlai.com`
 4. Check browser console for authentication errors

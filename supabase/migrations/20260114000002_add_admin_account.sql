@@ -1,6 +1,8 @@
--- Add admin account and fix authentication for admin panel
+-- Add HitlAI admin account
+-- Simple authentication model: One login per company, only admin@hitlai.com has special admin privileges
 
 -- Insert admin user (admin@hitlai.com)
+-- This is the only account with admin privileges for the HitlAI platform
 INSERT INTO auth.users (
   id,
   instance_id,
@@ -22,46 +24,13 @@ INSERT INTO auth.users (
   NOW(),
   NOW(),
   '{"provider":"email","providers":["email"]}',
-  '{"name":"HitlAI Admin","role":"admin"}',
+  '{"name":"HitlAI Admin"}',
   false,
   'authenticated'
 ) ON CONFLICT (id) DO NOTHING;
 
--- Create admin company
-INSERT INTO companies (
-  id,
-  name,
-  slug,
-  website,
-  industry,
-  plan_type,
-  created_at,
-  updated_at
-) VALUES (
-  '00000000-0000-0000-0000-000000000010'::uuid,
-  'HitlAI Admin',
-  'hitlai-admin',
-  'https://hitlai.com',
-  'Technology',
-  'enterprise',
-  NOW(),
-  NOW()
-) ON CONFLICT (id) DO NOTHING;
+-- Note: Admin authentication is done by checking email === 'admin@hitlai.com'
+-- No need for role-based checks in company_members table
+-- Each company has one login, admin@hitlai.com is separate and has platform-wide admin access
 
--- Link admin user to admin company with admin role
-INSERT INTO company_members (
-  id,
-  company_id,
-  user_id,
-  role,
-  created_at
-) VALUES (
-  '00000000-0000-0000-0000-000000000010'::uuid,
-  '00000000-0000-0000-0000-000000000010'::uuid,
-  '00000000-0000-0000-0000-000000000010'::uuid,
-  'admin',
-  NOW()
-) ON CONFLICT (id) DO NOTHING;
-
--- Add comment
-COMMENT ON TABLE company_members IS 'Admin account: admin@hitlai.com (password: demo123, role: admin)';
+COMMENT ON TABLE auth.users IS 'Admin account: admin@hitlai.com (password: demo123) - Platform admin with special privileges';
