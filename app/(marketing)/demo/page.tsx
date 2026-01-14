@@ -1,4 +1,4 @@
-import { Users, Building2, Shield, ArrowRight, CheckCircle, Camera } from 'lucide-react';
+import { Users, Building2, ArrowRight, CheckCircle, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -87,7 +87,7 @@ export default function DemoPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Company Demo */}
             <div className="bg-white rounded-2xl border-2 border-blue-200 p-8 hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
@@ -196,59 +196,6 @@ export default function DemoPage() {
               </Link>
             </div>
 
-            {/* Admin Demo */}
-            <div className="bg-white rounded-2xl border-2 border-purple-200 p-8 hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
-                <Shield className="w-8 h-8 text-purple-600" />
-              </div>
-              
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">Admin Account</h3>
-              <p className="text-slate-600 mb-6">
-                Manage AI personas, review flagged testers, configure platform settings, and oversee operations
-              </p>
-
-              {/* Screenshot Placeholder */}
-              <div className="bg-slate-100 rounded-lg p-4 mb-6 aspect-video flex items-center justify-center">
-                <div className="text-center">
-                  <Camera className="w-12 h-12 text-slate-400 mx-auto mb-2" />
-                  <p className="text-sm text-slate-500">Admin Dashboard</p>
-                </div>
-              </div>
-
-              <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <CheckCircle className="w-4 h-4 text-purple-600" />
-                  <span>Manage AI digital twins</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <CheckCircle className="w-4 h-4 text-purple-600" />
-                  <span>Review flagged testers</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <CheckCircle className="w-4 h-4 text-purple-600" />
-                  <span>Configure platform settings</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <CheckCircle className="w-4 h-4 text-purple-600" />
-                  <span>Monitor system health</span>
-                </div>
-              </div>
-
-              <div className="bg-purple-50 rounded-lg p-4 mb-6">
-                <div className="text-sm text-slate-600 mb-1">Demo Credentials</div>
-                <div className="font-mono text-sm text-slate-900">
-                  <div>📧 admin@hitlai.com</div>
-                  <div>🔑 admin123</div>
-                </div>
-              </div>
-
-              <Link href="/admin/login">
-                <Button className="w-full bg-purple-600 hover:bg-purple-700">
-                  Try Admin Demo
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </section>
