@@ -24,6 +24,13 @@ export default function TesterLoginPage() {
     password: ''
   })
 
+  const fillDemoCredentials = () => {
+    setFormData({
+      email: 'demo@tester.com',
+      password: 'demo123'
+    })
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -89,6 +96,20 @@ export default function TesterLoginPage() {
               {error}
             </div>
           )}
+
+          <div className="bg-emerald-50/50 backdrop-blur-sm border border-emerald-200 rounded-lg p-4 mb-6">
+            <p className="text-sm text-slate-700 mb-2">
+              <strong>Demo Account:</strong> Try the platform with pre-filled credentials
+            </p>
+            <Button
+              type="button"
+              onClick={fillDemoCredentials}
+              variant="outline"
+              className="w-full border-emerald-600 text-emerald-600 hover:bg-emerald-50"
+            >
+              Use Demo Credentials
+            </Button>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
