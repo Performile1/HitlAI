@@ -67,17 +67,19 @@ WHERE u.email = 'admin@hitlai.com';
 
 **Test Registration:**
 ```
-Email: test-company@example.com
+Email: testcompany@gmail.com (use real domain, not example.com)
 Password: testpass123
 Company Name: Test Corp
 Website: https://testcorp.com
 Industry: Technology
 ```
 
+**Note:** Supabase blocks test domains like `example.com`. Use real email domains like `gmail.com`, `outlook.com`, or your own domain.
+
 **Verify in Supabase:**
 ```sql
 -- Check user was created
-SELECT * FROM auth.users WHERE email = 'test-company@example.com';
+SELECT * FROM auth.users WHERE email = 'testcompany@gmail.com';
 
 -- Check company was created
 SELECT * FROM companies WHERE name = 'Test Corp';
@@ -87,7 +89,7 @@ SELECT cm.*, c.name
 FROM company_members cm
 JOIN companies c ON cm.company_id = c.id
 JOIN auth.users u ON cm.user_id = u.id
-WHERE u.email = 'test-company@example.com';
+WHERE u.email = 'testcompany@gmail.com';
 ```
 
 ### Tester Registration (`/tester/signup`)
@@ -105,7 +107,7 @@ WHERE u.email = 'test-company@example.com';
 **Test Registration:**
 ```
 Step 1 - Account:
-  Email: test-tester@example.com
+  Email: testtester@gmail.com (use real domain, not example.com)
   Password: testpass123
   Display Name: Test Tester
 
@@ -136,10 +138,10 @@ Step 5 - Payment:
 **Verify in Supabase:**
 ```sql
 -- Check user was created
-SELECT * FROM auth.users WHERE email = 'test-tester@example.com';
+SELECT * FROM auth.users WHERE email = 'testtester@gmail.com';
 
 -- Check tester profile was created
-SELECT * FROM human_testers WHERE email = 'test-tester@example.com';
+SELECT * FROM human_testers WHERE email = 'testtester@gmail.com';
 
 -- Check tester details
 SELECT 
@@ -150,10 +152,21 @@ SELECT
   is_available,
   is_verified
 FROM human_testers 
-WHERE email = 'test-tester@example.com';
+WHERE email = 'testtester@gmail.com';
 ```
 
 ## Common Issues & Solutions
+
+### Issue: Email address is invalid (example.com blocked)
+**Cause:** Supabase blocks test domains like `example.com`, `test.com`, etc.
+**Solution:** Use real email domains for testing:
+- ✅ `testuser@gmail.com`
+- ✅ `testuser@outlook.com`
+- ✅ `testuser@yourdomain.com`
+- ❌ `testuser@example.com` (blocked)
+- ❌ `testuser@test.com` (blocked)
+
+**Alternative:** Disable email domain restrictions in Supabase Dashboard → Authentication → Settings (development only)
 
 ### Issue: User created but not in company_members/human_testers
 **Cause:** Database insert failed after auth signup
