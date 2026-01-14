@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Settings, Brain, Flag, Hammer, FileText, LogOut } from 'lucide-react'
+import { Settings, Brain, Flag, Hammer, FileText, LogOut, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
@@ -27,6 +27,7 @@ export default function AdminLayout({
   const navItems = [
     { href: '/admin/digital-twins', label: 'Digital Twins', icon: Brain },
     { href: '/admin/settings', label: 'Settings', icon: Settings },
+    { href: '/admin/blog', label: 'Blog CMS', icon: BookOpen },
     { href: '/admin/flagged-testers', label: 'Flagged Testers', icon: Flag },
     { href: '/admin/forge', label: 'The Forge', icon: Hammer },
     { href: '/admin/disputes', label: 'Disputes', icon: FileText },
