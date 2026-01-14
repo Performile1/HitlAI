@@ -312,8 +312,8 @@ export default function DemoPage() {
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <div className="font-semibold text-slate-900">$20 per test</div>
-                    <div className="text-sm">Earn immediately for every test you complete</div>
+                    <div className="font-semibold text-slate-900">$15-$30 per test</div>
+                    <div className="text-sm">Pay varies based on your seniority and quality rating</div>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
