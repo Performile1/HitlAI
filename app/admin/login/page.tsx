@@ -34,18 +34,10 @@ export default function AdminLoginPage() {
 
       if (authError) throw authError
 
-      // Verify admin role
-      const { data: userData, error: userError } = await supabase
-        .from('auth.users')
-        .select('raw_user_meta_data')
-        .eq('id', data.user.id)
-        .single()
-
-      const userType = data.user.user_metadata?.user_type
-      
-      if (userType !== 'admin') {
+      // Only admin@hitlai.com can access admin portal
+      if (data.user.email !== 'admin@hitlai.com') {
         await supabase.auth.signOut()
-        throw new Error('Access denied. Admin credentials required.')
+        throw new Error('Access denied. Only admin@hitlai.com can access this portal.')
       }
 
       router.push('/admin/digital-twins')

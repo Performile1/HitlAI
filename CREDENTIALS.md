@@ -7,8 +7,12 @@
 ## Admin Account (HitlAI Platform Admin)
 - **Email**: `admin@hitlai.com`
 - **Password**: `demo123`
-- **Access**: Full admin panel access including Digital Twins, Settings, Forge, etc.
-- **Note**: This is the ONLY account with admin privileges (checked by email address)
+- **Access**: Full admin panel ONLY - Digital Twins, Settings, Disputes, Flagged Testers, Margin Control, Payment Settings
+- **Note**: 
+  - This is the ONLY account with admin privileges (checked by email address)
+  - **NOT linked to any company** - completely isolated
+  - Cannot access company dashboards
+  - Only accessible via `/admin/login` portal
 
 ## Company Account
 - **Email**: `demo@company.com`
