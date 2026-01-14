@@ -17,9 +17,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Check user_type in metadata
-    const userType = user.user_metadata?.user_type
-    if (userType !== 'admin') {
+    const { data: membership } = await supabase
+      .from('company_members')
+      .select('role')
+      .eq('user_id', user.id)
+      .single()
+
+    if (!membership || membership.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
@@ -70,9 +74,13 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Check user_type in metadata
-    const userType = user.user_metadata?.user_type
-    if (userType !== 'admin') {
+    const { data: membership } = await supabase
+      .from('company_members')
+      .select('role')
+      .eq('user_id', user.id)
+      .single()
+
+    if (!membership || membership.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 

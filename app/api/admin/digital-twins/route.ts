@@ -17,28 +17,47 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: profile } = await supabase
-      .from('company_profiles')
+    const { data: membership } = await supabase
+      .from('company_members')
       .select('role')
       .eq('user_id', user.id)
       .single()
 
-    if (!profile || profile.role !== 'admin') {
+    if (!membership || membership.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
-    // Fetch all digital twins
-    const { data: twins, error } = await supabase
-      .from('digital_twin_performance')
+    // Fetch AI personas (AI testers)
+    const { data: aiPersonas, error: aiError } = await supabase
+      .from('personas')
       .select('*')
-      .order('accuracy_percent', { ascending: false }) as { data: any; error: any }
+      .order('name')
 
-    if (error) {
-      console.error('Error fetching digital twins:', error)
-      return NextResponse.json({ error: 'Failed to fetch digital twins' }, { status: 500 })
+    if (aiError) {
+      console.error('Error fetching AI personas:', aiError)
     }
 
-    return NextResponse.json({ twins })
+    // Fetch human testers
+    const { data: humanTesters, error: humanError } = await supabase
+      .from('human_testers')
+      .select('*')
+      .order('display_name')
+
+    if (humanError) {
+      console.error('Error fetching human testers:', humanError)
+    }
+
+    // Fetch digital twin performance metrics (if table exists)
+    const { data: twinMetrics } = await supabase
+      .from('digital_twin_performance')
+      .select('*')
+      .order('accuracy_percent', { ascending: false })
+
+    return NextResponse.json({ 
+      aiPersonas: aiPersonas || [],
+      humanTesters: humanTesters || [],
+      twinMetrics: twinMetrics || []
+    })
 
   } catch (error) {
     console.error('Error in GET /api/admin/digital-twins:', error)
@@ -63,13 +82,13 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: profile } = await supabase
-      .from('company_profiles')
+    const { data: membership } = await supabase
+      .from('company_members')
       .select('role')
       .eq('user_id', user.id)
       .single()
 
-    if (!profile || profile.role !== 'admin') {
+    if (!membership || membership.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
