@@ -343,26 +343,49 @@ export default function DemoPage() {
               <p className="text-blue-100 mb-6 font-medium">
                 Every test you complete trains an AI digital twin that learns your testing style. When that AI runs tests, you earn revenue share—forever.
               </p>
+              <div className="bg-white/10 rounded-lg p-4 mb-6">
+                <div className="text-sm text-blue-100 mb-3">
+                  <span className="font-semibold text-white">How it works:</span> After completing 20+ tests, your AI twin becomes active and can run tests independently.
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <div className="text-yellow-300 font-bold">50% revenue share</div>
+                    <div className="text-blue-100 text-xs">You earn $0.50 per AI test</div>
+                  </div>
+                  <div>
+                    <div className="text-yellow-300 font-bold">AI costs $1/test</div>
+                    <div className="text-blue-100 text-xs">vs $15-30 for human tests</div>
+                  </div>
+                  <div>
+                    <div className="text-yellow-300 font-bold">24/7 operation</div>
+                    <div className="text-blue-100 text-xs">Your AI works while you sleep</div>
+                  </div>
+                  <div>
+                    <div className="text-yellow-300 font-bold">Unlimited scale</div>
+                    <div className="text-blue-100 text-xs">No cap on monthly tests</div>
+                  </div>
+                </div>
+              </div>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <span className="text-yellow-300 text-xl flex-shrink-0">★</span>
                   <div>
-                    <div className="font-semibold">AI Revenue Share</div>
-                    <div className="text-sm text-blue-100">Earn when AI trained by you runs tests</div>
+                    <div className="font-semibold">Compound Growth</div>
+                    <div className="text-sm text-blue-100">More tests = smarter AI = more demand = higher earnings</div>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-yellow-300 text-xl flex-shrink-0">★</span>
                   <div>
                     <div className="font-semibold">Lifetime Earnings</div>
-                    <div className="text-sm text-blue-100">Continue earning after you stop testing</div>
+                    <div className="text-sm text-blue-100">Continue earning after you stop testing manually</div>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-yellow-300 text-xl flex-shrink-0">★</span>
                   <div>
                     <div className="font-semibold">Build an Asset</div>
-                    <div className="text-sm text-blue-100">Your expertise becomes revenue-generating</div>
+                    <div className="text-sm text-blue-100">Your expertise becomes a revenue-generating digital asset</div>
                   </div>
                 </li>
               </ul>
