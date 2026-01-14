@@ -273,7 +273,7 @@ export default function ScreenshotMarkup({ imageUrl, onSave, onClose }: Screensh
 
             {/* Drawing Elements */}
             {elements.map((element, i) => {
-              if (element.type === 'line') {
+              if (element.type === 'line' && element.points) {
                 return (
                   <Line
                     key={i}
@@ -308,7 +308,7 @@ export default function ScreenshotMarkup({ imageUrl, onSave, onClose }: Screensh
                     strokeWidth={element.strokeWidth}
                   />
                 );
-              } else if (element.type === 'arrow') {
+              } else if (element.type === 'arrow' && element.points) {
                 return (
                   <Arrow
                     key={i}
