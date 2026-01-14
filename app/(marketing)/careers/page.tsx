@@ -205,28 +205,28 @@ export default function CareersPage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-xl border border-slate-200">
-              <h3 className="font-semibold text-slate-900 mb-2">📄 Your Resume/CV</h3>
+              <h3 className="text-base font-semibold text-slate-900 mb-2">📄 Your Resume/CV</h3>
               <p className="text-sm text-slate-600">
                 Tell us about your experience, skills, and what you've built
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-slate-200">
-              <h3 className="font-semibold text-slate-900 mb-2">💡 Why HitlAI?</h3>
+              <h3 className="text-base font-semibold text-slate-900 mb-2">💡 Why HitlAI?</h3>
               <p className="text-sm text-slate-600">
                 What excites you about our mission and what you'd bring to the team
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-slate-200">
-              <h3 className="font-semibold text-slate-900 mb-2">🚀 Your Work</h3>
+              <h3 className="text-base font-semibold text-slate-900 mb-2">🚀 Your Work</h3>
               <p className="text-sm text-slate-600">
                 Portfolio, GitHub, or examples of projects you're proud of
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-slate-200">
-              <h3 className="font-semibold text-slate-900 mb-2">🎯 Your Role</h3>
+              <h3 className="text-base font-semibold text-slate-900 mb-2">🎯 Your Role</h3>
               <p className="text-sm text-slate-600">
                 What role you're interested in or how you see yourself contributing
               </p>
