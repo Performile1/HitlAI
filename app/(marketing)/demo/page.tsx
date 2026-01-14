@@ -343,6 +343,123 @@ export default function DemoPage() {
         </div>
       </section>
 
+      {/* Tester Incentive Model */}
+      <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">Earn Money as a Tester</h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              HitlAI offers a revolutionary incentive model: earn immediate income plus passive income forever
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-green-200">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                  <span className="text-2xl">💰</span>
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900">Immediate Earnings</h3>
+              </div>
+              <ul className="space-y-4 text-slate-600">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-slate-900">$20 per test</div>
+                    <div className="text-sm">Earn immediately for every test you complete</div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-slate-900">Weekly payouts</div>
+                    <div className="text-sm">Get paid every week via Stripe</div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-slate-900">Flexible schedule</div>
+                    <div className="text-sm">Work whenever you want, wherever you are</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-8 rounded-2xl shadow-lg text-white">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                  <span className="text-2xl">🚀</span>
+                </div>
+                <h3 className="text-2xl font-bold">Passive Income Forever</h3>
+              </div>
+              <p className="text-blue-100 mb-6 font-medium">
+                Every test you complete trains an AI digital twin that learns your testing style. When that AI runs tests, you earn revenue share—forever.
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <span className="text-yellow-300 text-xl flex-shrink-0">★</span>
+                  <div>
+                    <div className="font-semibold">AI Revenue Share</div>
+                    <div className="text-sm text-blue-100">Earn when AI trained by you runs tests</div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-yellow-300 text-xl flex-shrink-0">★</span>
+                  <div>
+                    <div className="font-semibold">Lifetime Earnings</div>
+                    <div className="text-sm text-blue-100">Continue earning after you stop testing</div>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-yellow-300 text-xl flex-shrink-0">★</span>
+                  <div>
+                    <div className="font-semibold">Build an Asset</div>
+                    <div className="text-sm text-blue-100">Your expertise becomes revenue-generating</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-slate-200">
+            <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">Real Example: Your Earning Potential</h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center p-6 bg-green-50 rounded-xl">
+                <div className="text-4xl font-black text-green-600 mb-2">$1,000</div>
+                <div className="text-sm text-slate-600 mb-2">Complete 50 tests</div>
+                <div className="text-xs text-slate-500">Immediate earnings</div>
+              </div>
+              <div className="text-center p-6 bg-blue-50 rounded-xl">
+                <div className="text-4xl font-black text-blue-600 mb-2">$250/mo</div>
+                <div className="text-sm text-slate-600 mb-2">Your AI runs 500 tests/month</div>
+                <div className="text-xs text-slate-500">Passive income (ongoing)</div>
+              </div>
+              <div className="text-center p-6 bg-purple-50 rounded-xl">
+                <div className="text-4xl font-black text-purple-600 mb-2">$3,000+</div>
+                <div className="text-sm text-slate-600 mb-2">After 1 year of AI revenue</div>
+                <div className="text-xs text-slate-500">Total passive earnings</div>
+              </div>
+            </div>
+            <p className="text-center text-sm text-slate-500 mt-6">
+              * Actual earnings vary based on AI performance, test volume, and quality ratings
+            </p>
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-lg text-slate-600 mb-6">
+              The more you test, the better your AI becomes, and the more passive income you generate.
+            </p>
+            <Link href="/tester/signup">
+              <Button size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-10 py-6 text-lg">
+                Start Earning as a Tester
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20">
         <div className="max-w-4xl mx-auto px-6 text-center">

@@ -112,8 +112,120 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team Section */}
+      {/* Tester Incentive Model */}
       <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-black text-slate-900 mb-12 text-center">Revolutionary Tester Incentive Model</h2>
+          
+          <div className="max-w-4xl mx-auto mb-12">
+            <p className="text-xl text-slate-600 text-center leading-relaxed">
+              We believe testers should be rewarded not just for their work today, but for the lasting value they create. 
+              That's why we've built a unique incentive system that generates <span className="font-bold text-slate-900">passive income forever</span>.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-white p-8 rounded-2xl shadow-lg">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                  <span className="text-2xl">💰</span>
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900">Immediate Earnings</h3>
+              </div>
+              <ul className="space-y-3 text-slate-600">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">✓</span>
+                  <span><strong>$20 per test</strong> - Earn immediately for every test you complete</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">✓</span>
+                  <span><strong>Weekly payouts</strong> - Get paid every week via Stripe</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">✓</span>
+                  <span><strong>Flexible schedule</strong> - Work whenever you want, wherever you are</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 font-bold">✓</span>
+                  <span><strong>No minimum hours</strong> - Take as many or as few tests as you like</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl shadow-lg border-2 border-blue-200">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
+                  <span className="text-2xl">🚀</span>
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900">Passive Income Forever</h3>
+              </div>
+              <p className="text-slate-700 mb-4 font-semibold">
+                Here's where it gets exciting: Every test you complete trains an AI digital twin that learns your testing style.
+              </p>
+              <ul className="space-y-3 text-slate-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-600 font-bold">★</span>
+                  <span><strong>AI Revenue Share</strong> - When AI trained by you runs tests, you earn a percentage</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-600 font-bold">★</span>
+                  <span><strong>Lifetime earnings</strong> - Continue earning long after you stop testing</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-600 font-bold">★</span>
+                  <span><strong>Compound growth</strong> - More tests = better AI = more passive income</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-600 font-bold">★</span>
+                  <span><strong>Build an asset</strong> - Your testing expertise becomes a revenue-generating asset</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-8 rounded-2xl text-white">
+            <h3 className="text-2xl font-bold mb-4 text-center">Real Example</h3>
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div>
+                <div className="text-4xl font-black mb-2">50 tests</div>
+                <div className="text-green-100 text-sm">You complete 50 tests</div>
+                <div className="text-2xl font-bold mt-2">= $1,000</div>
+                <div className="text-green-100 text-sm">Immediate earnings</div>
+              </div>
+              <div>
+                <div className="text-4xl font-black mb-2">AI trained</div>
+                <div className="text-green-100 text-sm">Your AI runs 500 tests/month</div>
+                <div className="text-2xl font-bold mt-2">+ $250/mo</div>
+                <div className="text-green-100 text-sm">Passive income (forever)</div>
+              </div>
+              <div>
+                <div className="text-4xl font-black mb-2">1 year</div>
+                <div className="text-green-100 text-sm">After 1 year of passive income</div>
+                <div className="text-2xl font-bold mt-2">= $3,000+</div>
+                <div className="text-green-100 text-sm">Total from AI revenue share</div>
+              </div>
+            </div>
+            <p className="text-center mt-6 text-green-100 text-sm">
+              * Actual earnings vary based on AI performance, test volume, and quality ratings
+            </p>
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-lg text-slate-600 mb-6">
+              The more you test, the better your AI becomes, and the more passive income you generate. 
+              It's like building a portfolio that pays dividends forever.
+            </p>
+            <Link href="/tester/signup">
+              <Button size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-10 py-6 text-lg">
+                Start Earning Today
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-black text-slate-900 mb-12 text-center">Leadership</h2>
           <div className="max-w-2xl mx-auto">
