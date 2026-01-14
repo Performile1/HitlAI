@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import puppeteer from 'puppeteer-core'
 import chromium from '@sparticuz/chromium'
 
-export const runtime = 'edge'
-export const maxDuration = 60 // Vercel Pro: 60 seconds
+export const runtime = 'nodejs'
+export const maxDuration = 60
 
 interface CrawlRequest {
   url: string
@@ -168,7 +168,7 @@ export async function POST(request: NextRequest) {
         has_javascript: true,
         links_count: links.length,
         renderer: 'puppeteer-chromium',
-        vercel_edge: true
+        vercel_edge: false
       }
     }
 
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
         metadata: {
           crawl_time: Date.now() - startTime,
           renderer: 'puppeteer-chromium',
-          vercel_edge: true
+          vercel_edge: false
         }
       } as CrawlResult,
       { status: 500 }
@@ -212,7 +212,7 @@ export async function GET() {
   return NextResponse.json({
     status: 'healthy',
     service: 'crawl-vercel',
-    runtime: 'edge',
+    runtime: 'nodejs',
     renderer: 'puppeteer-chromium'
   })
 }
