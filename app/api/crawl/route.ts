@@ -55,37 +55,33 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Call Crawl4AI Python service
-    const crawl4aiUrl = process.env.CRAWL4AI_SERVICE_URL || 'http://localhost:8001'
+    // Use Vercel Edge Function for crawling (Puppeteer + Chromium)
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 
+                    (request.headers.get('host')?.includes('localhost') 
+                      ? 'http://localhost:3000' 
+                      : `https://${request.headers.get('host')}`)
     
-    const response = await fetch(`${crawl4aiUrl}/crawl`, {
+    const response = await fetch(`${baseUrl}/api/crawl-vercel`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         url: body.url,
-        wait_for: body.waitFor,
+        waitFor: body.waitFor,
         screenshot: body.screenshot || false,
-        extract_links: body.extractLinks !== false,
-        wait_time: body.waitTime || 2
+        extractLinks: body.extractLinks !== false,
+        waitTime: body.waitTime || 2
       })
     })
 
     if (!response.ok) {
       const error = await response.text()
-      console.error('Crawl4AI service error:', error)
+      console.error('Vercel crawl service error:', error)
       
-      // Fallback to basic fetch if service unavailable
-      if (response.status === 503 || response.status === 500) {
-        console.warn('Crawl4AI service unavailable, falling back to basic fetch')
-        return await fallbackCrawl(body.url)
-      }
-      
-      return NextResponse.json(
-        { error: 'Crawl service error', details: error },
-        { status: response.status }
-      )
+      // Fallback to basic fetch if Edge Function fails
+      console.warn('Vercel Edge Function failed, falling back to basic fetch')
+      return await fallbackCrawl(body.url)
     }
 
     const result: CrawlResult = await response.json()

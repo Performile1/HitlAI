@@ -42,7 +42,9 @@
     "clsx": "^2.0.0",
     "tailwind-merge": "^2.2.0",
     "@radix-ui/react-switch": "^1.0.3",
-    "@radix-ui/react-slider": "^1.1.2"
+    "@radix-ui/react-slider": "^1.1.2",
+    "puppeteer-core": "^21.9.0",
+    "@sparticuz/chromium": "^121.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",

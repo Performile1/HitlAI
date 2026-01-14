@@ -5,6 +5,10 @@
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
+    "app/api/crawl-vercel/route.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    },
     "app/api/**/*.ts": {
       "maxDuration": 300,
       "memory": 3008
