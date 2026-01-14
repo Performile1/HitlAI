@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { ArrowLeft, Brain } from 'lucide-react'
+import { ArrowLeft, Brain, Plus, Trash2 } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -34,12 +34,29 @@ export default function NewTestPage() {
     url: '',
     mission: '',
     testType: 'ai_only' as 'ai_only' | 'human_only' | 'hybrid',
-    aiHumanRatio: 100, // 0 = 100% Human, 100 = 100% AI
+    aiHumanRatio: 100,
     selectedPersonas: [] as string[],
     testDimensions: ['happy_path', 'negative_testing', 'accessibility'] as string[],
     requiredTesters: 3,
-    totalTests: 5
+    totalTests: 5,
+    testFixtures: {
+      loginCredentials: [{ email: '', password: '', description: '' }],
+      testCards: [{ number: '', expiry: '', cvc: '', name: '' }],
+      coupons: [{ code: '', description: '' }],
+      testData: [{ field: '', value: '', description: '' }]
+    },
+    testPaths: {
+      happyPath: '',
+      negativePaths: ['']
+    }
   })
+
+  const [aiSuggestions, setAiSuggestions] = useState<{
+    happyPath?: string
+    negativePaths?: string[]
+    fixtures?: any
+  } | null>(null)
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false)
 
   useEffect(() => {
     loadData()
@@ -62,7 +79,6 @@ export default function NewTestPage() {
       if (!membership) return
       setCompanyId(membership.company_id)
 
-      // Load available personas
       const { data: personasData } = await supabase
         .from('personas')
         .select('*')
@@ -81,7 +97,6 @@ export default function NewTestPage() {
     setLoading(true)
 
     try {
-      // Create test request
       const { data: testRequest, error } = await supabase
         .from('test_requests')
         .insert({
@@ -96,6 +111,8 @@ export default function NewTestPage() {
           required_ai_testers: Math.round(formData.aiHumanRatio / 100 * formData.totalTests),
           total_tests: formData.totalTests,
           ai_human_ratio: formData.aiHumanRatio,
+          test_fixtures: formData.testFixtures,
+          test_paths: formData.testPaths,
           status: 'pending'
         })
         .select()
@@ -103,7 +120,6 @@ export default function NewTestPage() {
 
       if (error) throw error
 
-      // Trigger test execution via API
       await fetch('/api/test-requests/execute', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -134,6 +150,94 @@ export default function NewTestPage() {
       testDimensions: prev.testDimensions.includes(dimension)
         ? prev.testDimensions.filter(d => d !== dimension)
         : [...prev.testDimensions, dimension]
+    }))
+  }
+
+  const generateAISuggestions = async () => {
+    if (!formData.mission || !formData.url) {
+      alert('Please fill in the test objective and URL first')
+      return
+    }
+
+    setLoadingSuggestions(true)
+    try {
+      const response = await fetch('/api/ai/suggest-test-paths', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mission: formData.mission,
+          url: formData.url,
+          title: formData.title
+        })
+      })
+
+      const suggestions = await response.json()
+      setAiSuggestions(suggestions)
+      
+      if (suggestions.happyPath) {
+        setFormData(prev => ({
+          ...prev,
+          testPaths: {
+            happyPath: suggestions.happyPath,
+            negativePaths: suggestions.negativePaths || prev.testPaths.negativePaths
+          }
+        }))
+      }
+    } catch (error) {
+      console.error('Failed to generate suggestions:', error)
+      alert('Failed to generate AI suggestions')
+    } finally {
+      setLoadingSuggestions(false)
+    }
+  }
+
+  const addLoginCredential = () => {
+    setFormData(prev => ({
+      ...prev,
+      testFixtures: {
+        ...prev.testFixtures,
+        loginCredentials: [...prev.testFixtures.loginCredentials, { email: '', password: '', description: '' }]
+      }
+    }))
+  }
+
+  const addTestCard = () => {
+    setFormData(prev => ({
+      ...prev,
+      testFixtures: {
+        ...prev.testFixtures,
+        testCards: [...prev.testFixtures.testCards, { number: '', expiry: '', cvc: '', name: '' }]
+      }
+    }))
+  }
+
+  const addCoupon = () => {
+    setFormData(prev => ({
+      ...prev,
+      testFixtures: {
+        ...prev.testFixtures,
+        coupons: [...prev.testFixtures.coupons, { code: '', description: '' }]
+      }
+    }))
+  }
+
+  const addTestData = () => {
+    setFormData(prev => ({
+      ...prev,
+      testFixtures: {
+        ...prev.testFixtures,
+        testData: [...prev.testFixtures.testData, { field: '', value: '', description: '' }]
+      }
+    }))
+  }
+
+  const addNegativePath = () => {
+    setFormData(prev => ({
+      ...prev,
+      testPaths: {
+        ...prev.testPaths,
+        negativePaths: [...prev.testPaths.negativePaths, '']
+      }
     }))
   }
 
@@ -187,6 +291,329 @@ export default function NewTestPage() {
                 placeholder="E.g., Navigate to checkout and complete purchase with test credit card"
                 rows={3}
               />
+              <div className="mt-2">
+                <Button
+                  type="button"
+                  onClick={generateAISuggestions}
+                  disabled={loadingSuggestions || !formData.mission || !formData.url}
+                  variant="outline"
+                  className="text-sm"
+                >
+                  <Brain className="w-4 h-4 mr-2" />
+                  {loadingSuggestions ? 'Generating...' : 'AI Suggest Test Paths'}
+                </Button>
+              </div>
+            </div>
+
+            {/* Test Paths Section */}
+            <div className="border-2 border-indigo-200 rounded-lg p-6 bg-indigo-50/50">
+              <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
+                <span className="text-indigo-600 mr-2">🎯</span>
+                Test Paths
+              </h3>
+
+              {/* Happy Path */}
+              <div className="mb-4">
+                <Label htmlFor="happyPath">Happy Path (Expected Flow)</Label>
+                <Textarea
+                  id="happyPath"
+                  value={formData.testPaths.happyPath}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    testPaths: { ...formData.testPaths, happyPath: e.target.value }
+                  })}
+                  placeholder="E.g., User logs in → Adds item to cart → Proceeds to checkout → Enters payment info → Completes purchase"
+                  rows={2}
+                  className="bg-white"
+                />
+              </div>
+
+              {/* Negative Paths */}
+              <div>
+                <Label>Negative Paths (Edge Cases & Error Scenarios)</Label>
+                {formData.testPaths.negativePaths.map((path, index) => (
+                  <div key={index} className="mt-2 flex gap-2">
+                    <Input
+                      value={path}
+                      onChange={(e) => {
+                        const newPaths = [...formData.testPaths.negativePaths]
+                        newPaths[index] = e.target.value
+                        setFormData({
+                          ...formData,
+                          testPaths: { ...formData.testPaths, negativePaths: newPaths }
+                        })
+                      }}
+                      placeholder={`E.g., Try invalid credit card, empty form submission, expired coupon`}
+                      className="bg-white"
+                    />
+                    {formData.testPaths.negativePaths.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const newPaths = formData.testPaths.negativePaths.filter((_, i) => i !== index)
+                          setFormData({
+                            ...formData,
+                            testPaths: { ...formData.testPaths, negativePaths: newPaths }
+                          })
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  onClick={addNegativePath}
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                >
+                  + Add Negative Path
+                </Button>
+              </div>
+            </div>
+
+            {/* Test Fixtures Section */}
+            <div className="border-2 border-emerald-200 rounded-lg p-6 bg-emerald-50/50">
+              <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
+                <span className="text-emerald-600 mr-2">🔧</span>
+                Test Fixtures (Test Data for Testers)
+              </h3>
+              <p className="text-sm text-slate-600 mb-4">
+                Provide test data that testers (both AI and human) can use to complete the test
+              </p>
+
+              {/* Login Credentials */}
+              <div className="mb-6">
+                <Label className="text-sm font-semibold">Login Credentials</Label>
+                {formData.testFixtures.loginCredentials.map((cred, index) => (
+                  <div key={index} className="grid grid-cols-3 gap-2 mt-2">
+                    <Input
+                      placeholder="Email"
+                      value={cred.email}
+                      onChange={(e) => {
+                        const newCreds = [...formData.testFixtures.loginCredentials]
+                        newCreds[index].email = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, loginCredentials: newCreds }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                    <Input
+                      placeholder="Password"
+                      type="text"
+                      value={cred.password}
+                      onChange={(e) => {
+                        const newCreds = [...formData.testFixtures.loginCredentials]
+                        newCreds[index].password = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, loginCredentials: newCreds }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                    <Input
+                      placeholder="Description (e.g., Valid user)"
+                      value={cred.description}
+                      onChange={(e) => {
+                        const newCreds = [...formData.testFixtures.loginCredentials]
+                        newCreds[index].description = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, loginCredentials: newCreds }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  onClick={addLoginCredential}
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                >
+                  + Add Login
+                </Button>
+              </div>
+
+              {/* Test Credit Cards */}
+              <div className="mb-6">
+                <Label className="text-sm font-semibold">Test Credit Cards</Label>
+                {formData.testFixtures.testCards.map((card, index) => (
+                  <div key={index} className="grid grid-cols-4 gap-2 mt-2">
+                    <Input
+                      placeholder="Card Number"
+                      value={card.number}
+                      onChange={(e) => {
+                        const newCards = [...formData.testFixtures.testCards]
+                        newCards[index].number = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, testCards: newCards }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                    <Input
+                      placeholder="MM/YY"
+                      value={card.expiry}
+                      onChange={(e) => {
+                        const newCards = [...formData.testFixtures.testCards]
+                        newCards[index].expiry = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, testCards: newCards }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                    <Input
+                      placeholder="CVC"
+                      value={card.cvc}
+                      onChange={(e) => {
+                        const newCards = [...formData.testFixtures.testCards]
+                        newCards[index].cvc = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, testCards: newCards }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                    <Input
+                      placeholder="Name on card"
+                      value={card.name}
+                      onChange={(e) => {
+                        const newCards = [...formData.testFixtures.testCards]
+                        newCards[index].name = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, testCards: newCards }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  onClick={addTestCard}
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                >
+                  + Add Card
+                </Button>
+              </div>
+
+              {/* Coupons */}
+              <div className="mb-6">
+                <Label className="text-sm font-semibold">Coupon Codes</Label>
+                {formData.testFixtures.coupons.map((coupon, index) => (
+                  <div key={index} className="grid grid-cols-2 gap-2 mt-2">
+                    <Input
+                      placeholder="Coupon Code"
+                      value={coupon.code}
+                      onChange={(e) => {
+                        const newCoupons = [...formData.testFixtures.coupons]
+                        newCoupons[index].code = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, coupons: newCoupons }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                    <Input
+                      placeholder="Description (e.g., 10% off)"
+                      value={coupon.description}
+                      onChange={(e) => {
+                        const newCoupons = [...formData.testFixtures.coupons]
+                        newCoupons[index].description = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, coupons: newCoupons }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  onClick={addCoupon}
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                >
+                  + Add Coupon
+                </Button>
+              </div>
+
+              {/* Other Test Data */}
+              <div>
+                <Label className="text-sm font-semibold">Other Test Data</Label>
+                {formData.testFixtures.testData.map((data, index) => (
+                  <div key={index} className="grid grid-cols-3 gap-2 mt-2">
+                    <Input
+                      placeholder="Field Name"
+                      value={data.field}
+                      onChange={(e) => {
+                        const newData = [...formData.testFixtures.testData]
+                        newData[index].field = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, testData: newData }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                    <Input
+                      placeholder="Value"
+                      value={data.value}
+                      onChange={(e) => {
+                        const newData = [...formData.testFixtures.testData]
+                        newData[index].value = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, testData: newData }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                    <Input
+                      placeholder="Description"
+                      value={data.description}
+                      onChange={(e) => {
+                        const newData = [...formData.testFixtures.testData]
+                        newData[index].description = e.target.value
+                        setFormData({
+                          ...formData,
+                          testFixtures: { ...formData.testFixtures, testData: newData }
+                        })
+                      }}
+                      className="bg-white text-sm"
+                    />
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  onClick={addTestData}
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                >
+                  + Add Test Data
+                </Button>
+              </div>
             </div>
 
             {/* AI vs Human Slider */}
@@ -199,7 +626,6 @@ export default function NewTestPage() {
               </div>
               
               <div className="bg-gradient-to-r from-green-50 via-purple-50 to-blue-50 p-6 rounded-xl border-2 border-slate-200">
-                {/* Slider */}
                 <div className="relative">
                   <input
                     type="range"
@@ -220,7 +646,6 @@ export default function NewTestPage() {
                     }}
                   />
                   
-                  {/* Labels */}
                   <div className="flex justify-between mt-2 text-xs font-medium">
                     <span className="text-green-700">👤 100% Human</span>
                     <span className="text-purple-700">⚖️ Hybrid</span>
@@ -228,7 +653,6 @@ export default function NewTestPage() {
                   </div>
                 </div>
 
-                {/* Current Selection Display */}
                 <div className="mt-6 grid grid-cols-2 gap-4">
                   <div className="bg-white p-4 rounded-lg border border-green-200">
                     <div className="text-2xl font-black text-green-600">
@@ -246,7 +670,6 @@ export default function NewTestPage() {
                   </div>
                 </div>
 
-                {/* Total Cost */}
                 <div className="mt-4 p-4 bg-slate-900 text-white rounded-lg text-center">
                   <div className="text-sm text-slate-400">Total Estimated Cost</div>
                   <div className="text-3xl font-black">
@@ -258,7 +681,6 @@ export default function NewTestPage() {
                 </div>
               </div>
 
-              {/* Total Tests Input */}
               <div>
                 <Label htmlFor="totalTests">Total Number of Tests</Label>
                 <Input
@@ -288,37 +710,17 @@ export default function NewTestPage() {
               <div className="grid grid-cols-2 gap-4 mt-2">
                 {personas
                   .filter(persona => {
-                    // Filter personas based on test objective keywords
                     if (!formData.mission) return true
                     const mission = formData.mission.toLowerCase()
                     const literacy = persona.tech_literacy.toLowerCase()
                     
-                    // Accessibility tests - include all literacy levels
-                    if (mission.includes('accessibility') || mission.includes('wcag')) {
-                      return true
-                    }
+                    if (mission.includes('accessibility') || mission.includes('wcag')) return true
+                    if (mission.includes('checkout') || mission.includes('purchase') || mission.includes('cart')) return literacy !== 'low'
+                    if (mission.includes('senior') || mission.includes('elderly') || mission.includes('60+')) return literacy !== 'high' && persona.age >= 55
+                    if (mission.includes('developer') || mission.includes('technical') || mission.includes('api')) return literacy === 'high'
+                    if (mission.includes('mobile') || mission.includes('app')) return literacy !== 'low'
                     
-                    // E-commerce/checkout - prefer medium to high literacy
-                    if (mission.includes('checkout') || mission.includes('purchase') || mission.includes('cart')) {
-                      return literacy !== 'low'
-                    }
-                    
-                    // Senior/elderly focused - prefer low to medium literacy
-                    if (mission.includes('senior') || mission.includes('elderly') || mission.includes('60+')) {
-                      return literacy !== 'high' && persona.age >= 55
-                    }
-                    
-                    // Tech/developer focused - prefer high literacy
-                    if (mission.includes('developer') || mission.includes('technical') || mission.includes('api')) {
-                      return literacy === 'high'
-                    }
-                    
-                    // Mobile/app - prefer medium to high
-                    if (mission.includes('mobile') || mission.includes('app')) {
-                      return literacy !== 'low'
-                    }
-                    
-                    return true // Show all by default
+                    return true
                   })
                   .map((persona) => (
                     <button
@@ -338,19 +740,6 @@ export default function NewTestPage() {
                     </button>
                   ))}
               </div>
-              {personas.filter(p => {
-                if (!formData.mission) return true
-                const mission = formData.mission.toLowerCase()
-                const literacy = p.tech_literacy.toLowerCase()
-                if (mission.includes('accessibility') || mission.includes('wcag')) return true
-                if (mission.includes('checkout') || mission.includes('purchase') || mission.includes('cart')) return literacy !== 'low'
-                if (mission.includes('senior') || mission.includes('elderly') || mission.includes('60+')) return literacy !== 'high' && p.age >= 55
-                if (mission.includes('developer') || mission.includes('technical') || mission.includes('api')) return literacy === 'high'
-                if (mission.includes('mobile') || mission.includes('app')) return literacy !== 'low'
-                return true
-              }).length === 0 && (
-                <p className="text-sm text-amber-600 mt-2">⚠️ No personas match your objective. Try adjusting your test description.</p>
-              )}
             </div>
 
             {/* Test Dimensions */}
@@ -377,7 +766,6 @@ export default function NewTestPage() {
                 ))}
               </div>
             </div>
-
 
             <div className="flex justify-end space-x-4 pt-6 border-t">
               <Link href="/company/dashboard">
