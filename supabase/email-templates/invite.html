@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're Invited - HitlAI</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      margin: 0;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    h1 {
+      color: #1e293b;
+      font-size: 24px;
+      margin: 0 0 20px 0;
+      font-weight: 600;
+    }
+    p {
+      color: #475569;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0 0 20px 0;
+    }
+    .button {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    .footer {
+      background: #f8fafc;
+      padding: 30px;
+      text-align: center;
+      border-top: 1px solid #e2e8f0;
+    }
+    .footer p {
+      color: #64748b;
+      font-size: 14px;
+      margin: 5px 0;
+    }
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">HitlAI</div>
+      <p class="tagline">Human-in-the-Loop AI Testing Platform</p>
+    </div>
+    <div class="content">
+      <h1>You're Invited to Join HitlAI</h1>
+      <p>Hi there! 👋</p>
+      <p>You've been invited to join HitlAI. Click the button below to accept your invitation and set up your account.</p>
+      <center>
+        <a href="{{ .ConfirmationURL }}" class="button">Accept Invitation</a>
+      </center>
+      <p style="margin-top: 30px;">
+        Best regards,<br>
+        <strong>The HitlAI Team</strong>
+      </p>
+    </div>
+    <div class="footer">
+      <p><strong>HitlAI</strong> - Revolutionizing Software Testing</p>
+      <p>© 2026 HitlAI. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
