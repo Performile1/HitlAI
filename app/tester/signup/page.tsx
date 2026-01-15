@@ -463,13 +463,16 @@ export default function TesterSignupPage() {
                   </div>
                 )}
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <h3 className="font-semibold text-green-900 mb-2">Earnings Structure</h3>
+                  <h3 className="font-semibold text-green-900 mb-2">💰 Your Earnings</h3>
                   <ul className="text-sm text-green-800 space-y-1">
-                    <li>• Base rate: $20 per test</li>
-                    <li>• Platform fee: 30% (New Tester)</li>
-                    <li>• Your earnings: $14 per test initially</li>
-                    <li>• Earn more as you level up (15-25% fee for higher tiers)</li>
+                    <li>• Start at <strong>$14 per test</strong></li>
+                    <li>• Level up to earn <strong>$15-$17 per test</strong></li>
+                    <li>• Fast payouts via Stripe or PayPal</li>
+                    <li>• No minimum payout threshold</li>
                   </ul>
+                  <p className="text-xs text-green-700 mt-2 italic">
+                    Rates increase as you complete more tests and maintain high quality
+                  </p>
                 </div>
               </>
             )}
