@@ -28,6 +28,24 @@ export default function MarketingHeader() {
             <Link href="/pricing" className="text-slate-600 hover:text-slate-900 transition-colors">
               Pricing
             </Link>
+            <div className="relative group">
+              <button className="text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-1">
+                Programs
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <Link href="/early-adopter" className="block px-4 py-3 text-slate-700 hover:bg-blue-50 rounded-t-lg transition-colors">
+                  <div className="font-semibold text-blue-600">Early Adopter</div>
+                  <div className="text-xs text-slate-600">Up to 25% lifetime discount</div>
+                </Link>
+                <Link href="/founding-tester" className="block px-4 py-3 text-slate-700 hover:bg-green-50 rounded-b-lg transition-colors">
+                  <div className="font-semibold text-green-600">Founding Tester</div>
+                  <div className="text-xs text-slate-600">40% revenue + equity</div>
+                </Link>
+              </div>
+            </div>
             <Link href="/demo" className="text-slate-600 hover:text-slate-900 transition-colors">
               Demo
             </Link>
@@ -81,6 +99,22 @@ export default function MarketingHeader() {
               >
                 Pricing
               </Link>
+              <div className="pl-4 space-y-2 border-l-2 border-slate-200">
+                <Link 
+                  href="/early-adopter" 
+                  className="block text-blue-600 hover:text-blue-700 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Early Adopter Program
+                </Link>
+                <Link 
+                  href="/founding-tester" 
+                  className="block text-green-600 hover:text-green-700 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Founding Tester Program
+                </Link>
+              </div>
               <Link 
                 href="/demo" 
                 className="text-slate-600 hover:text-slate-900 transition-colors"

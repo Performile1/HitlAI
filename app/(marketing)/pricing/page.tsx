@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { CheckCircle, Zap, Star, TrendingUp } from 'lucide-react'
+import { CheckCircle, Zap, Star, TrendingUp, Sparkles, TrendingDown } from 'lucide-react'
+import EarlyAdopterCard from '@/components/EarlyAdopterCard'
 
 const creditPackages = [
   {
@@ -127,6 +128,74 @@ export default function PricingPage() {
             Pay only for what you use. No hidden fees. Credits never expire.
           </p>
         </div>
+
+        {/* Early Adopter Programs */}
+        <section className="mb-20">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100">
+              <Sparkles className="w-4 h-4 text-purple-600" />
+              <span className="text-sm font-semibold text-purple-700">Limited Time Opportunity</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
+              Lock In Lifetime Discounts
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              Join our early adopter program and save up to 25% forever. As our AI improves, 
+              prices drop for everyone—but early adopters keep their exclusive discounts.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <EarlyAdopterCard type="company" />
+            <EarlyAdopterCard type="tester" />
+          </div>
+
+          {/* Price Evolution Timeline */}
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-8 border border-blue-100">
+            <div className="flex items-center gap-3 mb-6">
+              <TrendingDown className="w-8 h-8 text-blue-600" />
+              <h3 className="text-2xl font-bold text-slate-900">How Prices Drop as AI Improves</h3>
+            </div>
+            
+            <div className="grid md:grid-cols-4 gap-4">
+              <div className="bg-white rounded-lg p-4 border-2 border-blue-200">
+                <div className="text-sm font-semibold text-blue-600 mb-2">Phase 1: Now</div>
+                <div className="text-2xl font-bold text-slate-900 mb-1">$5</div>
+                <div className="text-xs text-slate-600">per AI test</div>
+                <div className="text-xs text-slate-500 mt-2">External APIs (GPT-4, Claude)</div>
+              </div>
+
+              <div className="bg-white rounded-lg p-4 border-2 border-purple-200">
+                <div className="text-sm font-semibold text-purple-600 mb-2">Phase 2: 1,000 tests</div>
+                <div className="text-2xl font-bold text-slate-900 mb-1">$3</div>
+                <div className="text-xs text-slate-600">per AI test (40% off)</div>
+                <div className="text-xs text-slate-500 mt-2">Fine-tuned models</div>
+              </div>
+
+              <div className="bg-white rounded-lg p-4 border-2 border-green-200">
+                <div className="text-sm font-semibold text-green-600 mb-2">Phase 3: 5,000 tests</div>
+                <div className="text-2xl font-bold text-slate-900 mb-1">$1.50</div>
+                <div className="text-xs text-slate-600">per AI test (70% off)</div>
+                <div className="text-xs text-slate-500 mt-2">Self-hosted LLaMA/Mixtral</div>
+              </div>
+
+              <div className="bg-white rounded-lg p-4 border-2 border-orange-200">
+                <div className="text-sm font-semibold text-orange-600 mb-2">Phase 4: 10,000 tests</div>
+                <div className="text-2xl font-bold text-slate-900 mb-1">$1</div>
+                <div className="text-xs text-slate-600">per AI test (80% off)</div>
+                <div className="text-xs text-slate-500 mt-2">Full hybrid optimization</div>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-white rounded-lg border border-blue-200">
+              <p className="text-sm text-slate-700">
+                <strong className="text-blue-600">Early Adopter Advantage:</strong> If you lock in a 25% discount today at $5/test, 
+                you'll pay <strong>$3.75</strong> in Phase 1, <strong>$2.25</strong> in Phase 2, <strong>$1.13</strong> in Phase 3, 
+                and <strong>$0.75</strong> in Phase 4. Your discount compounds with every improvement!
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* Pay-Per-Test Pricing */}
         <div className="bg-white rounded-2xl p-8 shadow-xl mb-16 animate-fade-in-up" style={{animationDelay: '0.1s'}}>

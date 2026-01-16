@@ -9,10 +9,14 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Brain, Users, Zap, Shield, TrendingUp, CheckCircle, Sparkles, Target, BarChart3 } from 'lucide-react'
+import ProgressBanner from '@/components/ProgressBanner'
+import EarlyAdopterCard from '@/components/EarlyAdopterCard'
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
+      {/* Progress Banner */}
+      <ProgressBanner />
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-mesh">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50" />
@@ -293,6 +297,29 @@ export default function HomePage() {
                 </Button>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Early Adopter Programs */}
+      <section className="py-32 bg-gradient-to-b from-slate-50 to-white relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100">
+              <Sparkles className="w-4 h-4 text-purple-600" />
+              <span className="text-sm font-semibold text-purple-700">Limited Time Opportunity</span>
+            </div>
+            <h3 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">
+              Join the Journey
+            </h3>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Be part of building the future of AI testing. Lock in exclusive benefits as an early adopter.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <EarlyAdopterCard type="company" />
+            <EarlyAdopterCard type="tester" />
           </div>
         </div>
       </section>

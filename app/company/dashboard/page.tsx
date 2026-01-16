@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Brain, Plus, Clock, CheckCircle, AlertCircle, Users, TrendingUp } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
+import PhaseProgressCard from '@/components/PhaseProgressCard'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -200,6 +201,9 @@ export default function CompanyDashboardPage() {
             </p>
           </div>
         </div>
+
+        {/* AI Evolution Progress */}
+        <PhaseProgressCard />
 
         {/* Recent Tests */}
         <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 shadow-xl animate-fade-in-up" style={{animationDelay: '0.4s'}}>

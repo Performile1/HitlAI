@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { HitlAIOrchestrator } from '@/lib/orchestrator'
+import { TrainingDataCollector } from '@/lib/training/dataCollector'
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -54,6 +55,33 @@ export async function POST(request: NextRequest) {
         updated_at: new Date().toISOString()
       })
       .eq('id', testRunId)
+
+    // Capture training data if test completed successfully
+    if (finalStatus === 'completed') {
+      await TrainingDataCollector.captureTrainingData({
+        testRunId: testRun.id,
+        testerId: testRun.tester_id,
+        companyId: testRun.company_id,
+        inputData: {
+          url: testRun.url,
+          mission: testRun.mission,
+          persona: testRun.persona,
+          testType: testRun.test_type || 'ai_only',
+          additionalContext: testRun.additional_context
+        },
+        aiOutput: {
+          sentiment: result.sentimentScore,
+          issuesFound: result.report?.issues || [],
+          recommendations: result.report?.recommendations || [],
+          testResults: result.report
+        },
+        companyRating: testRun.company_ai_rating,
+        modelVersion: 'v1'
+      }).catch(err => {
+        console.error('Failed to capture training data:', err)
+        // Don't fail the test if training data capture fails
+      })
+    
 
     return NextResponse.json({
       success: true,

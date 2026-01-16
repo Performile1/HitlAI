@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Brain, CheckCircle, Clock, DollarSign, Star } from 'lucide-react'
+import { Brain, CheckCircle, Clock, DollarSign, Star, Sparkles, Award } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -177,9 +177,43 @@ export default function TesterDashboardPage() {
           </div>
         </div>
 
+        {/* Founding Tester CTA */}
+        <div className="bg-gradient-to-br from-purple-50 via-blue-50 to-green-50 border-2 border-purple-200 rounded-xl p-6 mb-8 shadow-xl animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                <Award className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="w-5 h-5 text-purple-600" />
+                <h3 className="font-bold text-lg text-slate-900">Join the Founding Tester Program</h3>
+              </div>
+              <p className="text-slate-700 mb-4">
+                Earn up to <strong className="text-green-600">40% revenue share</strong> + <strong className="text-purple-600">0.05% equity</strong>. 
+                Help train our AI and get rewarded for your contributions. Limited spots available!
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/founding-tester">
+                  <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg">
+                    <Award className="w-4 h-4 mr-2" />
+                    Apply Now
+                  </Button>
+                </Link>
+                <Link href="/founding-tester">
+                  <Button variant="outline">
+                    Learn More
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Verification Notice */}
         {!profile?.is_verified && (
-          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 mb-8 shadow-lg animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 mb-8 shadow-lg animate-fade-in-up" style={{animationDelay: '0.5s'}}>
             <h3 className="font-semibold text-yellow-900 mb-2">Verification Pending</h3>
             <p className="text-sm text-yellow-700">
               Complete your first test to get verified and start receiving more assignments!
