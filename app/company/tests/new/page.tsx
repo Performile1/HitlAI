@@ -308,7 +308,7 @@ export default function NewTestPage() {
             </div>
 
             {/* AI Recommendations */}
-            {aiSuggestions && (aiSuggestions.recommendedPersonas?.length > 0 || aiSuggestions.recommendedTesters?.length > 0) && (
+            {aiSuggestions && ((aiSuggestions.recommendedPersonas && aiSuggestions.recommendedPersonas.length > 0) || (aiSuggestions.recommendedTesters && aiSuggestions.recommendedTesters.length > 0)) && (
               <div className="border-2 border-purple-200 rounded-lg p-6 bg-purple-50/50">
                 <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
                   <Brain className="w-5 h-5 text-purple-600 mr-2" />

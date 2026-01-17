@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface AgentExecution {
   agentName: string
@@ -214,6 +209,7 @@ export class AgentMonitor {
     if (execution.retryCount < execution.maxRetries) {
       console.log(`[AgentMonitor] Timeout retry ${execution.retryCount + 1}/${execution.maxRetries} for ${execution.agentName}`)
       
+      const supabase = getSupabaseAdmin()
       // Update test run with retry info
       await supabase
         .from('test_runs')
@@ -241,6 +237,7 @@ export class AgentMonitor {
   ): Promise<void> {
     console.error(`[AgentMonitor] HITL PAUSE: ${execution.agentName} - ${reason}`)
 
+    const supabase = getSupabaseAdmin()
     await supabase
       .from('test_runs')
       .update({
@@ -272,6 +269,7 @@ export class AgentMonitor {
     errorMessage?: string
   ): Promise<void> {
     try {
+      const supabase = getSupabaseAdmin()
       await supabase
         .from('agent_executions')
         .insert({
@@ -333,6 +331,7 @@ export class AgentMonitor {
       }
     }
 
+    const supabase = getSupabaseAdmin()
     // Update test run status
     await supabase
       .from('test_runs')

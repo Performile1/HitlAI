@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 export interface TrainingDataInput {
   testRunId: string
@@ -40,6 +35,7 @@ export class TrainingDataCollector {
    */
   static async captureTrainingData(data: TrainingDataInput): Promise<{ success: boolean; error?: string }> {
     try {
+      const supabase = getSupabaseAdmin()
       const { error } = await supabase.from('ai_training_data').insert({
         test_run_id: data.testRunId,
         tester_id: data.testerId || null,
@@ -77,6 +73,7 @@ export class TrainingDataCollector {
    */
   static async updateTrainingContribution(testerId: string): Promise<void> {
     try {
+      const supabase = getSupabaseAdmin()
       // Get current training contribution stats
       const { data: stats } = await supabase
         .from('ai_training_data')
@@ -114,40 +111,37 @@ export class TrainingDataCollector {
    * Get training data statistics
    */
   static async getTrainingDataStats(): Promise<{
-    totalCount: number
-    highQualityCount: number
-    humanVerifiedCount: number
-    unusedCount: number
+    total: number
+    highQuality: number
+    humanVerified: number
     readyForTraining: number
   }> {
     try {
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase.rpc('get_training_data_stats')
 
       if (error) {
         console.error('Error getting training data stats:', error)
         return {
-          totalCount: 0,
-          highQualityCount: 0,
-          humanVerifiedCount: 0,
-          unusedCount: 0,
+          total: 0,
+          highQuality: 0,
+          humanVerified: 0,
           readyForTraining: 0
         }
       }
 
       return {
-        totalCount: Number(data[0]?.total_count || 0),
-        highQualityCount: Number(data[0]?.high_quality_count || 0),
-        humanVerifiedCount: Number(data[0]?.human_verified_count || 0),
-        unusedCount: Number(data[0]?.unused_count || 0),
+        total: Number(data[0]?.total_count || 0),
+        highQuality: Number(data[0]?.high_quality_count || 0),
+        humanVerified: Number(data[0]?.human_verified_count || 0),
         readyForTraining: Number(data[0]?.ready_for_training || 0)
       }
     } catch (error) {
       console.error('Exception getting training data stats:', error)
       return {
-        totalCount: 0,
-        highQualityCount: 0,
-        humanVerifiedCount: 0,
-        unusedCount: 0,
+        total: 0,
+        highQuality: 0,
+        humanVerified: 0,
         readyForTraining: 0
       }
     }
@@ -158,6 +152,7 @@ export class TrainingDataCollector {
    */
   static async getTrainingDataByTestRun(testRunId: string) {
     try {
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase
         .from('ai_training_data')
         .select('*')
@@ -181,6 +176,7 @@ export class TrainingDataCollector {
    */
   static async markAsUsedForTraining(trainingDataIds: string[], batchId: string): Promise<void> {
     try {
+      const supabase = getSupabaseAdmin()
       const { error } = await supabase
         .from('ai_training_data')
         .update({
@@ -212,6 +208,7 @@ export class TrainingDataCollector {
     }
   ): Promise<{ success: boolean; error?: string }> {
     try {
+      const supabase = getSupabaseAdmin()
       const { error } = await supabase
         .from('ai_training_data')
         .update({

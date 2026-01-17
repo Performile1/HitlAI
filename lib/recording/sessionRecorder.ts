@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface RecordingConfig {
   sessionId: string
@@ -351,6 +346,7 @@ export class SessionRecorder {
     this.cursorBuffer = []
 
     try {
+      const supabase = getSupabaseAdmin()
       await supabase.from('cursor_tracking').insert(
         batch.map(event => ({
           session_id: this.config.sessionId,
@@ -379,6 +375,7 @@ export class SessionRecorder {
     this.eyeTrackingBuffer = []
 
     try {
+      const supabase = getSupabaseAdmin()
       await supabase.from('eye_tracking_data').insert(
         batch.map(data => ({
           session_id: this.config.sessionId,
@@ -399,6 +396,7 @@ export class SessionRecorder {
    * Saves complete recording to Supabase
    */
   private async saveRecording(): Promise<string> {
+    const supabase = getSupabaseAdmin()
     // Create recording record
     const { data: recording, error: recordingError } = await supabase
       .from('session_recordings')

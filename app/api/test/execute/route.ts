@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { HitlAIOrchestrator } from '@/lib/orchestrator'
 import { TrainingDataCollector } from '@/lib/training/dataCollector'
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
-
-export const maxDuration = 300
+const maxDuration = 300
 
 export async function POST(request: NextRequest) {
   try {
+    const supabaseAdmin = getSupabaseAdmin()
     const { testRunId } = await request.json()
 
     if (!testRunId) {
@@ -71,8 +67,8 @@ export async function POST(request: NextRequest) {
         },
         aiOutput: {
           sentiment: result.sentimentScore,
-          issuesFound: result.report?.issues || [],
-          recommendations: result.report?.recommendations || [],
+          issuesFound: (result.report as any)?.issues || [],
+          recommendations: (result.report as any)?.recommendations || [],
           testResults: result.report
         },
         companyRating: testRun.company_ai_rating,
@@ -81,7 +77,7 @@ export async function POST(request: NextRequest) {
         console.error('Failed to capture training data:', err)
         // Don't fail the test if training data capture fails
       })
-    
+    }
 
     return NextResponse.json({
       success: true,
@@ -92,15 +88,20 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Test execution error:', error)
     
-    const { testRunId } = await request.json()
-    if (testRunId) {
-      await supabaseAdmin
-        .from('test_runs')
-        .update({
-          status: 'failed',
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', testRunId)
+    try {
+      const supabaseAdmin = getSupabaseAdmin()
+      const { testRunId } = await request.json()
+      if (testRunId) {
+        await supabaseAdmin
+          .from('test_runs')
+          .update({
+            status: 'failed',
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', testRunId)
+      }
+    } catch (updateError) {
+      console.error('Failed to update test status:', updateError)
     }
 
     return NextResponse.json({ error: 'Execution failed' }, { status: 500 })

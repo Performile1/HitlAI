@@ -1,10 +1,5 @@
 import { ChatOpenAI } from '@langchain/openai'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface TesterProfile {
   id: string
@@ -79,6 +74,7 @@ export class PersonaFromTesterAgent {
     confidence: number
     summary: string
   }> {
+    const supabase = getSupabaseAdmin()
     // Get tester profile
     const { data: tester } = await supabase
       .from('human_testers')
@@ -168,6 +164,7 @@ export class PersonaFromTesterAgent {
   private async analyzeBehaviorPatterns(
     sessionIds: string[]
   ): Promise<BehaviorPatterns> {
+    const supabase = getSupabaseAdmin()
     // Get cursor tracking data
     const { data: cursorData } = await supabase
       .from('cursor_tracking')

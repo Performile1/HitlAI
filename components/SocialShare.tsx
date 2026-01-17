@@ -15,7 +15,7 @@ interface SocialShareProps {
   description?: string
   hashtags?: string[]
   variant?: 'default' | 'outline' | 'ghost'
-  size?: 'default' | 'sm' | 'lg' | 'icon'
+  size?: 'default' | 'sm' | 'lg'
 }
 
 export function SocialShare({ 

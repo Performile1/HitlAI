@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 export interface Milestone {
   id: string
@@ -31,6 +26,7 @@ export class MilestoneProgressTracker {
    */
   static async getMilestoneProgress(): Promise<Milestone[]> {
     try {
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase
         .from('platform_milestones')
         .select('*')
@@ -63,6 +59,7 @@ export class MilestoneProgressTracker {
    */
   static async getPhaseProgress(phase: string): Promise<PhaseStatus | null> {
     try {
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase
         .from('platform_milestones')
         .select('*')
@@ -139,6 +136,7 @@ export class MilestoneProgressTracker {
    */
   static async getCurrentPhase(): Promise<string> {
     try {
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase.rpc('get_current_phase')
 
       if (error) {
@@ -158,6 +156,7 @@ export class MilestoneProgressTracker {
    */
   static async estimateUnlockDate(milestone: Milestone): Promise<number> {
     try {
+      const supabase = getSupabaseAdmin()
       // Get test completion rate from last 7 days
       const { data, error } = await supabase
         .from('test_runs')
@@ -210,6 +209,7 @@ export class MilestoneProgressTracker {
    */
   static async updateMilestoneProgress(): Promise<void> {
     try {
+      const supabase = getSupabaseAdmin()
       const { error } = await supabase.rpc('update_milestone_progress')
 
       if (error) {

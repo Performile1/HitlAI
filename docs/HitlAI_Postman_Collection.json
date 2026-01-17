@@ -1,0 +1,728 @@
+{
+  "info": {
+    "name": "HitlAI API Collection",
+    "description": "Complete API collection for HitlAI testing platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "company_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "test_run_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tester_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Company Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"company@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"companyName\": \"Test Company Inc\",\n  \"companySize\": \"11-50\",\n  \"industry\": \"Technology\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Company Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('access_token', jsonData.access_token);",
+                  "    pm.collectionVariables.set('company_id', jsonData.user.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"company@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tester Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"tester@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"displayName\": \"John Tester\",\n  \"age\": 28,\n  \"gender\": \"male\",\n  \"locationCountry\": \"United States\",\n  \"techLiteracy\": \"advanced\",\n  \"primaryDevice\": \"desktop\",\n  \"languages\": [\"English\", \"Spanish\"],\n  \"yearsOfTestingExperience\": 3,\n  \"previousPlatforms\": [\"UserTesting\", \"TestBirds\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tester Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('access_token', jsonData.access_token);",
+                  "    pm.collectionVariables.set('tester_id', jsonData.user.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"tester@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Test Execution",
+      "item": [
+        {
+          "name": "Execute AI Test",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 202) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('test_run_id', jsonData.test_run_id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"mission\": \"Test the checkout flow and identify any usability issues\",\n  \"testType\": \"ai\",\n  \"persona\": \"casual_user\",\n  \"platform\": {\n    \"type\": \"web\",\n    \"browser\": \"chrome\",\n    \"viewport\": {\n      \"width\": 1920,\n      \"height\": 1080\n    }\n  },\n  \"additionalContext\": \"Focus on payment form validation\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/test/execute",
+              "host": ["{{base_url}}"],
+              "path": ["api", "test", "execute"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Execute Human Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"mission\": \"Complete a purchase as a first-time user and provide detailed feedback\",\n  \"testType\": \"human\",\n  \"persona\": \"senior_user\",\n  \"platform\": {\n    \"type\": \"web\",\n    \"browser\": \"firefox\",\n    \"viewport\": {\n      \"width\": 1366,\n      \"height\": 768\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/test/execute",
+              "host": ["{{base_url}}"],
+              "path": ["api", "test", "execute"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Execute Hybrid Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"mission\": \"Test the entire user registration and onboarding flow\",\n  \"testType\": \"hybrid\",\n  \"persona\": \"tech_savvy_user\",\n  \"platform\": {\n    \"type\": \"web\",\n    \"browser\": \"chrome\",\n    \"viewport\": {\n      \"width\": 1920,\n      \"height\": 1080\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/test/execute",
+              "host": ["{{base_url}}"],
+              "path": ["api", "test", "execute"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Test Run Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/test-runs/{{test_run_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "test-runs", "{{test_run_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Test Runs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/test-runs?limit=20&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "test-runs"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Rate Test Run",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 5,\n  \"feedback\": \"Excellent test results, very thorough analysis\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/test-runs/{{test_run_id}}/rate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "test-runs", "{{test_run_id}}", "rate"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Milestones",
+      "item": [
+        {
+          "name": "Get Milestone Progress",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/milestones",
+              "host": ["{{base_url}}"],
+              "path": ["api", "milestones"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Milestones (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phase\": 2,\n  \"tests_completed\": 1000,\n  \"is_unlocked\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/milestones",
+              "host": ["{{base_url}}"],
+              "path": ["api", "milestones"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Early Adopter",
+      "item": [
+        {
+          "name": "Get Available Spots",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/early-adopter/apply",
+              "host": ["{{base_url}}"],
+              "path": ["api", "early-adopter", "apply"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Acme Corp\",\n  \"contactName\": \"Jane Smith\",\n  \"email\": \"jane@acme.com\",\n  \"phone\": \"+1-555-0123\",\n  \"website\": \"https://acme.com\",\n  \"companySize\": \"51-200\",\n  \"industry\": \"E-commerce\",\n  \"monthlyTestVolume\": \"50-100\",\n  \"currentApproach\": \"Manual testing with internal team\",\n  \"whyInterested\": \"Looking to scale testing and reduce costs\",\n  \"selectedTier\": \"early_adopter\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/early-adopter/apply",
+              "host": ["{{base_url}}"],
+              "path": ["api", "early-adopter", "apply"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Founding Tester",
+      "item": [
+        {
+          "name": "Get Available Spots",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/founding-tester/apply",
+              "host": ["{{base_url}}"],
+              "path": ["api", "founding-tester", "apply"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+1-555-0456\",\n  \"location\": \"San Francisco, CA\",\n  \"linkedinUrl\": \"https://linkedin.com/in/johndoe\",\n  \"portfolioUrl\": \"https://johndoe.com\",\n  \"yearsExperience\": \"5-10\",\n  \"specialties\": [\"UX Testing\", \"Accessibility\", \"Mobile Testing\"],\n  \"platforms\": [\"Web\", \"iOS\", \"Android\"],\n  \"availabilityHours\": \"20\",\n  \"whyInterested\": \"Passionate about quality and want to be part of building the future of testing\",\n  \"relevantExperience\": \"5 years as QA lead at tech startup, certified accessibility specialist\",\n  \"sampleWorkUrl\": \"https://example.com/portfolio\",\n  \"selectedTier\": \"founding_tester\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/founding-tester/apply",
+              "host": ["{{base_url}}"],
+              "path": ["api", "founding-tester", "apply"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Training",
+      "item": [
+        {
+          "name": "Get Training Data Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/training-data/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "training-data", "stats"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Start Fine-Tuning Job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 202) {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('job_id', jsonData.job_id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"modelType\": \"issue_detector\",\n  \"baseModel\": \"gpt-4o-mini\",\n  \"hyperparameters\": {\n    \"n_epochs\": 3,\n    \"batch_size\": 4,\n    \"learning_rate_multiplier\": 0.1\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/training/fine-tune",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "training", "fine-tune"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Fine-Tuning Job Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/training/status/{{job_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "training", "status", "{{job_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deploy Fine-Tuned Model",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"deploy\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/training/status/{{job_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "training", "status", "{{job_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Fine-Tuning Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"cancel\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/training/status/{{job_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "training", "status", "{{job_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Applications",
+      "item": [
+        {
+          "name": "Get Pending Applications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/applications?status=pending&type=company",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "applications"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending"
+                },
+                {
+                  "key": "type",
+                  "value": "company"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"approve\",\n  \"notes\": \"Great fit for early adopter program\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/applications/{{application_id}}/review",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "applications", "{{application_id}}", "review"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"reject\",\n  \"notes\": \"Not enough testing experience\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/applications/{{application_id}}/review",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "applications", "{{application_id}}", "review"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Tests",
+      "item": [
+        {
+          "name": "Get All Tests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/tests?status=completed&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "tests"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "completed"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tester - Assignments",
+      "item": [
+        {
+          "name": "Get My Assignments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tester/assignments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tester", "assignments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Test Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sentimentScore\": 0.65,\n  \"issues\": [\n    {\n      \"title\": \"Payment form validation broken\",\n      \"description\": \"When entering an invalid credit card number, the form submits anyway and shows a generic error after 10 seconds\",\n      \"severity\": \"critical\",\n      \"category\": \"functionality\",\n      \"elementSelector\": \"#payment-form input[name='cardNumber']\",\n      \"screenshotUrl\": \"https://storage.example.com/screenshot1.png\",\n      \"metadata\": {\n        \"reproductionSteps\": [\n          \"Navigate to checkout\",\n          \"Enter invalid card: 1234 5678 9012 3456\",\n          \"Click 'Complete Purchase'\"\n        ],\n        \"expectedBehavior\": \"Form should validate and show specific error\",\n        \"actualBehavior\": \"Form submits and shows generic error\"\n      }\n    }\n  ],\n  \"recommendations\": [\n    \"Add client-side card validation using Luhn algorithm\",\n    \"Show loading state during payment processing\",\n    \"Provide specific error messages\"\n  ],\n  \"positives\": [\n    \"Clean and intuitive layout\",\n    \"Fast page load times\",\n    \"Mobile responsive design\"\n  ],\n  \"additionalNotes\": \"Overall good experience but payment validation needs work\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/test-runs/{{test_run_id}}/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "test-runs", "{{test_run_id}}", "submit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tester/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tester", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Earnings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tester/earnings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tester", "earnings"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Company - Stats",
+      "item": [
+        {
+          "name": "Get Company Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/company/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "company", "stats"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

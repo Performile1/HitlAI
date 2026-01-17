@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface RecordingConfig {
   sessionId: string
@@ -126,6 +121,7 @@ export class EnhancedSessionRecorder {
     const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
 
     if (perfData) {
+      const supabase = getSupabaseAdmin()
       await supabase.from('page_performance').insert({
         session_id: this.config.sessionId,
         page_url: pageUrl,
@@ -151,6 +147,7 @@ export class EnhancedSessionRecorder {
     const pageExitedAt = new Date()
     const timeOnPageSeconds = Math.round((pageExitedAt.getTime() - this.pageEnteredAt.getTime()) / 1000)
 
+    const supabase = getSupabaseAdmin()
     await supabase
       .from('page_performance')
       .update({
@@ -177,6 +174,7 @@ export class EnhancedSessionRecorder {
               ? 'first_paint_time' 
               : 'first_contentful_paint_time'
             
+            const supabase = getSupabaseAdmin()
             supabase
               .from('page_performance')
               .update({ [metricName]: Math.round(entry.startTime) })
@@ -193,6 +191,7 @@ export class EnhancedSessionRecorder {
         const entries = list.getEntries()
         const lastEntry = entries[entries.length - 1] as any
         
+        const supabase = getSupabaseAdmin()
         supabase
           .from('page_performance')
           .update({ largest_contentful_paint_time: Math.round(lastEntry.renderTime || lastEntry.loadTime) })
@@ -242,6 +241,7 @@ export class EnhancedSessionRecorder {
       const scrollDepthPercentage = ((scrollY + viewportHeight) / documentHeight) * 100
 
       // Save scroll event
+      const supabase = getSupabaseAdmin()
       await supabase.from('scroll_events').insert({
         session_id: this.config.sessionId,
         page_url: this.currentPageUrl,
@@ -298,6 +298,7 @@ export class EnhancedSessionRecorder {
       const isRageClick = this.detectRageClick(e.clientX, e.clientY, now)
       
       // Save click event
+      const supabase = getSupabaseAdmin()
       await supabase.from('click_events').insert({
         session_id: this.config.sessionId,
         page_url: this.currentPageUrl,
@@ -350,6 +351,7 @@ export class EnhancedSessionRecorder {
     // 3+ clicks in same area = rage click
     if (recentClicks.length >= 2) {
       // Save rage click incident
+      const supabase = getSupabaseAdmin()
       supabase.from('rage_click_incidents').insert({
         session_id: this.config.sessionId,
         page_url: this.currentPageUrl,
@@ -388,6 +390,7 @@ export class EnhancedSessionRecorder {
         const startTime = formStartTimes.get(fieldName)
         const timeInField = startTime ? Date.now() - startTime : 0
         
+        const supabase = getSupabaseAdmin()
         await supabase.from('form_interactions').insert({
           session_id: this.config.sessionId,
           page_url: this.currentPageUrl,
@@ -437,6 +440,7 @@ export class EnhancedSessionRecorder {
         const totalTime = (Date.now() - this.pageEnteredAt.getTime()) / 1000
         const visibleTime = totalTime - (hiddenTime / 1000)
         
+        const supabase = getSupabaseAdmin()
         supabase
           .from('page_performance')
           .update({
@@ -455,6 +459,7 @@ export class EnhancedSessionRecorder {
    */
   private startNavigationTracking(): void {
     const handleBeforeUnload = () => {
+      const supabase = getSupabaseAdmin()
       supabase
         .from('page_performance')
         .update({ exit_type: 'navigation' })
@@ -474,6 +479,7 @@ export class EnhancedSessionRecorder {
    * Calculates and saves session metrics
    */
   private async calculateSessionMetrics(): Promise<void> {
+    const supabase = getSupabaseAdmin()
     // Call database function to calculate metrics
     await supabase.rpc('calculate_session_metrics', {
       p_session_id: this.config.sessionId

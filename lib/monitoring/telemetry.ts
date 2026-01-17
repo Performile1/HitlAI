@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface PerformanceMetric {
   testRunId: string
@@ -61,6 +56,7 @@ export class Telemetry {
     this.metrics = []
 
     try {
+      const supabase = getSupabaseAdmin()
       await supabase.from('performance_metrics').insert(
         batch.map(m => ({
           test_run_id: m.testRunId,

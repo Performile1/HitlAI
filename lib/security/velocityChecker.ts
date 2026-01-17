@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface VelocityAnalysis {
   isBot: boolean
@@ -32,10 +27,11 @@ export class VelocityChecker {
   /**
    * Analyzes interaction patterns to detect bot behavior
    */
-  async analyzeInteractions(
+  static async analyzeVelocity(
     sessionId: string
   ): Promise<VelocityAnalysis> {
     try {
+      const supabase = getSupabaseAdmin()
       // Get all interactions for this session
       const { data: interactions } = await supabase
         .from('user_interactions')
@@ -84,7 +80,7 @@ export class VelocityChecker {
   /**
    * Calculates interaction metrics
    */
-  private calculateMetrics(interactions: any[]): InteractionMetrics {
+  private static calculateMetrics(interactions: any[]): InteractionMetrics {
     const clicks = interactions.filter(i => i.event_type === 'click')
     const moves = interactions.filter(i => i.event_type === 'mousemove')
 
@@ -153,7 +149,7 @@ export class VelocityChecker {
   /**
    * Detects suspicious patterns indicating bot behavior
    */
-  private detectSuspiciousPatterns(
+  private static detectSuspiciousPatterns(
     metrics: InteractionMetrics,
     interactions: any[]
   ): string[] {
@@ -224,7 +220,7 @@ export class VelocityChecker {
   /**
    * Calculates overall bot probability score
    */
-  private calculateBotScore(
+  private static calculateBotScore(
     metrics: InteractionMetrics,
     patterns: string[]
   ): number {
@@ -246,7 +242,7 @@ export class VelocityChecker {
   /**
    * Generates human-readable reasoning
    */
-  private generateReasoning(
+  private static generateReasoning(
     metrics: InteractionMetrics,
     patterns: string[],
     botScore: number
@@ -265,7 +261,7 @@ export class VelocityChecker {
   /**
    * Analyzes multiple sessions from same tester
    */
-  async analyzeTesterPattern(
+  static async analyzeTesterPattern(
     testerId: string,
     recentSessions: string[]
   ): Promise<{
@@ -275,7 +271,7 @@ export class VelocityChecker {
     recommendation: string
   }> {
     const analyses = await Promise.all(
-      recentSessions.map(sessionId => this.analyzeInteractions(sessionId))
+      recentSessions.map(sessionId => this.analyzeVelocity(sessionId))
     )
 
     const botSessions = analyses.filter(a => a.isBot && a.confidence > 0.7)

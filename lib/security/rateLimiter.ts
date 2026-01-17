@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface RateLimitConfig {
   endpoint: string
@@ -40,19 +35,13 @@ export class RateLimiter {
   /**
    * Checks if user/company is within rate limit
    */
-  static async checkLimit(
+  static async checkRateLimit(
     userId: string,
-    companyId: string | null,
-    endpoint: string
+    endpoint: string,
+    config: RateLimitConfig
   ): Promise<{ allowed: boolean; remaining: number; resetAt: Date }> {
-    const config = this.defaultLimits[endpoint] || {
-      endpoint,
-      maxRequests: 100,
-      windowMinutes: 60
-    }
-
     try {
-      // Get or create rate limit record
+      const supabase = getSupabaseAdmin()
       const windowStart = new Date()
       const windowEnd = new Date(windowStart.getTime() + config.windowMinutes * 60000)
 
@@ -94,7 +83,6 @@ export class RateLimiter {
           .from('api_rate_limits')
           .insert({
             user_id: userId,
-            company_id: companyId,
             endpoint,
             request_count: 1,
             window_start: windowStart.toISOString(),
@@ -126,7 +114,12 @@ export class RateLimiter {
     companyId: string | null,
     endpoint: string
   ): Promise<Response | null> {
-    const result = await this.checkLimit(userId, companyId, endpoint)
+    const config = this.defaultLimits[endpoint] || {
+      endpoint,
+      maxRequests: 100,
+      windowMinutes: 60
+    }
+    const result = await this.checkRateLimit(userId, endpoint, config)
 
     if (!result.allowed) {
       return new Response(
@@ -154,6 +147,7 @@ export class RateLimiter {
    * Should be run periodically (e.g., via cron job)
    */
   static async cleanup(): Promise<number> {
+    const supabase = getSupabaseAdmin()
     const { data, error } = await supabase
       .from('api_rate_limits')
       .delete()

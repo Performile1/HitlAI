@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface CostTracker {
   testRunId: string
@@ -165,6 +160,7 @@ export class CircuitBreaker {
     console.error(`Call count: ${tracker.callCount}`)
     console.error(`Duration: ${Math.round((Date.now() - tracker.startTime) / 1000)}s`)
 
+    const supabase = getSupabaseAdmin()
     // Update test run status
     await supabase
       .from('test_runs')
@@ -203,6 +199,7 @@ export class CircuitBreaker {
     console.error(`[CircuitBreaker] 🚨🚨 GLOBAL CIRCUIT BREAK: ${reason}`)
     console.error(`Daily cost: $${this.dailyCost.toFixed(2)}`)
 
+    const supabase = getSupabaseAdmin()
     // Log global event
     await supabase
       .from('circuit_break_events')
@@ -233,6 +230,7 @@ export class CircuitBreaker {
     cost: number
   ): Promise<void> {
     try {
+      const supabase = getSupabaseAdmin()
       await supabase
         .from('api_call_logs')
         .insert({

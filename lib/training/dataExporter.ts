@@ -1,11 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import * as fs from 'fs'
 import * as path from 'path'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
 
 export type ModelType = 'issue_detector' | 'strategy_planner' | 'persona_matcher' | 'sentiment_analyzer'
 
@@ -30,6 +25,7 @@ export class TrainingDataExporter {
     } = {}
   ): Promise<{ success: boolean; data?: TrainingExample[]; error?: string }> {
     try {
+      const supabase = getSupabaseAdmin()
       const {
         minQuality = 4,
         requireHumanVerification = true,
@@ -284,6 +280,7 @@ export class TrainingDataExporter {
     readyForExport: number
   }> {
     try {
+      const supabase = getSupabaseAdmin()
       const { data: all } = await supabase
         .from('ai_training_data')
         .select('id, is_high_quality, human_verified, used_for_training')

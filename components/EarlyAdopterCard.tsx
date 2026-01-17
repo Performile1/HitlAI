@@ -128,7 +128,7 @@ export default function EarlyAdopterCard({ type = 'company', className = '' }: E
                 <div>
                   <div className="font-bold text-lg">{tierInfo.label}</div>
                   <div className="text-sm text-purple-600 font-semibold">
-                    {type === 'company' ? tierInfo.discount : tierInfo.revenue}
+                    {type === 'company' ? ('discount' in tierInfo ? tierInfo.discount : '') : ('revenue' in tierInfo ? tierInfo.revenue : '')}
                   </div>
                 </div>
                 <div className="text-right">

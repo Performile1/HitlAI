@@ -1,10 +1,5 @@
 import { ChatOpenAI } from '@langchain/openai'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 interface SystemicIssue {
   issueType: string
@@ -61,6 +56,7 @@ export class GlobalInsightsAgent {
     companyId: string,
     periodDays: number = 90
   ): Promise<UXDebtReport> {
+    const supabase = getSupabaseAdmin()
     const endDate = new Date()
     const startDate = new Date(endDate.getTime() - periodDays * 24 * 60 * 60 * 1000)
 

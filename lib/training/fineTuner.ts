@@ -1,15 +1,10 @@
 import OpenAI from 'openai'
-import { createClient } from '@supabase/supabase-js'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import * as fs from 'fs'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
 
 export interface FineTuneJobConfig {
   modelType: string
@@ -34,6 +29,7 @@ export class FineTuner {
     error?: string
   }> {
     try {
+      const supabase = getSupabaseAdmin()
       // Create training batch record
       const { data: batch, error: batchError } = await supabase
         .from('training_batches')
@@ -104,6 +100,7 @@ export class FineTuner {
     error?: string
   }> {
     try {
+      const supabase = getSupabaseAdmin()
       const job = await openai.fineTuning.jobs.retrieve(jobId)
 
       // Update batch status in database
@@ -138,6 +135,7 @@ export class FineTuner {
     phase: string = 'phase2'
   ): Promise<{ success: boolean; modelId?: string; error?: string }> {
     try {
+      const supabase = getSupabaseAdmin()
       // Get job status
       const status = await this.checkFineTuningStatus(jobId)
 
@@ -221,6 +219,7 @@ export class FineTuner {
    */
   static async cancelFineTuning(jobId: string): Promise<{ success: boolean; error?: string }> {
     try {
+      const supabase = getSupabaseAdmin()
       await openai.fineTuning.jobs.cancel(jobId)
 
       // Update batch status
@@ -278,6 +277,7 @@ export class FineTuner {
    */
   static async getDeployedModels(phase?: string): Promise<any[]> {
     try {
+      const supabase = getSupabaseAdmin()
       let query = supabase
         .from('ai_models')
         .select('*')

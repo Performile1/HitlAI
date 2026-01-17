@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,6 +41,7 @@ export async function POST(req: NextRequest) {
 }
 
 async function getPersonaRecommendations(mission: string, url: string) {
+  const supabase = getSupabase()
   const missionLower = mission.toLowerCase()
   
   // Fetch all public personas
@@ -109,11 +112,12 @@ async function getPersonaRecommendations(mission: string, url: string) {
 }
 
 async function getTesterRecommendations(mission: string, url: string) {
+  const supabase = getSupabase()
   const missionLower = mission.toLowerCase()
   
   // Determine required skills and preferences
-  const requiredTestTypes = []
-  const requiredSkills = []
+  const requiredTestTypes: string[] = []
+  const requiredSkills: string[] = []
   
   if (missionLower.includes('ecommerce') || missionLower.includes('checkout') || missionLower.includes('cart')) {
     requiredTestTypes.push('ecommerce')
