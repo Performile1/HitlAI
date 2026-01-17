@@ -6,6 +6,8 @@ import { Settings, Brain, Flag, Hammer, FileText, LogOut, BookOpen, ClipboardLis
 import { Button } from '@/components/ui/button'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
+export const dynamic = 'force-dynamic'
+
 export default function AdminLayout({
   children,
 }: {

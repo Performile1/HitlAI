@@ -6,6 +6,8 @@ import { LayoutDashboard, TestTube, Plus, CreditCard, Settings, LogOut } from 'l
 import { Button } from '@/components/ui/button'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
+export const dynamic = 'force-dynamic'
+
 export default function CompanyLayout({
   children,
 }: {

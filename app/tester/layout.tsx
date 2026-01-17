@@ -6,6 +6,8 @@ import { LayoutDashboard, TestTube, TrendingUp, Rocket, Settings, LogOut, Dollar
 import { Button } from '@/components/ui/button'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
+export const dynamic = 'force-dynamic'
+
 export default function TesterLayout({
   children,
 }: {

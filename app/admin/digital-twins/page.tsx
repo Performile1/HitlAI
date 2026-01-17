@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 export default function DigitalTwinsPage() {
   return (
     <div className="min-h-screen p-8">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { motion } from 'framer-motion';
 
@@ -25,7 +25,7 @@ export default function MissionControlPage() {
   const [missions, setMissions] = useState<Mission[]>([]);
   const [profile, setProfile] = useState<TesterProfile | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     loadData();

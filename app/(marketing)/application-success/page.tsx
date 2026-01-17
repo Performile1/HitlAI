@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { CheckCircle, Mail, Calendar, ArrowRight, Home } from 'lucide-react'
 
-export default function ApplicationSuccessPage() {
+function ApplicationSuccessContent() {
   const searchParams = useSearchParams()
   const [type, setType] = useState<'company' | 'tester'>('company')
 
@@ -209,5 +209,19 @@ export default function ApplicationSuccessPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ApplicationSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+      </div>
+    }>
+      <ApplicationSuccessContent />
+    </Suspense>
   )
 }

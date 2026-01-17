@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+export const dynamic = 'force-dynamic'
+
+import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -8,11 +10,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Brain, ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
 
 const testTypes = ['ecommerce', 'saas', 'mobile_apps', 'accessibility', 'usability', 'functional']
 const industries = ['fintech', 'healthcare', 'education', 'retail', 'entertainment', 'enterprise']
@@ -23,6 +20,11 @@ export default function TesterSignupPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [step, setStep] = useState(1)
+  
+  const supabase = useMemo(() => createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  ), [])
   
   const [formData, setFormData] = useState({
     email: '',
