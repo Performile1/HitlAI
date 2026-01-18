@@ -118,6 +118,7 @@ BEGIN
       tester_id,
       tester_type,
       persona_id,
+      platform,
       status,
       friction_points,
       sentiment_score,
@@ -130,6 +131,7 @@ BEGIN
       demo_tester_id,
       'human',
       persona_tech_savvy,
+      'web',
       'completed',
       jsonb_build_array(
         jsonb_build_object('location', 'checkout button', 'severity', 'medium', 'description', 'Button too small on mobile'),
@@ -150,6 +152,7 @@ BEGIN
       tester_id,
       tester_type,
       persona_id,
+      platform,
       status,
       friction_points,
       sentiment_score,
@@ -162,6 +165,7 @@ BEGIN
       demo_tester_id,
       'human',
       persona_senior,
+      'web',
       'completed',
       jsonb_build_array(
         jsonb_build_object('location', 'navigation menu', 'severity', 'high', 'description', 'Text too small to read'),
@@ -182,6 +186,7 @@ BEGIN
       tester_id,
       tester_type,
       persona_id,
+      platform,
       status,
       friction_points,
       sentiment_score,
@@ -194,6 +199,7 @@ BEGIN
       demo_tester_id,
       'human',
       persona_gen_z,
+      'mobile',
       'completed',
       jsonb_build_array(
         jsonb_build_object('location', 'loading time', 'severity', 'high', 'description', 'Page loads too slowly'),
