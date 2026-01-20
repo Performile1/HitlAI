@@ -4,6 +4,9 @@ import { redirect } from 'next/navigation'
 import MilestoneProgress from '@/components/dashboard/MilestoneProgress'
 import MilestoneCelebration from '@/components/dashboard/MilestoneCelebration'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata = {
   title: 'Milestones | HitlAI',
   description: 'Track your testing milestones and unlock new features'

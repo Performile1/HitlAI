@@ -3,6 +3,9 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import ApiHealthDashboard from '@/components/admin/ApiHealthDashboard'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata = {
   title: 'API Health Monitoring | Admin',
   description: 'Monitor API endpoint health and performance'

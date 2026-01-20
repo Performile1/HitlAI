@@ -3,6 +3,9 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import TrainingDataAnalytics from '@/components/admin/TrainingDataAnalytics'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata = {
   title: 'AI Training Data | Admin',
   description: 'Monitor AI training data collection and human feedback'
