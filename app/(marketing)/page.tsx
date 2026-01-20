@@ -102,6 +102,31 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Progressive Unlock Banner */}
+      <section className="py-16 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="relative max-w-7xl mx-auto px-4 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+            <TrendingUp className="w-4 h-4 text-white" />
+            <span className="text-sm font-semibold text-white">NEW: Progressive Unlock System</span>
+          </div>
+          <h3 className="text-3xl md:text-4xl font-black text-white mb-4">
+            🎉 Unlock More Features as You Test
+          </h3>
+          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            Complete <span className="font-bold text-white">10 tests</span> → Unlock Session Recording. 
+            <span className="font-bold text-white"> 50 tests</span> → Unlock API Access. 
+            <span className="font-bold text-white"> 100 tests</span> → Unlock Custom Personas. Keep testing, keep unlocking!
+          </p>
+          <Link href="/dashboard/milestones">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-6 text-lg shadow-xl">
+              View Milestone Rewards
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-32 bg-gradient-to-b from-white to-slate-50 relative">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
@@ -301,6 +326,80 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Trust & Transparency */}
+      <section className="py-32 bg-white relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.05),transparent_70%)]" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-green-50 to-blue-50 border border-green-100">
+              <Shield className="w-4 h-4 text-green-600" />
+              <span className="text-sm font-semibold text-green-700">Built on Trust & Transparency</span>
+            </div>
+            <h3 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">
+              Enterprise-Grade Reliability
+            </h3>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Real-time monitoring, transparent AI training, and guaranteed uptime. See exactly how we perform.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="group text-center p-8 rounded-2xl bg-gradient-to-br from-green-50 to-white border border-green-100 hover:shadow-xl transition-all duration-300">
+              <div className="inline-flex p-4 bg-green-100 rounded-2xl mb-4 group-hover:scale-110 transition-transform">
+                <Shield className="w-8 h-8 text-green-600" />
+              </div>
+              <div className="text-5xl font-black text-green-600 mb-2">99.9%</div>
+              <p className="text-lg font-semibold text-slate-900 mb-2">API Uptime</p>
+              <p className="text-sm text-slate-600">Real-time monitoring with instant alerts and transparent status updates</p>
+            </div>
+
+            <div className="group text-center p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-white border border-blue-100 hover:shadow-xl transition-all duration-300">
+              <div className="inline-flex p-4 bg-blue-100 rounded-2xl mb-4 group-hover:scale-110 transition-transform">
+                <Brain className="w-8 h-8 text-blue-600" />
+              </div>
+              <div className="text-5xl font-black text-blue-600 mb-2">85%</div>
+              <p className="text-lg font-semibold text-slate-900 mb-2">AI Alignment Score</p>
+              <p className="text-sm text-slate-600">Continuously improving with your feedback on every test result</p>
+            </div>
+
+            <div className="group text-center p-8 rounded-2xl bg-gradient-to-br from-purple-50 to-white border border-purple-100 hover:shadow-xl transition-all duration-300">
+              <div className="inline-flex p-4 bg-purple-100 rounded-2xl mb-4 group-hover:scale-110 transition-transform">
+                <BarChart3 className="w-8 h-8 text-purple-600" />
+              </div>
+              <div className="text-5xl font-black text-purple-600 mb-2">10K+</div>
+              <p className="text-lg font-semibold text-slate-900 mb-2">Training Samples</p>
+              <p className="text-sm text-slate-600">Human corrections actively training our AI to match expert judgment</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="p-6 rounded-xl bg-slate-50 border border-slate-200">
+              <TrendingUp className="w-6 h-6 text-blue-600 mb-3" />
+              <h4 className="font-bold text-slate-900 mb-2">Progressive Unlocks</h4>
+              <p className="text-sm text-slate-600">Unlock advanced features as you test more</p>
+            </div>
+
+            <div className="p-6 rounded-xl bg-slate-50 border border-slate-200">
+              <Shield className="w-6 h-6 text-green-600 mb-3" />
+              <h4 className="font-bold text-slate-900 mb-2">Health Monitoring</h4>
+              <p className="text-sm text-slate-600">Real-time API status and incident tracking</p>
+            </div>
+
+            <div className="p-6 rounded-xl bg-slate-50 border border-slate-200">
+              <Brain className="w-6 h-6 text-purple-600 mb-3" />
+              <h4 className="font-bold text-slate-900 mb-2">AI Transparency</h4>
+              <p className="text-sm text-slate-600">Rate every AI result, see how it improves</p>
+            </div>
+
+            <div className="p-6 rounded-xl bg-slate-50 border border-slate-200">
+              <Sparkles className="w-6 h-6 text-orange-600 mb-3" />
+              <h4 className="font-bold text-slate-900 mb-2">Early Access</h4>
+              <p className="text-sm text-slate-600">Lock in lifetime discounts and priority support</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Early Adopter Programs */}
       <section className="py-32 bg-gradient-to-b from-slate-50 to-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -440,6 +539,54 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Early Access CTA */}
+      <section className="py-24 bg-gradient-to-br from-purple-50 via-blue-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(168,85,247,0.1),transparent_50%)]" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 border border-purple-200">
+            <Sparkles className="w-4 h-4 text-purple-600 animate-pulse" />
+            <span className="text-sm font-bold text-purple-700">⚡ Limited Spots Available</span>
+          </div>
+          <h3 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">
+            Join Our Early Access Program
+          </h3>
+          <p className="text-xl text-slate-600 mb-4">
+            Lock in <span className="font-bold text-purple-600">lifetime discounts</span>, get <span className="font-bold text-blue-600">priority support</span>, 
+            and help <span className="font-bold text-slate-900">shape our roadmap</span>.
+          </p>
+          <p className="text-lg text-slate-500 mb-8">
+            Only <span className="font-bold text-red-600">50 spots remaining</span> for companies. Applications reviewed within 5-7 days.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <Link href="/early-access">
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-10 py-7 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 btn-glow group">
+                Apply for Early Access
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+            <Link href="/company/signup">
+              <Button size="lg" variant="outline" className="border-2 border-slate-300 hover:border-purple-600 hover:bg-purple-50 px-10 py-7 text-lg transition-all duration-300">
+                Start Testing Now
+              </Button>
+            </Link>
+          </div>
+          <div className="flex items-center justify-center gap-8 text-sm text-slate-600">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              <span>Lifetime discounts</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              <span>Priority support</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              <span>Shape features</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="relative py-32 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
@@ -494,6 +641,8 @@ export default function HomePage() {
                 <li><Link href="/features" className="hover:text-white transition-colors">Features</Link></li>
                 <li><Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
                 <li><Link href="/demo" className="hover:text-white transition-colors">Demo</Link></li>
+                <li><Link href="/early-access" className="hover:text-white transition-colors">Early Access</Link></li>
+                <li><Link href="/dashboard/milestones" className="hover:text-white transition-colors">Milestones</Link></li>
               </ul>
             </div>
 
