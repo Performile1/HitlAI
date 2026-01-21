@@ -42,41 +42,57 @@ BEGIN
   -- Create demo tester record
   INSERT INTO human_testers (
     user_id,
-    full_name,
-    email,
-    expertise_areas,
-    hourly_rate,
-    availability_status,
+    display_name,
+    bio,
+    age,
+    tech_literacy,
+    primary_device,
+    location_country,
+    languages,
     total_tests_completed,
     average_rating,
-    created_at
+    specialties,
+    is_available,
+    hourly_rate_usd,
+    is_verified
   ) VALUES (
     tester_uuid,
     'Demo Tester',
-    'demo@tester.com',
-    ARRAY['Web Applications', 'Mobile Apps', 'API Testing'],
-    25.00,
-    'available',
+    'Experienced QA tester specializing in web and mobile applications',
+    28,
+    'high',
+    'desktop',
+    'US',
+    ARRAY['en'],
     150,
     4.8,
-    NOW()
+    ARRAY['e-commerce', 'accessibility', 'mobile'],
+    true,
+    25.00,
+    true
   ) ON CONFLICT (user_id) DO NOTHING;
 
   -- Create demo company
   INSERT INTO companies (
     id,
     name,
+    slug,
     website,
     industry,
     company_size,
-    created_at
+    plan_type,
+    monthly_test_quota,
+    tests_used_this_month
   ) VALUES (
     company_id,
     'Demo Company Inc.',
+    'demo-company',
     'https://democompany.com',
     'Technology',
-    '11-50',
-    NOW()
+    'small',
+    'pro',
+    100,
+    45
   ) ON CONFLICT (id) DO NOTHING;
 
   -- Create company member association
@@ -157,22 +173,24 @@ If you want to create just the tester account quickly:
 
 INSERT INTO human_testers (
   user_id,
-  full_name,
-  email,
-  expertise_areas,
-  hourly_rate,
-  availability_status,
+  display_name,
+  bio,
   total_tests_completed,
-  average_rating
+  average_rating,
+  specialties,
+  is_available,
+  hourly_rate_usd,
+  is_verified
 ) VALUES (
   'PASTE_UUID_HERE'::uuid,
   'Demo Tester',
-  'demo@tester.com',
-  ARRAY['Web Applications', 'Mobile Apps', 'API Testing'],
-  25.00,
-  'available',
+  'Experienced QA tester',
   150,
-  4.8
+  4.8,
+  ARRAY['e-commerce', 'accessibility', 'mobile'],
+  true,
+  25.00,
+  true
 ) ON CONFLICT (user_id) DO NOTHING;
 ```
 
