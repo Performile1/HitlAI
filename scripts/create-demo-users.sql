@@ -11,9 +11,9 @@
 
 DO $$
 DECLARE
-  tester_uuid UUID := 'PASTE_TESTER_UUID_HERE'::uuid;  -- From demo@tester.com
-  company_user_uuid UUID := 'PASTE_COMPANY_UUID_HERE'::uuid;  -- From demo@company.com
-  company_id UUID := gen_random_uuid();
+  tester_uuid UUID := 'e9e0f08d-956d-4544-a4c3-99d5b66676d3'::uuid;  -- tester@demo.com
+  company_user_uuid UUID := '1300dde5-8081-4723-86fd-39e5a447f1b0'::uuid;  -- demo@company.com
+  v_company_id UUID := gen_random_uuid();
 BEGIN
   -- Create demo tester record
   INSERT INTO human_testers (
@@ -67,7 +67,7 @@ BEGIN
     tests_used_this_month,
     created_at
   ) VALUES (
-    company_id,
+    v_company_id,
     'Demo Company Inc.',
     'demo-company',
     'https://democompany.com',
@@ -86,13 +86,32 @@ BEGIN
     role,
     created_at
   ) VALUES (
-    company_id,
+    v_company_id,
     company_user_uuid,
     'admin',
     NOW()
   ) ON CONFLICT (company_id, user_id) DO NOTHING;
 
-  -- Initialize milestone progress for demo company
+  -- Add sample test runs (requires migration 20260121000002_add_company_id_to_test_runs.sql to be run first)
+  INSERT INTO test_runs (
+    company_id,
+    user_id,
+    url,
+    mission,
+    persona,
+    platform,
+    status,
+    company_ai_rating,
+    created_at,
+    completed_at
+  ) VALUES 
+    (v_company_id, company_user_uuid, 'https://example.com', 'Test homepage functionality', 'Tech-savvy user', 'web', 'completed', 5, NOW() - INTERVAL '5 days', NOW() - INTERVAL '5 days'),
+    (v_company_id, company_user_uuid, 'https://example.com/login', 'Test login flow', 'Average user', 'web', 'completed', 4, NOW() - INTERVAL '4 days', NOW() - INTERVAL '4 days'),
+    (v_company_id, company_user_uuid, 'https://example.com/checkout', 'Test checkout process', 'First-time buyer', 'web', 'completed', 5, NOW() - INTERVAL '3 days', NOW() - INTERVAL '3 days'),
+    (v_company_id, company_user_uuid, 'https://example.com/dashboard', 'Test dashboard features', 'Power user', 'web', 'completed', 5, NOW() - INTERVAL '2 days', NOW() - INTERVAL '2 days'),
+    (v_company_id, company_user_uuid, 'https://example.com/profile', 'Test profile editing', 'Casual user', 'web', 'completed', 4, NOW() - INTERVAL '1 day', NOW() - INTERVAL '1 day');
+
+  -- Initialize milestone progress for demo company (will be auto-updated by trigger)
   INSERT INTO milestone_progress (
     company_id,
     total_tests_completed,
@@ -101,32 +120,13 @@ BEGIN
     current_phase,
     created_at
   ) VALUES (
-    company_id,
-    45,
-    12,
-    38,
+    v_company_id,
+    0,
+    0,
+    0,
     'phase1',
     NOW()
-  ) ON CONFLICT (company_id) DO UPDATE SET
-    total_tests_completed = EXCLUDED.total_tests_completed,
-    tests_last_30_days = EXCLUDED.tests_last_30_days,
-    high_quality_tests = EXCLUDED.high_quality_tests;
+  ) ON CONFLICT (company_id) DO NOTHING;
 
-  -- Add sample test runs
-  INSERT INTO test_runs (
-    company_id,
-    test_url,
-    test_type,
-    status,
-    company_ai_rating,
-    created_at,
-    completed_at
-  ) VALUES 
-    (company_id, 'https://example.com', 'functional', 'completed', 5, NOW() - INTERVAL '5 days', NOW() - INTERVAL '5 days'),
-    (company_id, 'https://example.com/login', 'functional', 'completed', 4, NOW() - INTERVAL '4 days', NOW() - INTERVAL '4 days'),
-    (company_id, 'https://example.com/checkout', 'functional', 'completed', 5, NOW() - INTERVAL '3 days', NOW() - INTERVAL '3 days'),
-    (company_id, 'https://example.com/dashboard', 'functional', 'completed', 5, NOW() - INTERVAL '2 days', NOW() - INTERVAL '2 days'),
-    (company_id, 'https://example.com/profile', 'functional', 'completed', 4, NOW() - INTERVAL '1 day', NOW() - INTERVAL '1 day');
-
-  RAISE NOTICE 'Demo users created successfully! Company ID: %', company_id;
+  RAISE NOTICE 'Demo users created successfully! Company ID: %', v_company_id;
 END $$;

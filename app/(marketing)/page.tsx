@@ -49,9 +49,9 @@ export default function HomePage() {
             </div>
 
             <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in">
-              Our AI testers learn from <span className="font-semibold text-slate-900">real human behavior</span> to test your site at a fraction of the cost. 
-              Choose <span className="font-semibold text-slate-900">AI-only for speed</span>, <span className="font-semibold text-slate-900">human-only for emotion</span>, 
-              or <span className="font-semibold text-slate-900">mix both</span> for the perfect balance.
+              Our <span className="font-semibold text-slate-900">human-like AI agents</span> test your site with the same intuition and behavior patterns as real users, at a fraction of the cost. 
+              Choose <span className="font-semibold text-slate-900">AI agents for speed</span>, <span className="font-semibold text-slate-900">human testers for deep insight</span>, 
+              or <span className="font-semibold text-slate-900">combine both</span> for comprehensive coverage.
             </p>
 
             {/* Dual CTAs */}
@@ -155,7 +155,7 @@ export default function HomePage() {
                 AI-Only Testing
               </h4>
               <p className="text-slate-600 leading-relaxed">
-                <span className="font-semibold text-slate-900">$5 per test.</span> AI testers trained on real human behavior run tests 24/7. 
+                <span className="font-semibold text-slate-900">$5 per test.</span> Human-like AI agents run tests 24/7 with realistic user behavior patterns. 
                 Perfect for <span className="font-semibold text-slate-900">regression testing</span> and catching technical issues fast.
               </p>
             </div>
