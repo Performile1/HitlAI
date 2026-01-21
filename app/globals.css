@@ -86,26 +86,4 @@ body {
   .backface-hidden {
     backface-visibility: hidden;
   }
-  
-  /* Ensure colored buttons have white text */
-  .bg-blue-600, .bg-blue-700, .bg-blue-800,
-  .bg-green-600, .bg-green-700, .bg-green-800,
-  .bg-purple-600, .bg-purple-700, .bg-purple-800,
-  .bg-emerald-600, .bg-emerald-700, .bg-emerald-800,
-  .bg-red-600, .bg-red-700, .bg-red-800,
-  .bg-orange-600, .bg-orange-700, .bg-orange-800,
-  .bg-yellow-600, .bg-yellow-700, .bg-yellow-800,
-  .bg-indigo-600, .bg-indigo-700, .bg-indigo-800,
-  .bg-pink-600, .bg-pink-700, .bg-pink-800,
-  .bg-teal-600, .bg-teal-700, .bg-teal-800 {
-    @apply text-white;
-  }
-  
-  /* Gradient backgrounds should also have white text */
-  .bg-gradient-to-r, .bg-gradient-to-l, 
-  .bg-gradient-to-t, .bg-gradient-to-b,
-  .bg-gradient-to-br, .bg-gradient-to-bl,
-  .bg-gradient-to-tr, .bg-gradient-to-tl {
-    @apply text-white;
-  }
 }
