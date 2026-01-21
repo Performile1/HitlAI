@@ -102,25 +102,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Progressive Unlock Banner */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 relative overflow-hidden">
+      {/* Progressive Rewards Banner */}
+      <section className="py-16 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px]" />
         <div className="relative max-w-7xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
             <TrendingUp className="w-4 h-4 text-white" />
-            <span className="text-sm font-semibold text-white">NEW: Progressive Unlock System</span>
+            <span className="text-sm font-semibold text-white">NEW: Tester Equity & Credits Program</span>
           </div>
           <h3 className="text-3xl md:text-4xl font-black text-white mb-4">
-            🎉 Unlock More Features as You Test
+            🎉 Earn Equity & Credits as You Help Us Grow
           </h3>
-          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            Complete <span className="font-bold text-white">10 tests</span> → Unlock Session Recording. 
-            <span className="font-bold text-white"> 50 tests</span> → Unlock API Access. 
-            <span className="font-bold text-white"> 100 tests</span> → Unlock Custom Personas. Keep testing, keep unlocking!
+          <p className="text-xl text-emerald-100 mb-8 max-w-3xl mx-auto">
+            Help us reach <span className="font-bold text-white">1,000 tests</span> → Earn platform credits & equity shares. 
+            <span className="font-bold text-white"> 5,000 tests</span> → Unlock bonus rewards. 
+            <span className="font-bold text-white"> 10,000 tests</span> → Join our founding tester program. Your contributions build our future together!
           </p>
           <Link href="/dashboard/milestones">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-6 text-lg shadow-xl">
-              View Milestone Rewards
+            <Button size="lg" className="bg-white text-emerald-600 hover:bg-emerald-50 px-8 py-6 text-lg shadow-xl">
+              View Your Rewards
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </Link>
