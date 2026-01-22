@@ -85,24 +85,5 @@ BEGIN
   END IF;
 END $$;
 
--- Initialize budget status if empty
-INSERT INTO hitlai_budget_status (
-  id,
-  monthly_budget,
-  current_spend,
-  remaining_budget,
-  spend_percent,
-  reset_date,
-  created_at,
-  updated_at
-) VALUES (
-  gen_random_uuid(),
-  10000.00,
-  0.00,
-  10000.00,
-  0.0,
-  DATE_TRUNC('month', NOW() + INTERVAL '1 month'),
-  NOW(),
-  NOW()
-)
-ON CONFLICT DO NOTHING;
+-- Note: hitlai_budget_status is a VIEW that automatically calculates from platform_settings
+-- No need to insert data - it derives from the platform_settings table above
