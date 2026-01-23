@@ -10,12 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { ArrowLeft, Brain, Plus, Trash2 } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createClient } from '@/lib/supabase/client'
 
 interface Persona {
   id: string
@@ -27,6 +22,7 @@ interface Persona {
 
 export default function NewTestPage() {
   const router = useRouter()
+  const supabase = createClient()
   const [loading, setLoading] = useState(false)
   const [companyId, setCompanyId] = useState<string>('')
   const [personas, setPersonas] = useState<Persona[]>([])

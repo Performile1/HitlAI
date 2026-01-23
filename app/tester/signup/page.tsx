@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Brain, ArrowLeft, ArrowRight, Check } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 
 const testTypes = ['ecommerce', 'saas', 'mobile_apps', 'accessibility', 'usability', 'functional']
 const industries = ['fintech', 'healthcare', 'education', 'retail', 'entertainment', 'enterprise']
@@ -17,14 +17,10 @@ const platforms = ['usertesting', 'userlytics', 'trymyui', 'testbirds', 'other']
 
 export default function TesterSignupPage() {
   const router = useRouter()
+  const supabase = createClient()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [step, setStep] = useState(1)
-  
-  const supabase = useMemo(() => createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  ), [])
   
   const [formData, setFormData] = useState({
     email: '',

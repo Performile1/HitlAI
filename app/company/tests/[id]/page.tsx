@@ -5,12 +5,7 @@ import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, CheckCircle, Clock, Users, AlertCircle } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createClient } from '@/lib/supabase/client'
 
 interface TestRequest {
   id: string
@@ -28,6 +23,7 @@ export default function TestResultsPage() {
   const router = useRouter()
   const params = useParams()
   const testId = params.id as string
+  const supabase = createClient()
 
   const [loading, setLoading] = useState(true)
   const [testRequest, setTestRequest] = useState<TestRequest | null>(null)

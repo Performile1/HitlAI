@@ -7,12 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createClient } from '@/lib/supabase/client'
 
 interface Assignment {
   id: string
@@ -36,6 +31,7 @@ export default function TestExecutionPage() {
   const router = useRouter()
   const params = useParams()
   const assignmentId = params.id as string
+  const supabase = createClient()
 
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)

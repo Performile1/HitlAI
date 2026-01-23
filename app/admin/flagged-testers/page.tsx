@@ -3,15 +3,10 @@
 export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 import { AlertTriangle, User, Bot, CheckCircle, XCircle, Clock, TrendingDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
 
 interface FlaggedTester {
   tester_type: 'human' | 'ai'
@@ -28,6 +23,7 @@ interface FlaggedTester {
 }
 
 export default function FlaggedTestersPage() {
+  const supabase = createClient()
   const [loading, setLoading] = useState(true)
   const [flaggedTesters, setFlaggedTesters] = useState<FlaggedTester[]>([])
   const [filter, setFilter] = useState<'all' | 'human' | 'ai'>('all')

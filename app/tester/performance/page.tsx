@@ -3,16 +3,12 @@
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 import { Star, TrendingUp, DollarSign, Award, Clock, Target, Trophy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
-
 export default function TesterPerformancePage() {
+  const supabase = createClient()
   const [loading, setLoading] = useState(true)
   const [tester, setTester] = useState<any>(null)
   const [history, setHistory] = useState<any[]>([])

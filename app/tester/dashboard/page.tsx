@@ -7,12 +7,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Brain, CheckCircle, Clock, DollarSign, Star, Sparkles, Award } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createClient } from '@/lib/supabase/client'
 
 interface TesterProfile {
   id: string
@@ -35,6 +30,7 @@ interface Assignment {
 
 export default function TesterDashboardPage() {
   const router = useRouter()
+  const supabase = createClient()
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState<TesterProfile | null>(null)
   const [assignments, setAssignments] = useState<Assignment[]>([])

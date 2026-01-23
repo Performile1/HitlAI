@@ -7,13 +7,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Brain, Plus, Clock, CheckCircle, AlertCircle, Users, TrendingUp } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 import PhaseProgressCard from '@/components/PhaseProgressCard'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
 
 interface Company {
   id: string
@@ -34,6 +29,7 @@ interface TestRequest {
 
 export default function CompanyDashboardPage() {
   const router = useRouter()
+  const supabase = createClient()
   const [loading, setLoading] = useState(true)
   const [company, setCompany] = useState<Company | null>(null)
   const [testRequests, setTestRequests] = useState<TestRequest[]>([])
